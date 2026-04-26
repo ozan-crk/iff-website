@@ -10,8 +10,19 @@ services:
       MYSQL_USER: ${WORDPRESS_DB_USER}
       MYSQL_PASSWORD: ${WORDPRESS_DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SITE_URL: ${SITE_URL}
     volumes:
       - db_data:/var/lib/mysql
+      - .:/repo
+    command: 
+      - /bin/bash
+      - -c
+      - |
+        mkdir -p /docker-entrypoint-initdb.d
+        cp /repo/db_backup.sql /docker-entrypoint-initdb.d/01.sql
+        cp /repo/initdb/update-urls.sh /docker-entrypoint-initdb.d/02.sh
+        chmod +x /docker-entrypoint-initdb.d/02.sh
+        exec docker-entrypoint.sh mysqld
 
   wordpress:
     image: wordpress:latest
@@ -27,9 +38,6 @@ services:
       SITE_URL: ${SITE_URL}
     volumes:
       - ./wp-content:/var/www/html/wp-content
-      - ./db_backup.sql:/var/www/html/db_backup.sql
-      - ./entrypoint.sh:/usr/local/bin/custom-entrypoint.sh
-    entrypoint: ["/bin/bash", "/usr/local/bin/custom-entrypoint.sh"]
     depends_on:
       - db
 
