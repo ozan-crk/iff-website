@@ -17,6 +17,12 @@ done
 
 echo ">> Veritabanı hazır!"
 
+# wp-content Senkronizasyonu (Git'ten gelen güncel dosyaları kalıcı volume'a aktar)
+echo ">> wp-content dosyaları senkronize ediliyor..."
+mkdir -p /var/www/html/wp-content
+cp -ru /usr/src/wp-content-source/. /var/www/html/wp-content/
+chown -R www-data:www-data /var/www/html/wp-content
+
 # Veritabanı boş mu kontrol et (Eğer wp_options yoksa sıfır kurulumdur)
 DB_EXISTS=$(mysql --ssl=FALSE -h db -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" "$WORDPRESS_DB_NAME" -e "SHOW TABLES LIKE 'wp_options';" | grep wp_options || true)
 
