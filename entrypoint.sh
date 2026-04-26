@@ -15,15 +15,15 @@ done
 echo ">> Veritabanı hazır!"
 
 # Veritabanı boş mu kontrol et (Eğer wp_options yoksa sıfır kurulumdur)
-DB_EXISTS=$(mysql -h db -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" "$WORDPRESS_DB_NAME" -e "SHOW TABLES LIKE 'wp_options';" | grep wp_options || true)
+DB_EXISTS=$(mysql --ssl-mode=DISABLED -h db -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" "$WORDPRESS_DB_NAME" -e "SHOW TABLES LIKE 'wp_options';" | grep wp_options || true)
 
 if [ -z "$DB_EXISTS" ]; then
     if [ -f "/var/www/html/db_backup.sql" ]; then
         echo ">> Boş veritabanı tespit edildi. db_backup.sql içe aktarılıyor..."
-        mysql -h db -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" "$WORDPRESS_DB_NAME" < /var/www/html/db_backup.sql
+        mysql --ssl-mode=DISABLED -h db -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" "$WORDPRESS_DB_NAME" < /var/www/html/db_backup.sql
         
         echo ">> URL'ler güncelleniyor: $SITE_URL"
-        mysql -h db -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" "$WORDPRESS_DB_NAME" <<EOF
+        mysql --ssl-mode=DISABLED -h db -u "$WORDPRESS_DB_USER" -p"$WORDPRESS_DB_PASSWORD" "$WORDPRESS_DB_NAME" <<EOF
 UPDATE wp_options SET option_value = '$SITE_URL' WHERE option_name = 'siteurl';
 UPDATE wp_options SET option_value = '$SITE_URL' WHERE option_name = 'home';
 EOF

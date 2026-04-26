@@ -27,7 +27,6 @@ services:
       SITE_URL: ${SITE_URL}
     volumes:
       - ./wp-content:/var/www/html/wp-content
-      - ./db_backup.sql:/var/www/html/db_backup.sql
     depends_on:
       - db
 
