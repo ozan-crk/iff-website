@@ -13,8 +13,8 @@ services:
       SITE_URL: ${SITE_URL}
     volumes:
       - db_data:/var/lib/mysql
-      - ./db_backup.sql:/docker-entrypoint-initdb.d/01-db_backup.sql
-      - ./update-urls.sh:/docker-entrypoint-initdb.d/02-update-urls.sh
+      - .:/init-data
+      - ./update-urls.sh:/docker-entrypoint-initdb.d/update-urls.sh
 
   wordpress:
     image: wordpress:latest
