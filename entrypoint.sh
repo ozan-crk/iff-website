@@ -5,6 +5,9 @@ echo "----------------------------------------------------"
 echo "IFF WORDPRESS BAŞLATILIYOR..."
 echo "----------------------------------------------------"
 
+# SITE_URL içindeki olası çift kolon (::) hatalarını düzelt
+SITE_URL=$(echo $SITE_URL | sed 's/::/:/g')
+
 # Veritabanı sunucusunun hazır olmasını bekle
 echo ">> Veritabanı bağlantısı bekleniyor (db:3306)..."
 until printf "" 2>>/dev/null >/dev/tcp/db/3306; do 
