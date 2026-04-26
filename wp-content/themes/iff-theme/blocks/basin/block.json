@@ -1,0 +1,13 @@
+{
+    "name": "acf/basin",
+    "title": "IFF Basın Odası",
+    "description": "Basın bültenleri, kit ve iletişim alanı.",
+    "category": "formatting",
+    "icon": "welcome-widgets-menus",
+    "keywords": ["iff", "basın", "bülten", "kit"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

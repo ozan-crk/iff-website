@@ -1,0 +1,13 @@
+{
+    "name": "acf/banners",
+    "title": "IFF Arşiv/Gazete Afişleri",
+    "description": "3'lü büyük yönlendirme afişleri (Arşiv, Gazete, Yayınlar).",
+    "category": "formatting",
+    "icon": "grid-view",
+    "keywords": ["iff", "banner", "afiş", "gazete"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

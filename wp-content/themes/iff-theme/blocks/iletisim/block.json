@@ -1,0 +1,13 @@
+{
+    "name": "acf/iletisim",
+    "title": "IFF İletişim",
+    "description": "İletişim sayfası bilgileri alanı tasarımı.",
+    "category": "formatting",
+    "icon": "email",
+    "keywords": ["iff", "iletisim", "bize ulaşın", "adres"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

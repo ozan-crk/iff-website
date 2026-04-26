@@ -1,0 +1,13 @@
+{
+    "name": "acf/basvuru",
+    "title": "IFF Başvuru",
+    "description": "Başvuru sayfalarındaki kart tasarımları.",
+    "category": "formatting",
+    "icon": "clipboard",
+    "keywords": ["iff", "başvuru", "film", "gönüllü"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

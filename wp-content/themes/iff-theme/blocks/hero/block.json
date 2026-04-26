@@ -1,0 +1,13 @@
+{
+    "name": "acf/hero",
+    "title": "IFF Hero (Manşet)",
+    "description": "Anasayfa en üstteki büyük karşılama alanı.",
+    "category": "formatting",
+    "icon": "cover-image",
+    "keywords": ["iff", "hero", "manşet", "karşılama"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

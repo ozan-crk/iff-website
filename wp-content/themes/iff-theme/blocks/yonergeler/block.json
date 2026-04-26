@@ -1,0 +1,13 @@
+{
+    "name": "acf/yonergeler",
+    "title": "IFF Yönergeler",
+    "description": "Yönergeler kartları alanı.",
+    "category": "formatting",
+    "icon": "media-document",
+    "keywords": ["iff", "yönerge", "pdf", "belge"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

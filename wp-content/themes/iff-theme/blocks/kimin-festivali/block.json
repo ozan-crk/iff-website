@@ -1,0 +1,13 @@
+{
+    "name": "acf/kimin-festivali",
+    "title": "IFF Kimin Festivali",
+    "description": "Kimin Festivali başlığı ve gönüllü yönlendirme alanı.",
+    "category": "formatting",
+    "icon": "megaphone",
+    "keywords": ["iff", "hakkımızda", "kimin festivali", "gönüllü"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

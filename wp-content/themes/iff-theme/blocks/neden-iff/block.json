@@ -1,0 +1,13 @@
+{
+    "name": "acf/neden-iff",
+    "title": "IFF Neden İFF?",
+    "description": "Neden İşçi Filmleri Festivali metin alanı.",
+    "category": "formatting",
+    "icon": "editor-help",
+    "keywords": ["iff", "hakkımızda", "neden iff", "açıklama"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

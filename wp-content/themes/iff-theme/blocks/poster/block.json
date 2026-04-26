@@ -1,0 +1,13 @@
+{
+    "name": "acf/poster",
+    "title": "IFF Aktif Afiş",
+    "description": "Aktif festivalin afişi ve indirme alanı.",
+    "category": "formatting",
+    "icon": "format-image",
+    "keywords": ["iff", "afiş", "poster", "festival"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

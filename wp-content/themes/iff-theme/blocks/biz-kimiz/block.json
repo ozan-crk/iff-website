@@ -1,0 +1,18 @@
+{
+    "name": "acf/biz-kimiz",
+    "title": "İçerik Bloğu (IFF)",
+    "description": "Özel tasarım seçenekleri olan esnek içerik bloğu (Biz Kimiz / Neden IFF).",
+    "category": "formatting",
+    "icon": "layout",
+    "keywords": [
+        "iff",
+        "içerik",
+        "biz kimiz",
+        "neden iff"
+    ],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

@@ -1,0 +1,13 @@
+{
+    "name": "acf/news",
+    "title": "IFF Güncel Haberler",
+    "description": "Anasayfa güncel haber kartları.",
+    "category": "formatting",
+    "icon": "welcome-widgets-menus",
+    "keywords": ["iff", "haber", "güncel", "news"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

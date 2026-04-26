@@ -1,0 +1,13 @@
+{
+    "name": "acf/photo-slider",
+    "title": "IFF Fotoğraf Slider",
+    "description": "Festivalden kareler mini slider alanı.",
+    "category": "formatting",
+    "icon": "images-alt2",
+    "keywords": ["iff", "fotoğraf", "slider", "galeri"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

@@ -1,0 +1,13 @@
+{
+    "name": "acf/arsiv-grid",
+    "title": "IFF Arşiv Grid",
+    "description": "Seçilen kategorideki yazıları arşiv grid yapısında listeler.",
+    "category": "formatting",
+    "icon": "portfolio",
+    "keywords": ["iff", "arşiv", "grid", "liste"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

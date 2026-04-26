@@ -1,0 +1,13 @@
+{
+    "name": "acf/program",
+    "title": "IFF Gösterim Programı",
+    "description": "Şehirlere göre aylık gösterim programları alanı.",
+    "category": "formatting",
+    "icon": "calendar-alt",
+    "keywords": ["iff", "program", "takvim", "şehir"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

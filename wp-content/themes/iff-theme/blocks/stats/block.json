@@ -1,0 +1,13 @@
+{
+    "name": "acf/stats",
+    "title": "IFF İstatistikler (Rakamlarla)",
+    "description": "Rakamlarla festival istatistikleri alanı.",
+    "category": "formatting",
+    "icon": "chart-bar",
+    "keywords": ["iff", "istatistik", "rakamlar", "stats"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}
