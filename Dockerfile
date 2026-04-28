@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y mariadb-client && rm -rf /var/lib/apt/l
 COPY entrypoint.sh /usr/local/bin/custom-entrypoint.sh
 COPY db_backup.sql /var/www/html/db_backup.sql
 COPY wp-content /usr/src/wp-content-source
+COPY uploads.ini /usr/local/etc/php/conf.d/uploads.ini
 
 # İzinleri ayarla
 RUN chmod +x /usr/local/bin/custom-entrypoint.sh && \
