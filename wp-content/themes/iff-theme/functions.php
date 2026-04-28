@@ -52,15 +52,18 @@ add_action( 'init', 'iff_register_acf_blocks' );
 /**
  * Register ACF Options Page
  */
-if( function_exists('acf_add_options_page') ) {
-    acf_add_options_page(array(
-        'page_title'    => 'Tema Ayarları',
-        'menu_title'    => 'Tema Ayarları',
-        'menu_slug'     => 'tema-ayarlari',
-        'capability'    => 'edit_posts',
-        'redirect'      => false,
-        'icon_url'      => 'dashicons-admin-generic',
-    ));
+add_action('acf/init', 'iff_register_acf_options_pages');
+function iff_register_acf_options_pages() {
+    if( function_exists('acf_add_options_page') ) {
+        acf_add_options_page(array(
+            'page_title'    => 'Tema Ayarları',
+            'menu_title'    => 'Tema Ayarları',
+            'menu_slug'     => 'tema-ayarlari',
+            'capability'    => 'edit_posts',
+            'redirect'      => false,
+            'icon_url'      => 'dashicons-admin-generic',
+        ));
+    }
 }
 
 /**
