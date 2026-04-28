@@ -47,7 +47,7 @@ function iff_register_acf_blocks() {
         register_block_type( __DIR__ . '/blocks/city-program' );
     }
 }
-add_action( 'init', 'iff_register_acf_blocks' );
+add_action( 'acf/init', 'iff_register_acf_blocks' );
 
 /**
  * Register ACF Options Page
