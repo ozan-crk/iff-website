@@ -19,7 +19,14 @@
     </div>
 
     <footer class="bg-warmgray py-8 px-6 text-center border-t border-white/10 mt-auto pb-24 md:pb-8">
-        <p class="text-gray-400 text-xs font-serif uppercase tracking-widest">&copy; <?php echo date('Y'); ?> IFF - İşçi Filmleri Festivali. Tüm hakları saklıdır.</p>
+        <div class="text-gray-400 text-[10px] font-serif uppercase tracking-widest space-y-2">
+            <p>&copy; <?php echo date('Y'); ?> IFF - İşçi Filmleri Festivali.</p>
+            <p xmlns:cc="http://creativecommons.org/ns#" xmlns:dct="http://purl.org/dc/terms/">
+                <a property="dct:title" rel="cc:attributionURL" href="<?php echo home_url(); ?>" class="hover:text-white transition-colors">Bu sitedeki içerikler</a> 
+                <a href="https://creativecommons.org/licenses/by-nc/4.0/deed.tr" rel="noopener noreferrer" target="_blank" class="hover:text-red transition-colors border-b border-gray-600">CC BY-NC 4.0</a> 
+                ile lisanslanmıştır.
+            </p>
+        </div>
     </footer>
 
     <script>
