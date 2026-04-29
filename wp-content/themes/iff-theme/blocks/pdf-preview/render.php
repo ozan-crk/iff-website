@@ -8,6 +8,8 @@ $pdf_url = get_field('pdf_url');
 $gosterim_tipi = get_field('gosterim_tipi') ?: 'modal'; // modal veya direkt
 $onizleme_gorseli = get_field('onizleme_gorseli');
 $buton_metni = get_field('buton_metni') ?: 'PDF GÖRÜNTÜLE';
+$yukseklik = get_field('yukseklik') ?: 600;
+$max_genislik = get_field('max_genislik') ?: '100%';
 
 // Gutenberg Ek CSS Sınıfları
 $bg_color = get_field('arka_plan_rengi');
@@ -21,10 +23,12 @@ if( !empty($block['className']) ) {
 }
 
 $style = $bg_color ? "background-color: {$bg_color};" : "";
+$container_style = "max-width: {$max_genislik}; margin-left: auto; margin-right: auto;";
+$content_style = "height: {$yukseklik}px;";
 ?>
 
 <section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
-    <div class="container mx-auto max-w-5xl">
+    <div class="container mx-auto" style="<?php echo esc_attr($container_style); ?>">
         <?php if ($baslik): ?>
             <h2 class="text-3xl font-custom font-bold text-warmgray mb-8 uppercase tracking-tighter italic border-l-4 border-red pl-4"><?php echo esc_html($baslik); ?></h2>
         <?php endif; ?>
@@ -32,8 +36,8 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
         <?php if ($pdf_url): ?>
             <?php if ($gosterim_tipi === 'modal'): ?>
                 <!-- Modal Modu -->
-                <div class="relative group cursor-pointer overflow-hidden modern-shadow border-4 border-warmgray">
-                    <a data-fslightbox="pdf-preview-<?php echo esc_attr($block['id']); ?>" href="<?php echo esc_url($pdf_url); ?>" class="block relative aspect-video bg-gray-100">
+                <div class="relative group cursor-pointer overflow-hidden modern-shadow border-4 border-warmgray" style="<?php echo esc_attr($content_style); ?>">
+                    <a data-fslightbox="pdf-preview-<?php echo esc_attr($block['id']); ?>" href="<?php echo esc_url($pdf_url); ?>" class="block relative w-full h-full bg-gray-100">
                         <?php if ($onizleme_gorseli): ?>
                             <img src="<?php echo esc_url($onizleme_gorseli['url']); ?>" alt="<?php echo esc_attr($onizleme_gorseli['alt']); ?>" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
                         <?php else: ?>
@@ -58,7 +62,7 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                 </script>
             <?php else: ?>
                 <!-- Direkt Mod -->
-                <div class="w-full aspect-[4/5] md:aspect-video border-4 border-warmgray modern-shadow overflow-hidden bg-white">
+                <div class="w-full border-4 border-warmgray modern-shadow overflow-hidden bg-white" style="<?php echo esc_attr($content_style); ?>">
                     <iframe src="<?php echo esc_url($pdf_url); ?>#toolbar=0" class="w-full h-full border-0"></iframe>
                 </div>
             <?php endif; ?>

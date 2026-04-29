@@ -1822,6 +1822,22 @@
                 ]
             },
             {
+                "key": "field_pp_yukseklik",
+                "label": "Yükseklik (px)",
+                "name": "yukseklik",
+                "type": "number",
+                "default_value": 600,
+                "instructions": "Önizleme veya iframe alanının yüksekliği."
+            },
+            {
+                "key": "field_pp_max_genislik",
+                "label": "Maksimum Genişlik (px veya %)",
+                "name": "max_genislik",
+                "type": "text",
+                "default_value": "100%",
+                "instructions": "Örn: 800px veya 100%"
+            },
+            {
                 "key": "field_pp_arka_plan",
                 "label": "Arka Plan Rengi",
                 "name": "arka_plan_rengi",
