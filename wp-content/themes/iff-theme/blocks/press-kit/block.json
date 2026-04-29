@@ -6,7 +6,7 @@
     "icon": "media-document",
     "keywords": ["iff", "basın", "kit", "görsel"],
     "acf": {
-        "mode": "auto",
+        "mode": "preview",
         "renderTemplate": "render.php"
     },
     "align": "full"
