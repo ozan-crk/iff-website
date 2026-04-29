@@ -1,12 +1,12 @@
 {
     "name": "acf/press-kit",
-    "title": "IFF Basın Kiti (Gömülü PDF)",
-    "description": "Basın kiti indirme linkleri ve PDF önizleme alanı.",
+    "title": "IFF Basın Kiti",
+    "description": "Basın kiti indirme linkleri ve görsel önizleme alanı.",
     "category": "formatting",
     "icon": "media-document",
-    "keywords": ["iff", "basın", "kit", "pdf"],
+    "keywords": ["iff", "basın", "kit", "görsel"],
     "acf": {
-        "mode": "edit",
+        "mode": "auto",
         "renderTemplate": "render.php"
     },
     "align": "full"
