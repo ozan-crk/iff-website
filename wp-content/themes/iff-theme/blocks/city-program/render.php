@@ -150,34 +150,46 @@ if (!empty($block['className'])) {
                                                                             <?php echo esc_html($item->sure); ?>
                                                                         </span>
                                                                     <?php endif; ?>
-                                                                    <?php if (!empty($item->etkinlik)): ?>
-                                                                        <div class="mt-4 flex items-start bg-red/5 border-l-4 border-red px-4 py-3 text-sm text-warmgray italic font-serif rounded-r-md w-full">
-                                                                            <?php if (!$has_gala): ?>
-                                                                                <svg class="w-4 h-4 mr-3 text-red mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path></svg>
-                                                                            <?php endif; ?>
-                                                                            <div class="leading-relaxed flex-1">
-                                                                                <?php 
-                                                                                if ($has_gala) {
-                                                                                    $parts = explode(',', $item->etkinlik);
-                                                                                    foreach ($parts as $part) {
-                                                                                        $item_parts = explode(':', $part, 2);
-                                                                                        $display_text = count($item_parts) > 1 
-                                                                                            ? '<strong class="font-bold">' . esc_html(trim($item_parts[0])) . ':</strong> ' . esc_html(trim($item_parts[1]))
-                                                                                            : esc_html(trim($part));
-                                                                                            
-                                                                                        echo '<div class="flex items-start gap-3 mb-2 text-red not-italic font-sans">
-                                                                                                <div class="w-1.5 h-1.5 rounded-full bg-red mt-2 shrink-0"></div>
-                                                                                                <span class="text-[15px] leading-tight">' . $display_text . '</span>
-                                                                                              </div>';
-                                                                                    }
-                                                                                } else {
-                                                                                    echo wp_kses_post(str_replace("\n", '<br>', $item->etkinlik)); 
-                                                                                }
-                                                                                ?>
-                                                                            </div>
-                                                                        </div>
-                                                                    <?php endif; ?>
+
+                                                                    <button class="add-to-personal-program flex items-center gap-2 text-red hover:text-orange transition-colors group not-italic"
+                                                                            data-id="<?php echo esc_attr($item->id); ?>"
+                                                                            data-title="<?php echo esc_attr($item->film_adi); ?>"
+                                                                            data-date="<?php echo esc_attr($date); ?>"
+                                                                            data-time="<?php echo esc_attr($item->saat); ?>"
+                                                                            data-venue="<?php echo esc_attr($mekan_adi); ?>"
+                                                                            data-duration="<?php echo esc_attr($item->sure); ?>">
+                                                                        <svg class="w-4 h-4 group-[.is-added]:fill-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                                                        <span class="font-heading font-bold text-[9px] uppercase tracking-widest">Takvime Ekle</span>
+                                                                    </button>
                                                                 </div>
+
+                                                                <?php if (!empty($item->etkinlik)): ?>
+                                                                    <div class="mt-4 flex items-start bg-red/5 border-l-4 border-red px-4 py-3 text-sm text-warmgray italic font-serif rounded-r-md w-full">
+                                                                        <?php if (!$has_gala): ?>
+                                                                            <svg class="w-4 h-4 mr-3 text-red mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path></svg>
+                                                                        <?php endif; ?>
+                                                                        <div class="leading-relaxed flex-1">
+                                                                            <?php 
+                                                                            if ($has_gala) {
+                                                                                $parts = explode(',', $item->etkinlik);
+                                                                                foreach ($parts as $part) {
+                                                                                    $item_parts = explode(':', $part, 2);
+                                                                                    $display_text = count($item_parts) > 1 
+                                                                                        ? '<strong class="font-bold">' . esc_html(trim($item_parts[0])) . ':</strong> ' . esc_html(trim($item_parts[1]))
+                                                                                        : esc_html(trim($part));
+                                                                                        
+                                                                                    echo '<div class="flex items-start gap-3 mb-2 text-red not-italic font-sans">
+                                                                                            <div class="w-1.5 h-1.5 rounded-full bg-red mt-2 shrink-0"></div>
+                                                                                            <span class="text-[15px] leading-tight">' . $display_text . '</span>
+                                                                                          </div>';
+                                                                                }
+                                                                            } else {
+                                                                                echo wp_kses_post(str_replace("\n", '<br>', $item->etkinlik)); 
+                                                                            }
+                                                                            ?>
+                                                                        </div>
+                                                                    </div>
+                                                                <?php endif; ?>
                                                             </div>
                                                             
                                                             <?php if ($idx === 0): ?>

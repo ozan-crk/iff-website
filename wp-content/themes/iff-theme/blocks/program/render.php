@@ -146,6 +146,17 @@ if( !empty($block['className']) ) {
                                                                                      <?php echo esc_html($item->sure); ?>
                                                                                  </span>
                                                                              <?php endif; ?>
+
+                                                                             <button class="add-to-personal-program flex items-center gap-2 text-red hover:text-orange transition-colors group"
+                                                                                     data-id="<?php echo esc_attr($item->id); ?>"
+                                                                                     data-title="<?php echo esc_attr($item->film_adi); ?>"
+                                                                                     data-date="<?php echo esc_attr($tarih); ?>"
+                                                                                     data-time="<?php echo esc_attr($item->saat); ?>"
+                                                                                     data-venue="<?php echo esc_attr($mekan_adi); ?>"
+                                                                                     data-duration="<?php echo esc_attr($item->sure); ?>">
+                                                                                 <svg class="w-5 h-5 group-[.is-added]:fill-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                                                                                 <span class="font-heading font-bold text-[10px] uppercase tracking-widest">Takvime Ekle</span>
+                                                                             </button>
                                                                          </div>
 
                                                                          <?php if (!empty($item->etkinlik)): ?>
