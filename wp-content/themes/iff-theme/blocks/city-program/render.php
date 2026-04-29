@@ -9,7 +9,7 @@ $screenings = [];
 
 if ($sehir_adi && $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
     $screenings = $wpdb->get_results($wpdb->prepare(
-        "SELECT * FROM $table_name WHERE sehir = %s ORDER BY tarih ASC, saat ASC",
+        "SELECT * FROM $table_name WHERE sehir = %s ORDER BY tarih ASC, mekan ASC, saat ASC, id ASC",
         $sehir_adi
     ));
 }
@@ -35,18 +35,18 @@ if (!empty($block['className'])) {
         <?php if ($pdf_url): ?>
             <a href="<?php echo esc_url($pdf_url); ?>" target="_blank"
                 class="mt-6 md:mt-0 bg-red text-white px-8 py-4 font-heading font-bold uppercase tracking-widest modern-shadow hover-lift transition-all inline-flex items-center space-x-3">
-                <span>&darr;</span>
-                <span>PDF PROGRAMI İNDİR</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <span>PROGRAMI İNDİR</span>
             </a>
         <?php endif; ?>
     </div>
 
     <?php
-    // Gösterimleri tarihlere göre grupla
+    // Gösterimleri Tarih -> Mekan -> Seans şeklinde grupla
     $screenings_by_date = [];
     if (!empty($screenings)) {
         foreach ($screenings as $item) {
-            $screenings_by_date[$item->tarih][] = $item;
+            $screenings_by_date[$item->tarih][$item->mekan][] = $item;
         }
     }
     $dates = array_keys($screenings_by_date);
@@ -80,27 +80,75 @@ if (!empty($block['className'])) {
                 <div id="program-content-<?php echo esc_attr($block_id); ?>">
                     <?php 
                     $i = 0;
-                    foreach ($screenings_by_date as $date => $items): 
+                    foreach ($screenings_by_date as $date => $mekanlar): 
                         $is_active = ($i === 0);
                     ?>
-                        <div class="program-pane space-y-4 animate-fade-in" 
+                        <div class="program-pane space-y-12 animate-fade-in" 
                              id="pane-<?php echo esc_attr($block_id); ?>-<?php echo $i; ?>" 
                              style="display: <?php echo $is_active ? 'block' : 'none'; ?>;">
                             
-                            <?php foreach ($items as $item): ?>
-                                <div class="bg-white border-2 border-orange/20 p-6 modern-shadow flex flex-col md:flex-row justify-between items-center group hover:border-orange transition-colors">
-                                    <div class="flex items-center space-x-6 w-full">
-                                        <div class="text-2xl font-custom font-bold text-red w-24 shrink-0">
-                                            <?php echo esc_html($item->saat); ?>
-                                        </div>
-                                        <div class="flex-1 border-l-2 border-orange/10 pl-6">
-                                            <h4 class="text-xl font-heading font-bold text-warmgray uppercase group-hover:text-red transition-colors">
-                                                <?php echo esc_html($item->film_adi); ?>
-                                            </h4>
-                                            <p class="text-sm font-serif text-gray-500 italic mt-1">
-                                                <?php echo esc_html($item->mekan); ?>
-                                            </p>
-                                        </div>
+                            <?php foreach ($mekanlar as $mekan_adi => $items): ?>
+                                <div class="venue-group">
+                                    <div class="flex items-center gap-4 mb-6 border-b-2 border-orange/20 pb-2">
+                                        <svg class="w-5 h-5 text-red" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                        <h4 class="text-xl font-heading font-bold text-warmgray uppercase tracking-wide"><?php echo esc_html($mekan_adi); ?></h4>
+                                    </div>
+
+                                    <div class="space-y-6">
+                                        <?php 
+                                        // Seansları saate göre grupla
+                                        $sessions = [];
+                                        foreach ($items as $item) {
+                                            $sessions[$item->saat][] = $item;
+                                        }
+
+                                        foreach ($sessions as $saat => $session_items): 
+                                            $is_multi = count($session_items) > 1;
+                                        ?>
+                                            <div class="session-block bg-white modern-shadow <?php echo $is_multi ? 'border-y-4 border-orange/30 py-6 px-4 my-4' : 'p-6 border-2 border-orange/5'; ?>">
+                                                <?php if ($is_multi): ?>
+                                                    <div class="text-[9px] font-heading font-bold text-red uppercase tracking-[0.4em] mb-6 flex items-center gap-4">
+                                                        <span class="flex-shrink-0">ORTAK SEANS</span>
+                                                        <div class="h-[1px] w-full bg-orange/10"></div>
+                                                    </div>
+                                                <?php endif; ?>
+
+                                                <div class="space-y-6">
+                                                    <?php foreach ($session_items as $idx => $item): ?>
+                                                        <div class="flex flex-col md:flex-row justify-between items-center <?php echo ($idx < count($session_items) - 1) ? 'border-b border-orange/5 pb-6' : ''; ?>">
+                                                            <div class="flex items-center space-x-6 w-full">
+                                                                <?php if ($idx === 0): ?>
+                                                                    <div class="text-2xl font-custom font-bold text-red w-24 shrink-0">
+                                                                        <?php echo esc_html($item->saat); ?>
+                                                                    </div>
+                                                                <?php else: ?>
+                                                                    <div class="w-24 shrink-0 hidden md:block"></div>
+                                                                <?php endif; ?>
+
+                                                                <div class="flex-1 <?php echo $idx === 0 ? 'border-l-2 border-orange/10 pl-6' : 'pl-6 md:pl-6'; ?>">
+                                                                    <div class="flex flex-wrap items-center gap-3">
+                                                                        <h5 class="text-lg font-heading font-bold text-warmgray uppercase transition-colors">
+                                                                            <?php echo esc_html($item->film_adi); ?>
+                                                                        </h5>
+                                                                        <?php if (isset($item->is_special) && $item->is_special): ?>
+                                                                            <span class="bg-red text-white text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-widest">Özel Gösterim</span>
+                                                                        <?php endif; ?>
+                                                                    </div>
+                                                                    <div class="flex items-center gap-4 mt-1 text-xs text-gray-500 font-serif italic">
+                                                                        <?php if (!empty($item->sure)): ?>
+                                                                            <span><?php echo esc_html($item->sure); ?></span>
+                                                                        <?php endif; ?>
+                                                                        <?php if (!empty($item->etkinlik)): ?>
+                                                                            <span class="text-red font-bold not-italic font-heading tracking-tight underline underline-offset-2">• <?php echo esc_html($item->etkinlik); ?></span>
+                                                                        <?php endif; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
