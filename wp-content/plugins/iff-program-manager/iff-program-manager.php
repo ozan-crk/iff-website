@@ -62,7 +62,26 @@ class IFF_Program_Manager {
     }
 
     private function normalize_text($text) {
-        return mb_convert_case(trim($text), MB_CASE_TITLE, "UTF-8");
+        if (empty($text)) return '';
+
+        // UTF-8 Normalizasyonu (Form C)
+        if (class_exists('Normalizer')) {
+            $text = Normalizer::normalize($text, Normalizer::FORM_C);
+        }
+
+        // Bazı Excel/Mac kaynaklı dosyalardan gelen "Combining Marks" (Birleştirici İşaretler) temizliği
+        // Özellikle i̇ (i + dot) gibi durumları düzeltir
+        $text = preg_replace('/\p{M}/u', '', $text);
+
+        // Türkçe karakterleri de kapsayan Title Case (İlk Harf Büyük) dönüşümü
+        // Not: MB_CASE_TITLE bazen i/İ dönüşümlerinde bu karakterleri tekrar tetikleyebilir, 
+        // o yüzden önce case conversion yapıp sonra temizlik yapmak daha garanti olabilir.
+        $text = mb_convert_case(trim($text), MB_CASE_TITLE, "UTF-8");
+        
+        // Tekrar bir temizlik geçelim (Title case sonrası oluşabilecek durumlar için)
+        $text = preg_replace('/\p{M}/u', '', $text);
+
+        return $text;
     }
 
     public function admin_page_html() {
@@ -169,13 +188,43 @@ class IFF_Program_Manager {
                 for ($i = 1; $i < count($rows); $i++) {
                     $row = $rows[$i];
                     if (count($row) >= 5 && !empty($row[0])) {
+                        
+                        // Tarih Temizleme (Excel'den 2026-05-03 00:00:00 gelirse)
+                        $tarih = sanitize_text_field($row[2]);
+                        if (strpos($tarih, ' ') !== false) {
+                            $tarih = explode(' ', $tarih)[0];
+                        }
+
+                        // Saat Temizleme (Excel'den 1970-01-01 15:00:00 gelirse)
+                        $saat = sanitize_text_field($row[3]);
+                        if (strpos($saat, '1970-01-01') !== false) {
+                            $saat = trim(str_replace('1970-01-01', '', $saat));
+                        }
+                        $saat = substr($saat, 0, 5); // HH:MM al
+
+                        // Süre Temizleme (Excel'den 1970-01-01 01:24:00 gelirse)
+                        $sure = isset($row[5]) ? sanitize_text_field($row[5]) : '';
+                        if (strpos($sure, '1970-01-01') !== false) {
+                            $time_part = trim(str_replace('1970-01-01', '', $sure));
+                            $parts = explode(':', $time_part);
+                            if (count($parts) >= 2) {
+                                $hours = intval($parts[0]);
+                                $minutes = intval($parts[1]);
+                                if ($hours > 0) {
+                                    $sure = ($hours * 60 + $minutes) . ' dk';
+                                } else {
+                                    $sure = $minutes . ' dk';
+                                }
+                            }
+                        }
+
                         $wpdb->insert($this->table_name, [
                             'sehir'      => $this->normalize_text($row[0]),
                             'mekan'      => $this->normalize_text($row[1]),
-                            'tarih'      => sanitize_text_field($row[2]),
-                            'saat'       => sanitize_text_field($row[3]),
+                            'tarih'      => $tarih,
+                            'saat'       => $saat,
                             'film_adi'   => sanitize_text_field($row[4]),
-                            'sure'       => isset($row[5]) ? sanitize_text_field($row[5]) : '',
+                            'sure'       => $sure,
                             'etkinlik'   => isset($row[6]) ? sanitize_text_field($row[6]) : '',
                             'is_special' => (isset($row[7]) && $row[7] == '1') ? 1 : 0,
                         ]);
