@@ -149,16 +149,21 @@ if( !empty($block['className']) ) {
                                                                          </div>
 
                                                                          <?php if (!empty($item->etkinlik)): ?>
-                                                                            <div class="mt-4 inline-flex items-start bg-red/5 border-l-4 border-red px-4 py-3 text-sm text-warmgray italic font-serif rounded-r-md w-full">
+                                                                            <div class="mt-4 inline-flex items-start bg-red/5 border-l-4 border-red px-4 py-3 text-sm text-warmgray font-serif rounded-r-md w-full">
                                                                                 <svg class="w-4 h-4 mr-3 text-red mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path></svg>
                                                                                 <div class="leading-relaxed flex-1">
                                                                                     <?php 
                                                                                     if ($has_gala) {
                                                                                         $parts = explode(',', $item->etkinlik);
                                                                                         foreach ($parts as $part) {
-                                                                                            echo '<div class="flex items-start gap-3 mb-2">
-                                                                                                    <svg class="w-3 h-3 text-red mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"></path></svg>
-                                                                                                    <span>' . esc_html(trim($part)) . '</span>
+                                                                                            $item_parts = explode(':', $part, 2);
+                                                                                            $display_text = count($item_parts) > 1 
+                                                                                                ? '<strong class="font-bold">' . esc_html(trim($item_parts[0])) . ':</strong> ' . esc_html(trim($item_parts[1]))
+                                                                                                : esc_html(trim($part));
+                                                                                                
+                                                                                            echo '<div class="flex items-start gap-3 mb-2 text-red">
+                                                                                                    <div class="w-1.5 h-1.5 rounded-full bg-red mt-2 shrink-0"></div>
+                                                                                                    <span class="text-[15px] leading-tight">' . $display_text . '</span>
                                                                                                   </div>';
                                                                                         }
                                                                                     } else {

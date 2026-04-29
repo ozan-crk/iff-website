@@ -368,21 +368,158 @@ $f_bold = get_field('font_ozel_bold', 'option');
                 ?>
             </nav>
 
-            <div class="flex items-center space-x-2">
-                <?php if (have_rows('header_butonlar', 'option')): ?>
-                    <?php while (have_rows('header_butonlar', 'option')):
-                        the_row();
-                        $metin = get_sub_field('metin');
-                        $link = get_sub_field('link');
-                        ?>
-                        <a href="<?php echo esc_url($link); ?>"
-                            class="bg-white text-red px-4 py-1.5 font-heading font-bold border-2 border-white hover:bg-cream transition text-[10px] uppercase"><?php echo esc_html($metin); ?></a>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <a href="<?php echo home_url('/basvuru#gonullu'); ?>"
-                        class="bg-white text-red px-4 py-1.5 font-heading font-bold border-2 border-white hover:bg-cream transition text-[10px] uppercase">GÖNÜLLÜ
-                        OL</a>
-                <?php endif; ?>
+            <div class="flex items-center space-x-4">
+                <!-- Desktop Buttons -->
+                <div class="hidden lg:flex items-center space-x-2">
+                    <?php if (have_rows('header_butonlar', 'option')): ?>
+                        <?php while (have_rows('header_butonlar', 'option')):
+                            the_row();
+                            $metin = get_sub_field('metin');
+                            $link = get_sub_field('link');
+                            ?>
+                            <a href="<?php echo esc_url($link); ?>"
+                                class="bg-white text-red px-4 py-1.5 font-heading font-bold border-2 border-white hover:bg-cream transition text-[10px] uppercase"><?php echo esc_html($metin); ?></a>
+                        <?php endwhile; ?>
+                    <?php else: ?>
+                        <a href="<?php echo home_url('/basvuru#gonullu'); ?>"
+                            class="bg-white text-red px-4 py-1.5 font-heading font-bold border-2 border-white hover:bg-cream transition text-[10px] uppercase">GÖNÜLLÜ
+                            OL</a>
+                    <?php endif; ?>
+                </div>
+
+                <!-- Hamburger Button (Mobile Only) -->
+                <button id="mobile-menu-toggle"
+                    class="lg:hidden text-white p-2 border-2 border-white hover:bg-white hover:text-red transition-all">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16m-7 6h7"></path>
+                    </svg>
+                </button>
             </div>
         </div>
     </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed inset-0 bg-red z-[100] transform translate-x-full transition-transform duration-300 lg:hidden flex flex-col overflow-y-auto">
+        <div class="p-6 flex justify-between items-center border-b border-white/20">
+            <div class="text-white font-custom font-bold text-2xl tracking-tighter italic uppercase">MENÜ</div>
+            <button id="mobile-menu-close"
+                class="text-white p-2 border-2 border-white hover:bg-white hover:text-red transition-all">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
+                </svg>
+            </button>
+        </div>
+
+        <nav class="p-8 flex-1">
+            <?php
+            wp_nav_menu(array(
+                'theme_location' => 'primary',
+                'container' => false,
+                'menu_class' => 'mobile-primary-menu flex flex-col space-y-4 text-white font-heading text-xl uppercase tracking-widest',
+                'fallback_cb' => '__return_false',
+            ));
+            ?>
+        </nav>
+
+        <style>
+            .mobile-primary-menu .sub-menu {
+                display: none;
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1.5rem 0 0.5rem 1rem;
+                border-left: 2px solid rgba(255, 255, 255, 0.1);
+                margin-top: 0.5rem;
+            }
+            .mobile-primary-menu .menu-item-has-children {
+                position: relative;
+            }
+            .mobile-primary-menu .menu-item-has-children > a {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .mobile-primary-menu .menu-item-has-children > a::after {
+                content: '+';
+                font-size: 1.5rem;
+                transition: transform 0.3s;
+                display: inline-block;
+                margin-left: 1rem;
+                font-family: sans-serif;
+            }
+            .mobile-primary-menu .menu-item-has-children.open > a::after {
+                content: '-';
+            }
+            .mobile-primary-menu .menu-item-has-children.open > .sub-menu {
+                display: flex;
+            }
+            .mobile-primary-menu .sub-menu a {
+                font-size: 1rem;
+                opacity: 0.8;
+                letter-spacing: 0.05em;
+            }
+        </style>
+
+        <div class="p-8 bg-black/10 space-y-4">
+            <h4 class="text-white/50 text-[10px] uppercase tracking-[0.3em] font-heading mb-4">HIZLI İŞLEMLER</h4>
+            <?php if (have_rows('header_butonlar', 'option')): ?>
+                <?php while (have_rows('header_butonlar', 'option')):
+                    the_row();
+                    $metin = get_sub_field('metin');
+                    $link = get_sub_field('link');
+                    ?>
+                    <a href="<?php echo esc_url($link); ?>"
+                        class="block w-full bg-white text-red text-center py-4 font-heading font-bold border-2 border-white hover:bg-cream transition text-sm uppercase modern-shadow"><?php echo esc_html($metin); ?></a>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <a href="<?php echo home_url('/basvuru#gonullu'); ?>"
+                    class="block w-full bg-white text-red text-center py-4 font-heading font-bold border-2 border-white hover:bg-cream transition text-sm uppercase modern-shadow">GÖNÜLLÜ
+                    OL</a>
+            <?php endif; ?>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggle = document.getElementById('mobile-menu-toggle');
+            const close = document.getElementById('mobile-menu-close');
+            const menu = document.getElementById('mobile-menu');
+
+            if (toggle && close && menu) {
+                toggle.addEventListener('click', () => {
+                    menu.classList.remove('translate-x-full');
+                    document.body.style.overflow = 'hidden';
+                });
+
+                close.addEventListener('click', () => {
+                    menu.classList.add('translate-x-full');
+                    document.body.style.overflow = '';
+                });
+
+                // Dropdown handling for mobile
+                const menuWithChildren = menu.querySelectorAll('.menu-item-has-children');
+                menuWithChildren.forEach(item => {
+                    const link = item.querySelector('a');
+                    link.addEventListener('click', function(e) {
+                        if (!item.classList.contains('open')) {
+                            e.preventDefault();
+                            item.classList.add('open');
+                        }
+                    });
+                });
+
+                // Menü içindeki linklere tıklayınca kapat
+                const links = menu.querySelectorAll('a:not(.menu-item-has-children > a)');
+                links.forEach(link => {
+                    link.addEventListener('click', () => {
+                        menu.classList.add('translate-x-full');
+                        document.body.style.overflow = '';
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
