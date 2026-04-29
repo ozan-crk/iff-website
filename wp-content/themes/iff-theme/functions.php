@@ -146,9 +146,9 @@ class IFF_Recent_Posts_Widget extends WP_Widget {
                             <?php the_post_thumbnail( 'thumbnail', array( 'class' => 'w-full h-full object-cover transition-transform group-hover:scale-110' ) ); ?>
                         </div>
                     <?php else : ?>
-                        <div class="w-16 h-16 flex-shrink-0 bg-gray-50 flex items-center justify-center mr-4 rounded-sm border border-gray-100 overflow-hidden">
-                             <img src="https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29035326/iff-logo.jpg" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" alt="IFF">
-                        </div>
+                         <div class="w-16 h-16 flex-shrink-0 bg-gray-50 flex items-center justify-center mr-4 rounded-sm border border-gray-100 overflow-hidden">
+                             <img src="https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity" alt="IFF">
+                         </div>
                     <?php endif; ?>
                     <div class="flex-1">
                         <h4 class="text-sm font-bold text-warmgray leading-snug group-hover:text-red transition-colors line-clamp-2 uppercase font-heading">

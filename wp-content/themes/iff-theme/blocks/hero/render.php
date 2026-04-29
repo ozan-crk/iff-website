@@ -11,7 +11,7 @@ $aciklama = get_field('aciklama') ?: '21. Uluslararası İşçi Filmleri Festiva
 
 
 
-$gorsel = get_field('gorsel') ?: 'https://picsum.photos/400/560?random=90';
+$gorsel = get_field('gorsel') ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg';
 
 // Gutenberg Ek CSS Sınıfları
 $className = 'py-12 bg-cream hero-block';

@@ -4,7 +4,7 @@
  */
 $panel_varsayilan_acik = get_field('panel_varsayilan_acik', 'option');
 $panel_class = $panel_varsayilan_acik ? '' : 'closed';
-$panel_afis = get_field('panel_afis', 'option') ?: 'https://picsum.photos/400/560?random=50';
+$panel_afis = get_field('panel_afis', 'option') ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg';
 
 // Yeni Alanlar
 $afis_aktif = get_field('panel_afis_aktif', 'option');

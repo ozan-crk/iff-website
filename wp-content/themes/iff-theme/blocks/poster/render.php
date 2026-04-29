@@ -13,7 +13,7 @@ $buton_1_link = get_field('buton_1_link') ?: '#';
 $buton_2_metin = get_field('buton_2_metin') ?: 'PDF OLARAK GÖR';
 $buton_2_link = get_field('buton_2_link') ?: '#';
 
-$gorsel = get_field('gorsel') ?: 'https://picsum.photos/600/800?random=50';
+$gorsel = get_field('gorsel') ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg';
 
 // Gutenberg Ek CSS Sınıfları
 $className = 'py-20 px-6 bg-warmgray text-white poster-block';

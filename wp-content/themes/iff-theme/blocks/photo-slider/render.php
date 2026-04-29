@@ -9,11 +9,11 @@ $fotograflar = get_field('fotograflar'); // Return format should be Array of Ima
 if (empty($fotograflar)) {
     // Default fallback images
     $fotograflar = [
-        ['url' => 'https://picsum.photos/400/300?random=30'],
-        ['url' => 'https://picsum.photos/400/300?random=31'],
-        ['url' => 'https://picsum.photos/400/300?random=32'],
-        ['url' => 'https://picsum.photos/400/300?random=33'],
-        ['url' => 'https://picsum.photos/400/300?random=34'],
+        ['url' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg'],
+        ['url' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg'],
+        ['url' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg'],
+        ['url' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg'],
+        ['url' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg'],
     ];
 }
 

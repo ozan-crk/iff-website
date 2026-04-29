@@ -9,21 +9,21 @@ $default_banners = [
         'baslik' => 'ARŞİV',
         'alt_baslik' => 'FOTOĞRAFLAR',
         'link' => '#',
-        'gorsel' => 'https://picsum.photos/600/400?random=40',
+        'gorsel' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg',
         'renk' => 'bg-red/60'
     ],
     [
         'baslik' => 'Gündem',
         'alt_baslik' => 'FESTİVAL GAZETESİ',
         'link' => '#',
-        'gorsel' => 'https://picsum.photos/600/400?random=41',
+        'gorsel' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg',
         'renk' => 'bg-orange/60'
     ],
     [
         'baslik' => 'YAYINLAR',
         'alt_baslik' => 'FESTİVAL KİTAPLARI',
         'link' => '#',
-        'gorsel' => 'https://picsum.photos/600/400?random=42',
+        'gorsel' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg',
         'renk' => 'bg-warmgray/60'
     ]
 ];
@@ -45,7 +45,7 @@ if( !empty($block['className']) ) {
                 $alt_baslik = get_sub_field('alt_baslik');
                 $link = get_sub_field('link') ?: '#';
                 $gorsel_obj = get_sub_field('gorsel');
-                $gorsel = is_array($gorsel_obj) ? $gorsel_obj['url'] : ($gorsel_obj ?: 'https://picsum.photos/600/400?random=40');
+                $gorsel = is_array($gorsel_obj) ? $gorsel_obj['url'] : ($gorsel_obj ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg');
                 $renk = get_sub_field('renk') ?: 'bg-red/60';
                 ?>
                 <a href="<?php echo esc_url($link); ?>"

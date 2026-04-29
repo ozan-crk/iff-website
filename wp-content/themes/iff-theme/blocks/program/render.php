@@ -67,7 +67,7 @@ if( !empty($block['className']) ) {
                                     $tarih_slug = sanitize_title($city_slug . '-' . $tarih);
                                 ?>
                                     <button
-                                        class="date-tab px-6 py-2 font-heading font-bold text-sm transition-all rounded-md <?php echo $first_date ? 'bg-orange text-white' : 'bg-transparent text-warmgray hover:bg-warmgray/10'; ?>"
+                                        class="date-tab px-6 py-2 font-heading font-bold text-sm transition-all rounded-md <?php echo $first_date ? 'bg-red text-white' : 'bg-transparent text-warmgray hover:bg-warmgray/10'; ?>"
                                         data-date="<?php echo esc_attr($tarih_slug); ?>">
                                         <?php echo date('d.m.Y', strtotime($tarih)); ?>
                                     </button>
@@ -203,11 +203,11 @@ if( !empty($block['className']) ) {
                                 if (targetDate) targetDate.style.display = 'block';
 
                                 sameCityDateTabs.forEach(t => {
-                                    t.classList.remove('bg-orange', 'text-white');
+                                    t.classList.remove('bg-red', 'text-white');
                                     t.classList.add('bg-transparent', 'text-warmgray', 'hover:bg-warmgray/10');
                                 });
                                 this.classList.remove('bg-transparent', 'text-warmgray', 'hover:bg-warmgray/10');
-                                this.classList.add('bg-orange', 'text-white');
+                                this.classList.add('bg-red', 'text-white');
                             });
                         });
                     });

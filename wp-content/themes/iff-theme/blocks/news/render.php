@@ -44,7 +44,7 @@ if( !empty($block['className']) ) {
                 <?php while ($news_query->have_posts()):
                     $news_query->the_post();
                     $link = get_permalink();
-                    $gorsel = get_the_post_thumbnail_url(get_the_ID(), 'large') ?: 'https://picsum.photos/600/400?random=' . get_the_ID();
+                    $gorsel = get_the_post_thumbnail_url(get_the_ID(), 'large') ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg';
 
                     // Kategoriyi etiket olarak gösterelim
                     $categories = get_the_category();

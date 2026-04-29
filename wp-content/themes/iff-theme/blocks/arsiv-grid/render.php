@@ -29,7 +29,7 @@ if( !empty($block['className']) ) {
     <?php if ($arsiv_query->have_posts()): ?>
         <?php while ($arsiv_query->have_posts()): $arsiv_query->the_post(); 
             $link = get_permalink();
-            $gorsel = get_the_post_thumbnail_url(get_the_ID(), 'large') ?: 'https://picsum.photos/400/600?random=' . get_the_ID();
+            $gorsel = get_the_post_thumbnail_url(get_the_ID(), 'large') ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg';
             
             // Yıl bilgisini etiket veya ACF custom field üzerinden alabiliriz. 
             // Burada yazının yayınlanma yılı veya özel alan (yil) kullanılabilir.
