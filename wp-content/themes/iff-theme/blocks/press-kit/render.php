@@ -12,7 +12,7 @@ $dosya_1_link = get_field('dosya_1_link') ?: '#';
 $dosya_2_metin = get_field('dosya_2_metin') ?: 'Basın Bülteni (DOCX)';
 $dosya_2_link = get_field('dosya_2_link') ?: '#';
 
-$pdf_url = get_field('pdf_url'); // İframe için PDF linki
+$gorsel = get_field('gorsel'); // Önizleme görseli
 
 // Gutenberg Ek CSS Sınıfları
 $bg_color = get_field('arka_plan_rengi');
@@ -46,15 +46,13 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                 </div>
             </div>
             <div class="bg-white border-4 border-warmgray modern-shadow h-96 overflow-hidden relative group">
-                <?php if ($pdf_url): ?>
-                    <iframe src="<?php echo esc_url($pdf_url); ?>" class="w-full h-full border-0"></iframe>
+                <?php if ($gorsel): ?>
+                    <img src="<?php echo esc_url($gorsel['url']); ?>" alt="<?php echo esc_attr($gorsel['alt']); ?>" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
                 <?php else: ?>
                     <div
                         class="absolute inset-0 flex items-center justify-center bg-gray-100 text-gray-400 font-serif text-sm">
                         <div class="text-center p-8">
-                            <p class="mb-4">[PDF Önizleme Alanı]</p>
-                            <button
-                                class="bg-warmgray text-white px-6 py-2 text-xs font-bold font-heading uppercase tracking-tighter hover:bg-orange transition">GÖRÜNTÜLE</button>
+                            <p class="mb-4">[Görsel Önizleme Alanı]</p>
                         </div>
                     </div>
                 <?php endif; ?>
