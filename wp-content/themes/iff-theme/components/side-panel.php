@@ -79,10 +79,10 @@ $program_baslik = get_field('panel_program_baslik', 'option') ?: 'GÜNÜN PROGRA
                 <?php while (have_rows('panel_hizli_butonlar', 'option')): the_row(); 
                     $metin = get_sub_field('metin');
                     $link = get_sub_field('link');
-                    $stil = get_sub_field('stil') ?: 'bg-warmgray text-white hover:text-white';
+                    $stil = get_sub_field('stil') ?: 'bg-warmgray text-white';
                 ?>
                     <a href="<?php echo esc_url($link); ?>"
-                        class="block <?php echo esc_attr($stil); ?> p-3 text-center font-heading font-bold text-xs hover:bg-orange transition hover-lift no-underline uppercase"><?php echo esc_html($metin); ?></a>
+                        class="block <?php echo esc_attr($stil); ?> p-3 text-center font-heading font-bold text-xs hover:bg-orange hover:text-white transition hover-lift no-underline uppercase"><?php echo esc_html($metin); ?></a>
                 <?php endwhile; ?>
             <?php else: ?>
                 <!-- Varsayılan Butonlar -->
