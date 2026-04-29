@@ -45,7 +45,7 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                     </a>
                 </div>
             </div>
-            <div class="bg-white border-4 border-warmgray modern-shadow h-96 overflow-hidden relative group">
+            <div class="bg-white border-4 border-warmgray modern-shadow aspect-video overflow-hidden relative group">
                 <?php if ($gorsel): ?>
                     <img src="<?php echo esc_url($gorsel['url']); ?>" alt="<?php echo esc_attr($gorsel['alt']); ?>" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
                 <?php else: ?>
