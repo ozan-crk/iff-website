@@ -1,0 +1,13 @@
+{
+    "name": "acf/pdf-preview",
+    "title": "IFF PDF Önizleme",
+    "description": "PDF belgelerini modal veya direkt olarak gösterin.",
+    "category": "formatting",
+    "icon": "media-document",
+    "keywords": ["iff", "pdf", "önizleme", "modal"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

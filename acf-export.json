@@ -1755,5 +1755,95 @@
         "hide_on_screen": "",
         "active": true,
         "description": ""
+    },
+    {
+        "key": "group_pdf_preview",
+        "title": "PDF Önizleme",
+        "fields": [
+            {
+                "key": "field_pp_baslik",
+                "label": "Başlık",
+                "name": "baslik",
+                "type": "text"
+            },
+            {
+                "key": "field_pp_pdf",
+                "label": "PDF Dosyası",
+                "name": "pdf_url",
+                "type": "file",
+                "return_format": "url",
+                "library": "all",
+                "min_size": "",
+                "max_size": "",
+                "mime_types": "pdf"
+            },
+            {
+                "key": "field_pp_tip",
+                "label": "Gösterim Tipi",
+                "name": "gosterim_tipi",
+                "type": "select",
+                "choices": {
+                    "modal": "Tıklandığında Modal Açılsın",
+                    "direkt": "Sayfa İçine Gömülü (İframe)"
+                },
+                "default_value": "modal"
+            },
+            {
+                "key": "field_pp_onizleme",
+                "label": "Önizleme Görseli",
+                "name": "onizleme_gorseli",
+                "type": "image",
+                "instructions": "Modal modu için tetikleyici görsel. Boş bırakılırsa standart ikon görünür.",
+                "return_format": "array",
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_pp_tip",
+                            "operator": "==",
+                            "value": "modal"
+                        }
+                    ]
+                ]
+            },
+            {
+                "key": "field_pp_buton",
+                "label": "Buton Metni",
+                "name": "buton_metni",
+                "type": "text",
+                "default_value": "PDF GÖRÜNTÜLE",
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_pp_tip",
+                            "operator": "==",
+                            "value": "modal"
+                        }
+                    ]
+                ]
+            },
+            {
+                "key": "field_pp_arka_plan",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "block",
+                    "operator": "==",
+                    "value": "acf\/pdf-preview"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
     }
 ]
