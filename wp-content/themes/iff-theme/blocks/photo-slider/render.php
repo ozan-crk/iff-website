@@ -39,9 +39,11 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
         </div>
         <div class="relative overflow-hidden group">
             <div id="mini-slider-track" class="flex transition-transform duration-500 space-x-4">
-                <?php foreach ($fotograflar as $foto): ?>
+                <?php foreach ($fotograflar as $foto): 
+                    $img_url = is_array($foto) ? $foto['url'] : $foto;
+                ?>
                     <div class="min-w-[300px] h-48 border-4 border-cream modern-shadow overflow-hidden">
-                        <img src="<?php echo esc_url(is_array($foto) && isset($foto['url']) ? $foto['url'] : (is_string($foto) ? $foto : '')); ?>" class="w-full h-full object-cover">
+                        <img src="<?php echo esc_url($img_url); ?>" class="w-full h-full object-cover">
                     </div>
                 <?php endforeach; ?>
             </div>
