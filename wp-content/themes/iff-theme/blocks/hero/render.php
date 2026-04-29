@@ -41,6 +41,12 @@ if( !empty($block['className']) ) {
                         <?php $i = 0;
                         while (have_rows('butonlar')):
                             the_row();
+
+                            // Eğer "Alt Satıra Geç" seçeneği işaretlenmişse, genişliği %100 olan boş bir div ekleyerek satırı kırıyoruz
+                            if (get_sub_field('alt_satir')): ?>
+                                <div class="w-full h-0"></div>
+                            <?php endif;
+
                             $buton_metni = get_sub_field('buton_metni');
                             $buton_linki = get_sub_field('buton_linki') ?: '#';
                             $btn_class = ($i % 2 == 0)

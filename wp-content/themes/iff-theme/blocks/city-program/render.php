@@ -151,7 +151,7 @@ if (!empty($block['className'])) {
                                                                         </span>
                                                                     <?php endif; ?>
 
-                                                                    <button class="add-to-personal-program flex items-center gap-2 text-red hover:text-orange transition-colors group not-italic"
+                                                                    <button style="display: none !important;" class="add-to-personal-program flex items-center gap-2 text-red hover:text-orange transition-colors group not-italic"
                                                                             data-id="<?php echo esc_attr($item->id); ?>"
                                                                             data-title="<?php echo esc_attr($item->film_adi); ?>"
                                                                             data-date="<?php echo esc_attr($date); ?>"
