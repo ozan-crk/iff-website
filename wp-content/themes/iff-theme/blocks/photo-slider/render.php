@@ -43,9 +43,10 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
             <div id="mini-slider-track" class="flex transition-transform duration-500 space-x-4">
                 <?php foreach ($fotograflar as $foto): 
                     $img_url = is_array($foto) ? $foto['url'] : $foto;
+                    if (empty($img_url)) continue;
                 ?>
                     <div style="min-width: <?php echo $img_w; ?>px; height: <?php echo $img_h; ?>px;" class="border-4 border-cream modern-shadow overflow-hidden group/item relative">
-                        <a data-fslightbox="gallery-<?php echo $block['id']; ?>" href="<?php echo esc_url($img_url); ?>" class="block w-full h-full">
+                        <a data-fslightbox="gallery-<?php echo $block['id']; ?>" data-type="image" href="<?php echo esc_url($img_url); ?>" class="block w-full h-full">
                             <img src="<?php echo esc_url($img_url); ?>" class="w-full h-full object-cover transform group-hover/item:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-black/20 opacity-0 group-hover/item:opacity-100 transition-opacity flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -61,3 +62,8 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
 </section>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.4.1/index.min.js"></script>
+<script>
+    if (typeof refreshFsLightbox === 'function') {
+        refreshFsLightbox();
+    }
+</script>
