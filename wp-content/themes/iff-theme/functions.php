@@ -64,6 +64,8 @@ function iff_register_acf_blocks() {
 
         // Seperator Bloğu
         register_block_type( __DIR__ . '/blocks/separator' );
+        register_block_type( __DIR__ . '/blocks/yayinlarimiz' );
+        register_block_type( __DIR__ . '/blocks/history' );
     }
 }
 add_action( 'acf/init', 'iff_register_acf_blocks' );

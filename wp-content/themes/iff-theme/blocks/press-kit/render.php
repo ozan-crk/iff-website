@@ -35,11 +35,11 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                 <h2 class="text-4xl font-custom font-bold mb-6 uppercase"><?php echo esc_html($baslik); ?></h2>
                 <p class="text-gray-600 font-serif mb-8 leading-relaxed"><?php echo esc_html($aciklama); ?></p>
                 <div class="flex flex-col space-y-4">
-                    <a href="<?php echo esc_url($dosya_1_link); ?>"
+                    <a href="<?php echo esc_url($dosya_1_link); ?>" target="_blank" rel="noopener noreferrer"
                         class="inline-flex items-center space-x-3 text-red font-bold hover:text-orange transition">
                         <span>&darr;</span> <span><?php echo esc_html($dosya_1_metin); ?></span>
                     </a>
-                    <a href="<?php echo esc_url($dosya_2_link); ?>"
+                    <a href="<?php echo esc_url($dosya_2_link); ?>" target="_blank" rel="noopener noreferrer"
                         class="inline-flex items-center space-x-3 text-red font-bold hover:text-orange transition">
                         <span>&darr;</span> <span><?php echo esc_html($dosya_2_metin); ?></span>
                     </a>

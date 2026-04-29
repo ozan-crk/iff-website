@@ -1,0 +1,13 @@
+{
+    "name": "acf/yayinlarimiz",
+    "title": "IFF Yayınlarımız",
+    "description": "PDF veya dış bağlantı içeren yayın listesi.",
+    "category": "formatting",
+    "icon": "pdf",
+    "keywords": ["iff", "yayınlar", "pdf", "kitapçık"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

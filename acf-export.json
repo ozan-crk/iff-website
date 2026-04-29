@@ -1618,5 +1618,142 @@
         "hide_on_screen": "",
         "active": true,
         "description": ""
+    },
+    {
+        "key": "group_yayinlarimiz",
+        "title": "Yayınlarımız",
+        "fields": [
+            {
+                "key": "field_y_baslik",
+                "label": "Başlık",
+                "name": "baslik",
+                "type": "text",
+                "default_value": "YAYINLARIMIZ"
+            },
+            {
+                "key": "field_y_aciklama",
+                "label": "Açıklama",
+                "name": "aciklama",
+                "type": "textarea"
+            },
+            {
+                "key": "field_y_yayinlar",
+                "label": "Yayınlar",
+                "name": "yayinlar",
+                "type": "repeater",
+                "layout": "block",
+                "button_label": "Yeni Yayın Ekle",
+                "sub_fields": [
+                    {
+                        "key": "field_y_y_baslik",
+                        "label": "Yayın Adı",
+                        "name": "baslik",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_y_y_alt",
+                        "label": "Alt Bilgi (Örn: 2024 Raporu)",
+                        "name": "alt_metin",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_y_y_tip",
+                        "label": "Tip",
+                        "name": "tip",
+                        "type": "select",
+                        "choices": {
+                            "pdf": "PDF Dosyası",
+                            "link": "Dış Bağlantı"
+                        },
+                        "default_value": "pdf"
+                    },
+                    {
+                        "key": "field_y_y_link",
+                        "label": "Link",
+                        "name": "link",
+                        "type": "link"
+                    }
+                ]
+            },
+            {
+                "key": "field_y_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "block",
+                    "operator": "==",
+                    "value": "acf\/yayinlarimiz"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    },
+    {
+        "key": "group_history",
+        "title": "Tarihçe",
+        "fields": [
+            {
+                "key": "field_h_baslik",
+                "label": "Ana Başlık",
+                "name": "baslik",
+                "type": "text",
+                "default_value": "TARİHÇE"
+            },
+            {
+                "key": "field_h_aciklama",
+                "label": "Açıklama",
+                "name": "aciklama",
+                "type": "textarea"
+            },
+            {
+                "key": "field_h_ust_sayfa",
+                "label": "Üst Sayfa Seçin",
+                "name": "ust_sayfa",
+                "type": "post_object",
+                "instructions": "Boş bırakırsanız mevcut sayfanın alt sayfaları listelenir.",
+                "post_type": [
+                    "page"
+                ],
+                "return_format": "id",
+                "multiple": 0,
+                "allow_null": 1,
+                "ui": 1
+            },
+            {
+                "key": "field_h_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "block",
+                    "operator": "==",
+                    "value": "acf\/history"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
     }
 ]

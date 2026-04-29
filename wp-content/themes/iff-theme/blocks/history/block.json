@@ -1,0 +1,13 @@
+{
+    "name": "acf/history",
+    "title": "IFF Tarihçe",
+    "description": "Yıllara göre festival afişleri ve detayları.",
+    "category": "formatting",
+    "icon": "calendar-alt",
+    "keywords": ["iff", "tarihçe", "afiş", "yıllar"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}
