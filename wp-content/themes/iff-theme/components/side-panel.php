@@ -79,7 +79,7 @@ $program_baslik = get_field('panel_program_baslik', 'option') ?: 'GÜNÜN PROGRA
                 <?php while (have_rows('panel_hizli_butonlar', 'option')): the_row(); 
                     $metin = get_sub_field('metin');
                     $link = get_sub_field('link');
-                    $stil = get_sub_field('stil') ?: 'bg-warmgray text-white';
+                    $stil = get_sub_field('stil') ?: 'bg-warmgray text-white hover:text-white';
                 ?>
                     <a href="<?php echo esc_url($link); ?>"
                         class="block <?php echo esc_attr($stil); ?> p-3 text-center font-heading font-bold text-xs hover:bg-orange transition hover-lift no-underline uppercase"><?php echo esc_html($metin); ?></a>
@@ -93,7 +93,7 @@ $program_baslik = get_field('panel_program_baslik', 'option') ?: 'GÜNÜN PROGRA
                 <a href="#"
                     class="block border-2 border-warmgray p-3 text-center font-heading font-bold text-xs hover:bg-warmgray hover:text-white transition hover-lift text-warmgray">ESKİ FİLMLER</a>
                 <a href="<?php echo home_url('/basin'); ?>"
-                    class="block border-2 border-red p-3 text-center font-heading font-bold text-xs hover:bg-red hover:text-white transition hover-lift text-red uppercase">Basın Bülteni</a>
+                    class="block border-2 border-red p-3 text-center font-heading font-bold text-xs hover:bg-red  hover:text-white transition hover-lift text-red uppercase">Basın Bülteni</a>
             <?php endif; ?>
         </div>
     </div>
