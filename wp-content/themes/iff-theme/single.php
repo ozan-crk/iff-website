@@ -74,7 +74,6 @@ get_header();
                     </div>
                 <?php else : ?>
                     <div class="bg-white p-6 shadow-lg border-l-4 border-red">
-                        <h3 class="text-xl font-heading font-bold mb-4 uppercase tracking-wider text-warmgray border-b border-gray-100 pb-2">Sidebar</h3>
                         <p class="text-gray-500 text-sm">Lütfen panelden bileşen ekleyin.</p>
                     </div>
                 <?php endif; ?>
