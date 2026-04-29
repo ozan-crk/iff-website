@@ -1822,12 +1822,20 @@
                 ]
             },
             {
-                "key": "field_pp_yukseklik",
-                "label": "Yükseklik (px)",
-                "name": "yukseklik",
+                "key": "field_pp_genislik_orani",
+                "label": "Genişlik Oranı",
+                "name": "genislik_orani",
                 "type": "number",
-                "default_value": 600,
-                "instructions": "Önizleme veya iframe alanının yüksekliği."
+                "default_value": 16,
+                "instructions": "Örn: 16"
+            },
+            {
+                "key": "field_pp_yukseklik_orani",
+                "label": "Yükseklik Oranı",
+                "name": "yukseklik_orani",
+                "type": "number",
+                "default_value": 9,
+                "instructions": "Örn: 9"
             },
             {
                 "key": "field_pp_max_genislik",

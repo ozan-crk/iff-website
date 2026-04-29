@@ -8,7 +8,8 @@ $pdf_url = get_field('pdf_url');
 $gosterim_tipi = get_field('gosterim_tipi') ?: 'modal'; // modal veya direkt
 $onizleme_gorseli = get_field('onizleme_gorseli');
 $buton_metni = get_field('buton_metni') ?: 'PDF GÖRÜNTÜLE';
-$yukseklik = get_field('yukseklik') ?: 600;
+$g_oran = get_field('genislik_orani') ?: 16;
+$y_oran = get_field('yukseklik_orani') ?: 9;
 $max_genislik = get_field('max_genislik') ?: '100%';
 
 // Gutenberg Ek CSS Sınıfları
@@ -24,7 +25,7 @@ if( !empty($block['className']) ) {
 
 $style = $bg_color ? "background-color: {$bg_color};" : "";
 $container_style = "max-width: {$max_genislik}; margin-left: auto; margin-right: auto;";
-$content_style = "height: {$yukseklik}px;";
+$aspect_class = "aspect-[{$g_oran}/{$y_oran}]";
 ?>
 
 <section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
@@ -36,7 +37,7 @@ $content_style = "height: {$yukseklik}px;";
         <?php if ($pdf_url): ?>
             <?php if ($gosterim_tipi === 'modal'): ?>
                 <!-- Modal Modu -->
-                <div class="relative group cursor-pointer overflow-hidden modern-shadow border-4 border-warmgray" style="<?php echo esc_attr($content_style); ?>">
+                <div class="relative group cursor-pointer overflow-hidden modern-shadow border-4 border-warmgray <?php echo $aspect_class; ?>">
                     <a data-fslightbox="pdf-preview-<?php echo esc_attr($block['id']); ?>" href="<?php echo esc_url($pdf_url); ?>" class="block relative w-full h-full bg-gray-100">
                         <?php if ($onizleme_gorseli): ?>
                             <img src="<?php echo esc_url($onizleme_gorseli['url']); ?>" alt="<?php echo esc_attr($onizleme_gorseli['alt']); ?>" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700">
@@ -62,7 +63,7 @@ $content_style = "height: {$yukseklik}px;";
                 </script>
             <?php else: ?>
                 <!-- Direkt Mod -->
-                <div class="w-full border-4 border-warmgray modern-shadow overflow-hidden bg-white" style="<?php echo esc_attr($content_style); ?>">
+                <div class="w-full border-4 border-warmgray modern-shadow overflow-hidden bg-white <?php echo $aspect_class; ?>">
                     <iframe src="<?php echo esc_url($pdf_url); ?>#toolbar=0" class="w-full h-full border-0"></iframe>
                 </div>
             <?php endif; ?>
