@@ -701,16 +701,22 @@
                 "key": "field_ps_fotolar",
                 "label": "Fotoğraflar",
                 "name": "fotograflar",
-                "type": "repeater",
-                "sub_fields": [
-                    {
-                        "key": "field_psf_url",
-                        "label": "Fotoğraf",
-                        "name": "url",
-                        "type": "image",
-                        "return_format": "url"
-                    }
-                ]
+                "type": "gallery",
+                "return_format": "array"
+            },
+            {
+                "key": "field_ps_genislik",
+                "label": "Görsel Genişliği (px)",
+                "name": "genislik",
+                "type": "number",
+                "default_value": 320
+            },
+            {
+                "key": "field_ps_yukseklik",
+                "label": "Görsel Yüksekliği (px)",
+                "name": "yukseklik",
+                "type": "number",
+                "default_value": 213
             },
             {
                 "key": "field_ps_arka_plan_rengi",
@@ -846,10 +852,11 @@
                 "type": "url"
             },
             {
-                "key": "field_pk_pdf",
-                "label": "PDF İframe URL",
-                "name": "pdf_url",
-                "type": "url"
+                "key": "field_pk_gorsel",
+                "label": "Önizleme Görseli",
+                "name": "gorsel",
+                "type": "image",
+                "return_format": "array"
             },
             {
                 "key": "field_pk_arka_plan_rengi",
