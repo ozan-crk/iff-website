@@ -1,4 +1,20 @@
 <?php
+// ICS Dosya İndirme İşleyicisi (iPhone'da otomatik açılması için)
+add_action('init', function() {
+    if (isset($_POST['download_ics']) && !empty($_POST['ics_content'])) {
+        $content = stripslashes($_POST['ics_content']);
+        $filename = "IFF_Program.ics";
+        
+        header('Content-Type: text/calendar; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Content-Length: ' . strlen($content));
+        header('Connection: close');
+        
+        echo $content;
+        exit;
+    }
+});
+
 function iff_theme_setup() {
     add_theme_support( 'title-tag' );
     add_theme_support( 'post-thumbnails' );

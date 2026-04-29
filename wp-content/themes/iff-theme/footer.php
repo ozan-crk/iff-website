@@ -122,13 +122,40 @@
 
             icsContent += "END:VCALENDAR";
 
-            const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = window.URL.createObjectURL(blob);
-            link.setAttribute('download', 'IFF_Kisisel_Programim.ics');
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
+            // Cihaz Tespiti
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
+            if (isIOS) {
+                // iPhone için: Veriyi PHP'ye POST et (Bu sayede Takvim otomatik açılır)
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = window.location.href;
+                
+                const inputContent = document.createElement('input');
+                inputContent.type = 'hidden';
+                inputContent.name = 'ics_content';
+                inputContent.value = icsContent;
+                
+                const inputAction = document.createElement('input');
+                inputAction.type = 'hidden';
+                inputAction.name = 'download_ics';
+                inputAction.value = '1';
+                
+                form.appendChild(inputContent);
+                form.appendChild(inputAction);
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+            } else {
+                // Diğer cihazlar (Android/Masaüstü): Standart Blob indirme
+                const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.setAttribute('download', 'IFF_Kisisel_Programim.ics');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
         });
 
         updateUI();
