@@ -102,7 +102,7 @@ if ($bg_color) {
                                         <div class="w-8 h-8 bg-red/10 flex items-center justify-center rounded-full text-red">
                                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                         </div>
-                                        <h3 class="text-xl font-heading font-bold text-warmgray tracking-wider"><?php echo mb_convert_case($mekan_adi, MB_CASE_UPPER, "UTF-8"); ?></h3>
+                                        <h3 class="text-xl font-heading font-bold text-warmgray tracking-wider"><?php echo esc_html($mekan_adi); ?></h3>
                                     </div>
 
                                     <div class="space-y-8">
