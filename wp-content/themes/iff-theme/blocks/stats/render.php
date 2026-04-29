@@ -7,13 +7,20 @@ $baslik = get_field('baslik') ?: 'İşçi Filmleri Festivali 1 Mayıs – 31 Ara
 $alt_metin = get_field('alt_metin') ?: '"Binlerce seyirciye ulaştık..."';
 
 // Gutenberg Ek CSS Sınıfları
-$className = 'py-16 px-6 bg-warmgray text-white stats-block';
+$bg_color = get_field('arka_plan_rengi');
+$className = 'py-16 px-6 stats-block';
+if (!$bg_color) {
+    $className .= ' bg-warmgray text-white';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
 <!-- Rakamlarla IFF -->
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="container mx-auto">
         <div class="border-l-8 border-orange pl-6 mb-12">
             <h2 class="font-custom text-4xl md:text-5xl font-bold uppercase tracking-tighter">

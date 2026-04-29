@@ -15,13 +15,20 @@ $dosya_2_link = get_field('dosya_2_link') ?: '#';
 $pdf_url = get_field('pdf_url'); // İframe için PDF linki
 
 // Gutenberg Ek CSS Sınıfları
-$className = 'py-20 px-6 bg-cream border-t-2 border-orange/10 press-kit-block';
+$bg_color = get_field('arka_plan_rengi');
+$className = 'py-20 px-6 border-t-2 border-orange/10 press-kit-block';
+if (!$bg_color) {
+    $className .= ' bg-cream';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
 <!-- Basın Kiti ve Gömülü PDF -->
-<section id="press" class="<?php echo esc_attr($className); ?>">
+<section id="press" class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="container mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>

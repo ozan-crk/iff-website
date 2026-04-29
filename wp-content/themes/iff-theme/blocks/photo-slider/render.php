@@ -18,13 +18,20 @@ if (empty($fotograflar)) {
 }
 
 // Gutenberg Ek CSS Sınıfları
-$className = 'py-20 px-6 bg-white photo-slider-block';
+$bg_color = get_field('arka_plan_rengi');
+$className = 'py-20 px-6 photo-slider-block';
+if (!$bg_color) {
+    $className .= ' bg-white';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
 <!-- Mini Fotoğraf Slider'ı Bölümü -->
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="container mx-auto">
         <div class="flex items-center space-x-6 mb-12">
             <h2 class="text-3xl font-heading font-bold uppercase shrink-0"><?php echo esc_html($baslik); ?></h2>

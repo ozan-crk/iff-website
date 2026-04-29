@@ -26,13 +26,20 @@ $default_links = [
 ];
 
 // Gutenberg Ek CSS Sınıfları
-$className = 'py-20 px-6 bg-white border-t-4 border-red quick-links-block';
+$bg_color = get_field('arka_plan_rengi');
+$className = 'py-20 px-6 border-t-4 border-red quick-links-block';
+if (!$bg_color) {
+    $className .= ' bg-white';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
 <!-- Hızlı Erişim Linkleri & Sosyal Medya -->
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="container mx-auto footer-grid grid grid-cols-1 md:grid-cols-4 gap-12">
         <div class="md:col-span-2">
             <h3 class="text-2xl font-heading font-bold mb-6 italic uppercase tracking-tighter"><?php echo esc_html($baslik); ?></h3>

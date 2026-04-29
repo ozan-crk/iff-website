@@ -25,13 +25,20 @@ $renkler = ['bg-orange', 'bg-red', 'bg-darkorange'];
 $renk_index = 0;
 
 // Gutenberg Ek CSS Sınıfları
-$className = 'py-20 px-6 bg-white border-y-2 border-orange/20 news-block';
+$bg_color = get_field('arka_plan_rengi');
+$className = 'py-20 px-6 border-y-2 border-orange/20 news-block';
+if (!$bg_color) {
+    $className .= ' bg-white';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
 <!-- Haberler Alanı -->
-<section id="news" class="<?php echo esc_attr($className); ?>">
+<section id="news" class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="container mx-auto">
         <div class="flex justify-between items-end mb-12">
             <h2 class="text-4xl font-custom font-bold uppercase tracking-tight"><?php echo esc_html($baslik); ?></h2>

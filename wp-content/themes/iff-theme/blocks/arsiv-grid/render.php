@@ -19,13 +19,16 @@ if (!empty($secilen_kategori)) {
 $arsiv_query = new WP_Query($args);
 
 // Gutenberg Ek CSS Sınıfları
-$className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 arsiv-grid-block';
+$bg_color = get_field('arka_plan_rengi');
+$className = 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 arsiv-grid-block p-4';
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
 <!-- Arşiv Grid Bloğu -->
-<div class="<?php echo esc_attr($className); ?>">
+<div class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <?php if ($arsiv_query->have_posts()): ?>
         <?php while ($arsiv_query->have_posts()): $arsiv_query->the_post(); 
             $link = get_permalink();

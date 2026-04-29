@@ -29,13 +29,17 @@ $default_banners = [
 ];
 
 // Gutenberg Ek CSS Sınıfları
+$bg_color = get_field('arka_plan_rengi');
 $className = 'py-12 px-6 banners-block';
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
 <!-- Bannerlar -->
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <?php if (have_rows('bannerlar')): ?>

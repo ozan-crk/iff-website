@@ -1,0 +1,17 @@
+{
+    "name": "acf/separator",
+    "title": "Seperator (Ayırıcı)",
+    "description": "Bölümler arasına boşluk ve renk eklemek için kullanılır.",
+    "category": "design",
+    "icon": "minus",
+    "keywords": ["separator", "space", "ayırıcı", "boşluk"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "render.php"
+    },
+    "supports": {
+        "anchor": true,
+        "align": false,
+        "html": false
+    }
+}

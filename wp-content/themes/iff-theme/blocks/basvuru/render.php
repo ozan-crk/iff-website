@@ -18,12 +18,19 @@ $gonullu_link_metin = get_field('gonullu_link_metin') ?: 'Gönüllü Başvuru Fo
 $gonullu_link_url = get_field('gonullu_link_url') ?: '#';
 
 // Gutenberg Ek CSS Sınıfları
+$bg_color = get_field('arka_plan_rengi');
 $className = 'mb-24 basvuru-block';
+if ($bg_color) {
+    $className .= ' p-8 md:p-12';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <h2 class="text-6xl font-heading font-bold text-red mb-12 uppercase tracking-tighter"><?php echo esc_html($baslik); ?></h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12">

@@ -26,7 +26,12 @@ if (!empty($block['className'])) {
 ?>
 
 <section id="yonergeler" class="yonergeler-block mb-24 <?php echo esc_attr($className); ?>">
-    <div class="bg-cream p-12 border-4 border-orange modern-shadow relative overflow-hidden">
+    <?php
+    $bg_color = get_field('arka_plan_rengi');
+    $bg_class = $bg_color ? '' : 'bg-cream';
+    $style = $bg_color ? "background-color: {$bg_color};" : "";
+    ?>
+    <div class="<?php echo $bg_class; ?> p-12 border-4 border-orange modern-shadow relative overflow-hidden" style="<?php echo esc_attr($style); ?>">
         <h2 class="text-4xl font-custom mb-8 text-warmgray   tracking-tighter border-b-4 border-orange inline-block">
             <?php echo esc_html($baslik); ?>
         </h2>

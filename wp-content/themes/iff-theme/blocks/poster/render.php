@@ -16,13 +16,20 @@ $buton_2_link = get_field('buton_2_link') ?: '#';
 $gorsel = get_field('gorsel') ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg';
 
 // Gutenberg Ek CSS Sınıfları
-$className = 'py-20 px-6 bg-warmgray text-white poster-block';
+$bg_color = get_field('arka_plan_rengi');
+$className = 'py-20 px-6 poster-block';
+if (!$bg_color) {
+    $className .= ' bg-warmgray text-white';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
 <!-- Aktif Festivalin Afişi -->
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="container mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         <div class="relative">
             <div class="border-8 border-orange modern-shadow relative z-10 overflow-hidden">

@@ -4,12 +4,19 @@
  */
 
 // Gutenberg Ek CSS Sınıfları
+$bg_color = get_field('arka_plan_rengi');
 $className = 'basin-block';
+if ($bg_color) {
+    $className .= ' p-8 md:p-12';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <h2 class="text-6xl font-heading font-bold text-red mb-16 uppercase tracking-tighter">BASIN ODASI</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12">

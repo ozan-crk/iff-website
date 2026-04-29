@@ -19,13 +19,19 @@ if ($sehir_adi && $wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_nam
 }
 
 // Gutenberg Ek CSS Sınıfları
+$bg_color = get_field('arka_plan_rengi');
 $className = 'city-program-block mb-24';
 if (!empty($block['className'])) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
+if ($bg_color) {
+    $className .= ' p-8 md:p-12'; // Arka plan varsa iç boşluk ekle
+}
 ?>
 
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <!-- Orijinal Başlık Yapısı (Sola Yaslı) -->
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b-8 border-orange pb-6">
         <div>

@@ -61,6 +61,9 @@ function iff_register_acf_blocks() {
 
         // Şehir Programı Bloğu
         register_block_type( __DIR__ . '/blocks/city-program' );
+
+        // Seperator Bloğu
+        register_block_type( __DIR__ . '/blocks/separator' );
     }
 }
 add_action( 'acf/init', 'iff_register_acf_blocks' );

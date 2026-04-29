@@ -12,7 +12,12 @@ $icerik = get_field('icerik') ?: '
 ';
 ?>
 <section class="mb-24 neden-iff-block">
-    <div class="bg-warmgray text-white p-12 border-4 border-white modern-shadow">
+    <?php
+    $bg_color = get_field('arka_plan_rengi');
+    $bg_class = $bg_color ? '' : 'bg-warmgray';
+    $style = $bg_color ? "background-color: {$bg_color};" : "";
+    ?>
+    <div class="<?php echo $bg_class; ?> text-white p-12 border-4 border-white modern-shadow" style="<?php echo esc_attr($style); ?>">
         <h2 class="text-5xl font-heading font-bold text-orange mb-12 uppercase tracking-tighter border-b-8 border-orange inline-block"><?php echo esc_html($baslik); ?></h2>
         <div class="font-serif text-lg leading-relaxed space-y-6 text-gray-300">
             <?php echo wp_kses_post($icerik); ?>

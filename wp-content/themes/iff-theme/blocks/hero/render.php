@@ -14,12 +14,19 @@ $aciklama = get_field('aciklama') ?: '21. Uluslararası İşçi Filmleri Festiva
 $gorsel = get_field('gorsel') ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg';
 
 // Gutenberg Ek CSS Sınıfları
-$className = 'py-12 bg-cream hero-block';
+$bg_color = get_field('arka_plan_rengi');
+$className = 'py-12 hero-block';
+if (!$bg_color) {
+    $className .= ' bg-cream';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="container mx-auto px-6">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center min-h-[520px]">
             <div class="lg:col-span-7 space-y-8">

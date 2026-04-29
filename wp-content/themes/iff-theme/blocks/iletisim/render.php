@@ -13,12 +13,19 @@ $koordinasyon_metin = get_field('koordinasyon_metin') ?: '
 ';
 
 // Gutenberg Ek CSS Sınıfları
+$bg_color = get_field('arka_plan_rengi');
 $className = 'mb-24 iletisim-block';
+if ($bg_color) {
+    $className .= ' p-8 md:p-12';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
-<section class="<?php echo esc_attr($className); ?>">
+<section class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
         <!-- İletişim Bilgileri -->
         <div class="space-y-12">

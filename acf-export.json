@@ -124,6 +124,12 @@
                 "label": "Kısa Metin",
                 "name": "kisa_metin",
                 "type": "text"
+            },
+            {
+                "key": "field_il_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -213,6 +219,12 @@
                 "label": "Gönüllü Link URL",
                 "name": "gonullu_link_url",
                 "type": "url"
+            },
+            {
+                "key": "field_bs_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -248,6 +260,12 @@
                 "label": "İçerik",
                 "name": "icerik",
                 "type": "wysiwyg"
+            },
+            {
+                "key": "field_ni_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -295,6 +313,12 @@
                 "label": "Buton Linki",
                 "name": "buton_link",
                 "type": "url"
+            },
+            {
+                "key": "field_kf_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -354,6 +378,12 @@
                     "solid-gray": "Koyu Gri Dolu"
                 },
                 "default_value": "solid-orange"
+            },
+            {
+                "key": "field_yn_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -477,6 +507,12 @@
                 "label": "İletişim Tel",
                 "name": "iletisim_tel",
                 "type": "text"
+            },
+            {
+                "key": "field_bsn_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -548,6 +584,13 @@
                         "label": "Buton Linki",
                         "name": "buton_linki",
                         "type": "url"
+                    },
+                    {
+                        "key": "field_hr_btn_alt_satir",
+                        "label": "Alt Satıra Geç?",
+                        "name": "alt_satir",
+                        "type": "true_false",
+                        "ui": 1
                     }
                 ]
             },
@@ -557,6 +600,12 @@
                 "name": "gorsel",
                 "type": "image",
                 "return_format": "url"
+            },
+            {
+                "key": "field_hr_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -612,6 +661,12 @@
                         "type": "text"
                     }
                 ]
+            },
+            {
+                "key": "field_st_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -656,6 +711,12 @@
                         "return_format": "url"
                     }
                 ]
+            },
+            {
+                "key": "field_ps_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -718,6 +779,12 @@
                         "type": "text"
                     }
                 ]
+            },
+            {
+                "key": "field_bn_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -783,6 +850,12 @@
                 "label": "PDF İframe URL",
                 "name": "pdf_url",
                 "type": "url"
+            },
+            {
+                "key": "field_pk_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -833,6 +906,12 @@
                 "taxonomy": "category",
                 "field_type": "select",
                 "return_format": "id"
+            },
+            {
+                "key": "field_nw_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -868,6 +947,12 @@
                 "label": "Açıklama",
                 "name": "aciklama",
                 "type": "text"
+            },
+            {
+                "key": "field_pg_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -940,6 +1025,12 @@
                 "name": "gorsel",
                 "type": "image",
                 "return_format": "url"
+            },
+            {
+                "key": "field_po_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -1039,6 +1130,12 @@
                         "type": "url"
                     }
                 ]
+            },
+            {
+                "key": "field_ql_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -1093,6 +1190,12 @@
                 "name": "arsiv_linki",
                 "type": "url",
                 "instructions": "Tıklandığında yazı detayı yerine buraya gider."
+            },
+            {
+                "key": "field_ag_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -1447,6 +1550,12 @@
                         "default_value": "red"
                     }
                 ]
+            },
+            {
+                "key": "field_cp_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
             }
         ],
         "location": [
@@ -1455,6 +1564,42 @@
                     "param": "block",
                     "operator": "==",
                     "value": "acf/city-program"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    },
+    {
+        "key": "group_separator",
+        "title": "Seperator (Ayırıcı)",
+        "fields": [
+            {
+                "key": "field_sep_yukseklik",
+                "label": "Yükseklik (px)",
+                "name": "yukseklik",
+                "type": "number",
+                "default_value": 80
+            },
+            {
+                "key": "field_sep_arka_plan_rengi",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "block",
+                    "operator": "==",
+                    "value": "acf/separator"
                 }
             ]
         ],

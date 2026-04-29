@@ -26,13 +26,20 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
 }
 
 // Gutenberg Ek CSS Sınıfları
-$className = 'py-24 px-6 bg-cream program-block';
+$bg_color = get_field('arka_plan_rengi');
+$className = 'py-24 px-6 program-block';
+if (!$bg_color) {
+    $className .= ' bg-cream';
+}
+
 if( !empty($block['className']) ) {
     $className .= ' ' . $block['className'];
 }
+
+$style = $bg_color ? "background-color: {$bg_color};" : "";
 ?>
 <!-- Aylık Gösterim Programları - İl İl -->
-<section id="program" class="<?php echo esc_attr($className); ?>">
+<section id="program" class="<?php echo esc_attr($className); ?>" style="<?php echo esc_attr($style); ?>">
     <div class="container mx-auto">
         <div class="text-center mb-16">
             <h2 class="text-4xl font-custom font-bold mb-4 uppercase tracking-tighter"><?php echo esc_html($baslik); ?></h2>
