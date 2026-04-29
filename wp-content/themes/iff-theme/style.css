@@ -7,3 +7,45 @@ Description: Uluslararası İşçi Filmleri Festivali V2 Teması
 Version: 1.0.0
 Text Domain: iff-theme
 */
+
+.post-content {
+    font-size: 1.125rem;
+    line-height: 1.8;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-content h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--warmgray, #2C2C2C);
+}
+
+.post-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--warmgray, #2C2C2C);
+}
+
+.post-content ul, .post-content ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.post-content li {
+    margin-bottom: 0.5rem;
+}
+
+.post-content blockquote {
+    border-left: 4px solid var(--orange, #FF6B35);
+    padding-left: 1.5rem;
+    font-style: italic;
+    margin: 2rem 0;
+    color: #666;
+}

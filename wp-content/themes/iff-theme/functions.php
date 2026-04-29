@@ -103,3 +103,117 @@ add_filter('use_block_editor_for_post_type', function($use_block_editor, $post_t
     }
     return $use_block_editor;
 }, 10, 2);
+
+// Blok bazlı bileşen editörünü devre dışı bırak (Klasik bileşenler için)
+add_filter( 'use_widgets_block_editor', '__return_false' );
+/**
+ * Custom Widget: IFF Son Yazılar
+ */
+class IFF_Recent_Posts_Widget extends WP_Widget {
+    public function __construct() {
+        parent::__construct(
+            'iff_recent_posts',
+            'IFF: Son Yazılar',
+            array( 'description' => 'Görselli son yazılar listesi (Kategori filtreli)' )
+        );
+    }
+
+    public function widget( $args, $instance ) {
+        echo $args['before_widget'];
+        if ( ! empty( $instance['title'] ) ) {
+            echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+        }
+
+        $query_args = array(
+            'posts_per_page' => 5,
+            'post_status'    => 'publish'
+        );
+
+        if ( ! empty( $instance['category'] ) && $instance['category'] > 0 ) {
+            $query_args['cat'] = $instance['category'];
+        }
+
+        $query = new WP_Query( $query_args );
+
+        if ( $query->have_posts() ) {
+            echo '<div class="space-y-6">';
+            while ( $query->have_posts() ) {
+                $query->the_post();
+                ?>
+                <a href="<?php the_permalink(); ?>" class="flex items-center group">
+                    <?php if ( has_post_thumbnail() ) : ?>
+                        <div class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-sm mr-4 bg-gray-100">
+                            <?php the_post_thumbnail( 'thumbnail', array( 'class' => 'w-full h-full object-cover transition-transform group-hover:scale-110' ) ); ?>
+                        </div>
+                    <?php else : ?>
+                        <div class="w-16 h-16 flex-shrink-0 bg-gray-50 flex items-center justify-center mr-4 rounded-sm border border-gray-100 overflow-hidden">
+                             <img src="https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29035326/iff-logo.jpg" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity" alt="IFF">
+                        </div>
+                    <?php endif; ?>
+                    <div class="flex-1">
+                        <h4 class="text-sm font-bold text-warmgray leading-snug group-hover:text-red transition-colors line-clamp-2 uppercase font-heading">
+                            <?php the_title(); ?>
+                        </h4>
+                        <span class="text-[10px] uppercase tracking-widest text-gray-400 mt-1 block font-heading">
+                            <?php echo get_the_date(); ?>
+                        </span>
+                    </div>
+                </a>
+                <?php
+            }
+            echo '</div>';
+            wp_reset_postdata();
+        }
+        echo $args['after_widget'];
+    }
+
+    public function form( $instance ) {
+        $title = ! empty( $instance['title'] ) ? $instance['title'] : 'Son Yazılar';
+        $category = ! empty( $instance['category'] ) ? $instance['category'] : 0;
+        ?>
+        <p>
+            <label for="<?php echo $this->get_field_id( 'title' ); ?>">Başlık:</label>
+            <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
+        </p>
+        <p>
+            <label for="<?php echo $this->get_field_id( 'category' ); ?>">Kategori Seçin:</label>
+            <?php 
+            wp_dropdown_categories( array(
+                'show_option_all' => 'Tüm Kategoriler',
+                'name'            => $this->get_field_name( 'category' ),
+                'id'              => $this->get_field_id( 'category' ),
+                'selected'        => $category,
+                'class'           => 'widefat',
+                'hierarchical'    => true,
+            ) ); 
+            ?>
+        </p>
+        <?php
+    }
+
+    public function update( $new_instance, $old_instance ) {
+        $instance = array();
+        $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
+        $instance['category'] = ( ! empty( $new_instance['category'] ) ) ? (int) $new_instance['category'] : 0;
+        return $instance;
+    }
+}
+
+/**
+ * Register Sidebar and Widgets
+ */
+function iff_widgets_init() {
+    register_sidebar( array(
+        'name'          => 'Yazı Yan Menü',
+        'id'            => 'post-sidebar',
+        'before_widget' => '<div id="%1$s" class="widget %2$s mb-12 bg-white p-6 shadow-lg border-l-4 border-red">',
+        'after_widget'  => '</div>',
+        'before_title'  => '<h3 class="widget-title text-xl font-heading font-bold mb-4 uppercase tracking-wider text-warmgray border-b border-gray-100 pb-2">',
+        'after_title'   => '</h3>',
+    ) );
+
+    register_widget( 'IFF_Recent_Posts_Widget' );
+}
+add_action( 'widgets_init', 'iff_widgets_init' );
+
+
