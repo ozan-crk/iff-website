@@ -1371,8 +1371,8 @@
                         "choices": {
                             "bg-warmgray text-white": "Siyah (Standart)",
                             "bg-red text-white": "Kırmızı",
-                            "border-2 border-warmgray text-warmgray": "İçi Boş Siyah",
-                            "border-2 border-red text-red": "İçi Boş Kırmızı"
+                            "border-2 border-warmgray text-warmgray hover:text-white": "İçi Boş Siyah",
+                            "border-2 border-red text-red hover:text-white": "İçi Boş Kırmızı"
                         }
                     }
                 ]

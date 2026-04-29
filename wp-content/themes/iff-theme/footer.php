@@ -84,7 +84,13 @@
         downloadBtn.addEventListener('click', () => {
             if (program.length === 0) return;
 
-            let icsContent = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//IFF//Festival Program//TR\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\n";
+            const escapeICS = (str) => {
+                if (!str) return "";
+                return str.replace(/[\\,;]/g, (match) => `\\${match}`)
+                          .replace(/\n/g, '\\n');
+            };
+
+            let icsContent = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//IFF//Festival Program//TR\r\nCALSCALE:GREGORIAN\r\nMETHOD:PUBLISH\r\n";
             
             program.forEach(item => {
                 // Date format: 01.05.2026 -> 20260501
@@ -103,15 +109,15 @@
                 const endFormattedTime = endDateObj.getHours().toString().padStart(2, '0') + 
                                        endDateObj.getMinutes().toString().padStart(2, '0') + "00";
 
-                icsContent += "BEGIN:VEVENT\n";
-                icsContent += `UID:${item.id}@iff.org.tr\n`;
-                icsContent += `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\n`;
-                icsContent += `DTSTART:${formattedDate}T${formattedTime}\n`;
-                icsContent += `DTEND:${formattedDate}T${endFormattedTime}\n`;
-                icsContent += `SUMMARY:${item.title}\n`;
-                icsContent += `LOCATION:${item.venue}\n`;
-                icsContent += "DESCRIPTION:İşçi Filmleri Festivali Gösterimi\\nKişisel Festival Programınızdan oluşturuldu.\n";
-                icsContent += "END:VEVENT\n";
+                icsContent += "BEGIN:VEVENT\r\n";
+                icsContent += `UID:${item.id}-${Date.now()}@iff.org.tr\r\n`;
+                icsContent += `DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0]}Z\r\n`;
+                icsContent += `DTSTART:${formattedDate}T${formattedTime}\r\n`;
+                icsContent += `DTEND:${formattedDate}T${endFormattedTime}\r\n`;
+                icsContent += `SUMMARY:${escapeICS(item.title)}\r\n`;
+                icsContent += `LOCATION:${escapeICS(item.venue)}\r\n`;
+                icsContent += "DESCRIPTION:İşçi Filmleri Festivali Gösterimi\\nKişisel Festival Programınızdan oluşturuldu.\r\n";
+                icsContent += "END:VEVENT\r\n";
             });
 
             icsContent += "END:VCALENDAR";
