@@ -2,7 +2,7 @@
 /**
  * Plugin Name: IFF Gösterim Programı Yöneticisi
  * Description: İşçi Filmleri Festivali için Excel'den program aktarma ve düzenleme aracı.
- * Version: 1.1
+ * Version: 1.2
  * Author: IFF
  */
 
@@ -23,6 +23,9 @@ class IFF_Program_Manager {
         add_action('admin_post_iff_upload_excel', [$this, 'handle_excel_upload']);
         add_action('admin_post_iff_delete_program', [$this, 'handle_delete']);
         add_action('admin_post_iff_save_program', [$this, 'handle_save']);
+        
+        // Eklenti güncellendiğinde tabloyu kontrol et
+        add_action('admin_init', [$this, 'create_table']);
     }
 
     public function create_table() {
@@ -36,6 +39,9 @@ class IFF_Program_Manager {
             tarih varchar(50) NOT NULL,
             saat varchar(20) NOT NULL,
             film_adi varchar(255) NOT NULL,
+            sure varchar(50) DEFAULT '',
+            etkinlik varchar(255) DEFAULT '',
+            is_special tinyint(1) DEFAULT 0,
             PRIMARY KEY  (id)
         ) $charset_collate;";
 
@@ -56,7 +62,6 @@ class IFF_Program_Manager {
     }
 
     private function normalize_text($text) {
-        // Türkçe karakterleri de kapsayan Title Case (İlk Harf Büyük) dönüşümü
         return mb_convert_case(trim($text), MB_CASE_TITLE, "UTF-8");
     }
 
@@ -82,7 +87,7 @@ class IFF_Program_Manager {
         // Excel Yükleme Formu
         echo '<div class="card" style="max-width:100%; margin-top:20px; padding:20px;">';
         echo '<h2>Excel\'den Toplu İçe Aktar (.xlsx)</h2>';
-        echo '<p>Sütun sırası: <strong>Şehir | Mekan | Tarih | Saat | Film Adı</strong>.</p>';
+        echo '<p>Sütun sırası: <strong>Şehir | Mekan | Tarih | Saat | Film Adı | Süre | Etkinlik | Özel Gösterim(1/0)</strong>.</p>';
         echo '<form action="' . esc_url(admin_url('admin-post.php')) . '" method="post" enctype="multipart/form-data">';
         echo '<input type="hidden" name="action" value="iff_upload_excel">';
         wp_nonce_field('iff_upload_excel_nonce');
@@ -106,6 +111,9 @@ class IFF_Program_Manager {
         echo '<tr><th>Tarih</th><td><input type="date" name="tarih" value="' . ($edit_row ? esc_attr($edit_row->tarih) : '') . '" required></td></tr>';
         echo '<tr><th>Saat</th><td><input type="time" name="saat" value="' . ($edit_row ? esc_attr($edit_row->saat) : '') . '" required></td></tr>';
         echo '<tr><th>Film Adı</th><td><input type="text" name="film_adi" value="' . ($edit_row ? esc_attr($edit_row->film_adi) : '') . '" required></td></tr>';
+        echo '<tr><th>Süre</th><td><input type="text" name="sure" value="' . ($edit_row ? esc_attr($edit_row->sure) : '') . '" placeholder="Örn: 90 dk"></td></tr>';
+        echo '<tr><th>Etkinlik</th><td><input type="text" name="etkinlik" value="' . ($edit_row ? esc_attr($edit_row->etkinlik) : '') . '" placeholder="Örn: Yönetmen Söyleşisi"></td></tr>';
+        echo '<tr><th>Özel Gösterim</th><td><label><input type="checkbox" name="is_special" value="1" ' . ($edit_row && $edit_row->is_special ? 'checked' : '') . '> Bu özel bir gösterimdir</label></td></tr>';
         echo '</table>';
         
         echo '<p class="submit"><input type="submit" class="button button-primary" value="Kaydet">';
@@ -117,7 +125,7 @@ class IFF_Program_Manager {
         // Tablo
         echo '<h2 style="margin-top:40px;">Kayıtlı Programlar</h2>';
         echo '<table class="wp-list-table widefat fixed striped">';
-        echo '<thead><tr><th>Şehir</th><th>Mekan</th><th>Tarih</th><th>Saat</th><th>Film Adı</th><th>İşlemler</th></tr></thead>';
+        echo '<thead><tr><th>Şehir</th><th>Mekan</th><th>Tarih</th><th>Saat</th><th>Film Adı</th><th>Süre</th><th>Etkinlik</th><th>Özel</th><th>İşlemler</th></tr></thead>';
         echo '<tbody>';
         if ($results) {
             foreach ($results as $row) {
@@ -128,6 +136,9 @@ class IFF_Program_Manager {
                 echo '<td>' . esc_html($row->tarih) . '</td>';
                 echo '<td>' . esc_html($row->saat) . '</td>';
                 echo '<td>' . esc_html($row->film_adi) . '</td>';
+                echo '<td>' . esc_html($row->sure) . '</td>';
+                echo '<td>' . esc_html($row->etkinlik) . '</td>';
+                echo '<td>' . ($row->is_special ? '<span class="dashicons dashicons-star-filled" style="color:orange;"></span>' : '') . '</td>';
                 echo '<td>
                         <a href="?page=iff-program-manager&edit=' . $row->id . '">Düzenle</a> | 
                         <a href="' . esc_url($delete_url) . '" style="color:red;" onclick="return confirm(\'Silmek istediğinize emin misiniz?\')">Sil</a>
@@ -135,7 +146,7 @@ class IFF_Program_Manager {
                 echo '</tr>';
             }
         } else {
-            echo '<tr><td colspan="6">Henüz kayıt yok.</td></tr>';
+            echo '<tr><td colspan="9">Henüz kayıt yok.</td></tr>';
         }
         echo '</tbody></table>';
 
@@ -159,11 +170,14 @@ class IFF_Program_Manager {
                     $row = $rows[$i];
                     if (count($row) >= 5 && !empty($row[0])) {
                         $wpdb->insert($this->table_name, [
-                            'sehir' => $this->normalize_text($row[0]),
-                            'mekan' => $this->normalize_text($row[1]),
-                            'tarih' => sanitize_text_field($row[2]),
-                            'saat'  => sanitize_text_field($row[3]),
-                            'film_adi' => sanitize_text_field($row[4]),
+                            'sehir'      => $this->normalize_text($row[0]),
+                            'mekan'      => $this->normalize_text($row[1]),
+                            'tarih'      => sanitize_text_field($row[2]),
+                            'saat'       => sanitize_text_field($row[3]),
+                            'film_adi'   => sanitize_text_field($row[4]),
+                            'sure'       => isset($row[5]) ? sanitize_text_field($row[5]) : '',
+                            'etkinlik'   => isset($row[6]) ? sanitize_text_field($row[6]) : '',
+                            'is_special' => (isset($row[7]) && $row[7] == '1') ? 1 : 0,
                         ]);
                     }
                 }
@@ -182,11 +196,14 @@ class IFF_Program_Manager {
         global $wpdb;
 
         $data = [
-            'sehir' => $this->normalize_text($_POST['sehir']),
-            'mekan' => $this->normalize_text($_POST['mekan']),
-            'tarih' => sanitize_text_field($_POST['tarih']),
-            'saat'  => sanitize_text_field($_POST['saat']),
-            'film_adi' => sanitize_text_field($_POST['film_adi']),
+            'sehir'      => $this->normalize_text($_POST['sehir']),
+            'mekan'      => $this->normalize_text($_POST['mekan']),
+            'tarih'      => sanitize_text_field($_POST['tarih']),
+            'saat'       => sanitize_text_field($_POST['saat']),
+            'film_adi'   => sanitize_text_field($_POST['film_adi']),
+            'sure'       => sanitize_text_field($_POST['sure']),
+            'etkinlik'   => sanitize_text_field($_POST['etkinlik']),
+            'is_special' => isset($_POST['is_special']) ? 1 : 0,
         ];
 
         if (isset($_POST['id']) && !empty($_POST['id'])) {

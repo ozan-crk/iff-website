@@ -57,15 +57,40 @@ if( !empty($block['className']) ) {
                         <div class="space-y-6 city-content" id="city-<?php echo esc_attr($slug); ?>"
                             style="display: <?php echo $first ? 'block' : 'none'; ?>;">
                             <?php foreach ($items as $item): ?>
-                                <div class="flex justify-between items-center border-b border-orange/20 pb-4">
-                                    <div>
-                                        <h4 class="font-bold text-lg font-heading">Film: <?php echo esc_html($item->film_adi); ?>
-                                        </h4>
-                                        <p class="text-gray-600 font-serif text-sm">Yer: <?php echo esc_html($item->mekan); ?></p>
+                                <div class="flex flex-col md:flex-row justify-between md:items-center border-b border-orange/20 pb-6 pt-2">
+                                    <div class="mb-4 md:mb-0">
+                                        <div class="flex items-center gap-3 mb-1">
+                                            <h4 class="font-bold text-lg font-heading text-warmgray">
+                                                <?php echo esc_html($item->film_adi); ?>
+                                            </h4>
+                                            <?php if (isset($item->is_special) && $item->is_special): ?>
+                                                <span class="bg-red text-white text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Özel Gösterim</span>
+                                            <?php endif; ?>
+                                        </div>
+                                        
+                                        <div class="flex flex-wrap items-center gap-4 text-sm text-gray-500 font-serif">
+                                            <span class="flex items-center">
+                                                <svg class="w-3.5 h-3.5 mr-1 text-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                                <?php echo esc_html($item->mekan); ?>
+                                            </span>
+                                            <?php if (!empty($item->sure)): ?>
+                                                <span class="flex items-center">
+                                                    <svg class="w-3.5 h-3.5 mr-1 text-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                    <?php echo esc_html($item->sure); ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <?php if (!empty($item->etkinlik)): ?>
+                                            <div class="mt-2 inline-flex items-center bg-gray-50 border-l-4 border-red px-3 py-1 text-xs text-warmgray italic font-serif">
+                                                <svg class="w-3 h-3 mr-2 text-red" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path></svg>
+                                                <?php echo esc_html($item->etkinlik); ?>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
-                                    <div class="text-right">
-                                        <span class="block font-bold text-orange"><?php echo esc_html($item->saat); ?></span>
-                                        <span class="text-xs text-gray-500 uppercase"><?php echo esc_html($item->tarih); ?></span>
+                                    <div class="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-0">
+                                        <span class="block font-bold text-2xl text-red md:text-orange font-heading"><?php echo esc_html($item->saat); ?></span>
+                                        <span class="text-xs text-gray-500 uppercase tracking-widest font-heading"><?php echo esc_html($item->tarih); ?></span>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
