@@ -3,8 +3,8 @@
  * Tema Alt Kısmı (Footer)
  */
 ?>
-    <!-- Personal Program Floating UI -->
-    <div id="personal-program-bar" class="fixed bottom-0 left-0 right-0 bg-red text-white py-4 px-6 transform translate-y-full transition-transform duration-500 z-[100] shadow-2xl flex flex-col md:flex-row justify-between items-center gap-4">
+    <!-- Personal Program Floating UI (Şimdilik Gizli) -->
+    <div id="personal-program-bar" style="display: none !important;" class="fixed bottom-0 left-0 right-0 bg-red text-white py-4 px-6 transform translate-y-full transition-transform duration-500 z-[100] shadow-2xl flex flex-col md:flex-row justify-between items-center gap-4">
         <div class="flex items-center gap-4">
             <div class="bg-white text-red w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg shadow-inner" id="personal-program-count">0</div>
             <div>
