@@ -102,28 +102,42 @@ if (!empty($block['className'])) {
                                     <div class="space-y-8">
                                         <?php 
                                         $sessions = [];
-                                        foreach ($items as $item) { $sessions[$item->saat][] = $item; }
-
-                                        foreach ($sessions as $saat => $session_items): 
+                                        foreach ($items as $item) { $sessions[$item->                                        foreach ($sessions as $saat => $session_items): 
                                             $is_multi = count($session_items) > 1;
+                                            $has_gala = false;
+                                            foreach($session_items as $si) if(isset($si->is_gala) && $si->is_gala) $has_gala = true;
                                         ?>
-                                            <div class="session-block <?php echo $is_multi ? 'border-y border-orange/20 py-8 my-4' : ''; ?>">
-                                                <?php if ($is_multi): ?>
-                                                    <div class="text-[9px] font-heading font-bold text-red uppercase tracking-[0.4em] mb-8 flex items-center gap-4">
+                                            <div class="session-block <?php echo $is_multi ? 'border-y border-orange/20 py-8 my-4' : ''; ?> <?php echo $has_gala ? 'gala-session' : ''; ?>">
+                                                <?php if ($has_gala): ?>
+                                                    <div class="bg-red text-white text-center py-2 px-4 font-heading font-bold uppercase tracking-[0.3em] text-sm mb-8 -mx-6 md:-mx-8">
+                                                        <?php echo esc_html($session_items[0]->film_adi); ?>
+                                                    </div>
+                                                <?php elseif ($is_multi): ?>
+                                                    <div class="text-[9px] font-heading font-bold text-red uppercase tracking-[0.4em] mb-6 flex items-center gap-4">
                                                         <span class="flex-shrink-0">ORTAK SEANS</span>
                                                         <div class="h-[1px] w-full bg-orange/10"></div>
                                                     </div>
                                                 <?php endif; ?>
 
                                                 <div class="space-y-8">
-                                                    <?php foreach ($session_items as $idx => $item): ?>
+                                                    <?php foreach ($session_items as $idx => $item): 
+                                                        $is_item_gala = (isset($item->is_gala) && $item->is_gala);
+                                                    ?>
                                                         <div class="flex flex-col md:flex-row justify-between md:items-center <?php echo ($idx < count($session_items) - 1) ? 'border-b border-orange/5 pb-8' : ''; ?>">
                                                             <div class="mb-4 md:mb-0">
                                                                 <div class="flex flex-wrap items-center gap-3 mb-2">
-                                                                    <h4 class="font-bold text-lg font-heading text-warmgray leading-tight">
-                                                                        <?php echo esc_html($item->film_adi); ?>
-                                                                    </h4>
-                                                                    <?php if (isset($item->is_special) && $item->is_special): ?>
+                                                                    <?php if (!$has_gala): ?>
+                                                                        <h4 class="font-bold text-lg font-heading text-warmgray leading-tight">
+                                                                            <?php echo esc_html($item->film_adi); ?>
+                                                                        </h4>
+                                                                    <?php endif; ?>
+                                                                    
+                                                                    <?php if ($is_item_gala && !$has_gala): ?>
+                                                                        <span class="bg-orange text-white text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-widest shadow-md flex items-center gap-1.5">
+                                                                            <svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                                                            FESTİVAL GALASI
+                                                                        </span>
+                                                                    <?php elseif (isset($item->is_special) && $item->is_special): ?>
                                                                         <span class="bg-red text-white text-[9px] px-2 py-0.5 rounded-full font-bold uppercase tracking-widest shadow-sm">Özel Gösterim</span>
                                                                     <?php endif; ?>
                                                                 </div>
@@ -135,7 +149,21 @@ if (!empty($block['className'])) {
                                                                         </span>
                                                                     <?php endif; ?>
                                                                     <?php if (!empty($item->etkinlik)): ?>
-                                                                        <span class="text-red font-bold not-italic font-heading tracking-tight underline underline-offset-4 decoration-orange/30"><?php echo esc_html($item->etkinlik); ?></span>
+                                                                        <div class="text-red font-bold not-italic font-heading tracking-tight underline underline-offset-4 decoration-orange/30 leading-relaxed mt-4 bg-red/5 p-4 border-l-4 border-red">
+                                                                            <?php 
+                                                                            if ($has_gala) {
+                                                                                $parts = explode(',', $item->etkinlik);
+                                                                                foreach ($parts as $part) {
+                                                                                    echo '<div class="flex items-start gap-3 mb-2">
+                                                                                            <svg class="w-3 h-3 text-red mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"></path></svg>
+                                                                                            <span>' . esc_html(trim($part)) . '</span>
+                                                                                          </div>';
+                                                                                }
+                                                                            } else {
+                                                                                echo wp_kses_post(str_replace("\n", '<br>', $item->etkinlik)); 
+                                                                            }
+                                                                            ?>
+                                                                        </div>
                                                                     <?php endif; ?>
                                                                 </div>
                                                             </div>
@@ -152,6 +180,7 @@ if (!empty($block['className'])) {
                                                     <?php endforeach; ?>
                                                 </div>
                                             </div>
+                 </div>
                                         <?php endforeach; ?>
                                     </div>
                                 </div>

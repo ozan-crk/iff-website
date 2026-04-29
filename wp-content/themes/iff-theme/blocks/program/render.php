@@ -101,9 +101,15 @@ if( !empty($block['className']) ) {
 
                                                 foreach ($sessions as $saat => $session_items): 
                                                     $is_multi = count($session_items) > 1;
+                                                    $has_gala = false;
+                                                    foreach($session_items as $si) if(isset($si->is_gala) && $si->is_gala) $has_gala = true;
                                                 ?>
-                                                    <div class="session-block <?php echo $is_multi ? 'border-y border-orange/20 py-8 my-4' : ''; ?>">
-                                                        <?php if ($is_multi): ?>
+                                                    <div class="session-block <?php echo $is_multi ? 'border-y border-orange/20 py-8 my-4' : ''; ?> <?php echo $has_gala ? 'gala-session' : ''; ?>">
+                                                        <?php if ($has_gala): ?>
+                                                            <div class="bg-red text-white text-center py-2 px-4 font-heading font-bold uppercase tracking-[0.3em] text-sm mb-8 -mx-8 md:-mx-8">
+                                                                <?php echo esc_html($session_items[0]->film_adi); ?>
+                                                            </div>
+                                                        <?php elseif ($is_multi): ?>
                                                             <div class="text-[10px] font-heading font-bold text-red uppercase tracking-[0.4em] mb-8 flex items-center gap-4">
                                                                 <span class="flex-shrink-0">ORTAK SEANS</span>
                                                                 <div class="h-[1px] w-full bg-orange/10"></div>
@@ -111,44 +117,68 @@ if( !empty($block['className']) ) {
                                                         <?php endif; ?>
 
                                                         <div class="space-y-8">
-                                                            <?php foreach ($session_items as $index => $item): ?>
-                                                                <div class="flex flex-col md:flex-row justify-between md:items-center <?php echo ($index < count($session_items) - 1) ? 'border-b border-orange/5 pb-8' : ''; ?>">
-                                                                    <div class="mb-4 md:mb-0">
-                                                                        <div class="flex flex-wrap items-center gap-3 mb-2">
-                                                                            <h4 class="font-bold text-xl font-heading text-warmgray leading-tight">
-                                                                                <?php echo esc_html($item->film_adi); ?>
-                                                                            </h4>
-                                                                            <?php if (isset($item->is_special) && $item->is_special): ?>
-                                                                                <span class="bg-red text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest shadow-sm">Özel Gösterim</span>
-                                                                            <?php endif; ?>
-                                                                        </div>
-                                                                        
-                                                                        <div class="flex flex-wrap items-center gap-6 text-sm text-gray-500 font-serif">
-                                                                            <?php if (!empty($item->sure)): ?>
-                                                                                <span class="flex items-center bg-cream/50 px-2 py-1 rounded">
-                                                                                    <svg class="w-4 h-4 mr-2 text-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                                                                    <?php echo esc_html($item->sure); ?>
-                                                                                </span>
-                                                                            <?php endif; ?>
-                                                                        </div>
+                                                            <?php foreach ($session_items as $index => $item): 
+                                                                 $is_item_gala = (isset($item->is_gala) && $item->is_gala);
+                                                             ?>
+                                                                 <div class="flex flex-col md:flex-row justify-between md:items-center <?php echo ($index < count($session_items) - 1) ? 'border-b border-orange/5 pb-8' : ''; ?>">
+                                                                     <div class="mb-4 md:mb-0">
+                                                                         <div class="flex flex-wrap items-center gap-3 mb-2">
+                                                                             <?php if (!$has_gala): ?>
+                                                                                <h4 class="font-bold text-xl font-heading text-warmgray leading-tight">
+                                                                                    <?php echo esc_html($item->film_adi); ?>
+                                                                                </h4>
+                                                                             <?php endif; ?>
+                                                                             
+                                                                             <?php if ($is_item_gala && !$has_gala): ?>
+                                                                                 <span class="bg-orange text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest shadow-md flex items-center gap-2">
+                                                                                     <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                                                                     FESTİVAL GALASI
+                                                                                 </span>
+                                                                             <?php elseif (isset($item->is_special) && $item->is_special): ?>
+                                                                                 <span class="bg-red text-white text-[10px] px-3 py-1 rounded-full font-bold uppercase tracking-widest shadow-sm">Özel Gösterim</span>
+                                                                             <?php endif; ?>
+                                                                         </div>
+                                                                         
+                                                                         <div class="flex flex-wrap items-center gap-6 text-sm text-gray-500 font-serif">
+                                                                             <?php if (!empty($item->sure)): ?>
+                                                                                 <span class="flex items-center bg-cream/50 px-2 py-1 rounded">
+                                                                                     <svg class="w-4 h-4 mr-2 text-orange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                                                                     <?php echo esc_html($item->sure); ?>
+                                                                                 </span>
+                                                                             <?php endif; ?>
+                                                                         </div>
 
-                                                                        <?php if (!empty($item->etkinlik)): ?>
-                                                                            <div class="mt-4 inline-flex items-center bg-red/5 border-l-4 border-red px-4 py-2 text-sm text-warmgray italic font-serif rounded-r-md">
-                                                                                <svg class="w-4 h-4 mr-3 text-red" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path></svg>
-                                                                                <?php echo esc_html($item->etkinlik); ?>
+                                                                         <?php if (!empty($item->etkinlik)): ?>
+                                                                            <div class="mt-4 inline-flex items-start bg-red/5 border-l-4 border-red px-4 py-3 text-sm text-warmgray italic font-serif rounded-r-md w-full">
+                                                                                <svg class="w-4 h-4 mr-3 text-red mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"></path></svg>
+                                                                                <div class="leading-relaxed flex-1">
+                                                                                    <?php 
+                                                                                    if ($has_gala) {
+                                                                                        $parts = explode(',', $item->etkinlik);
+                                                                                        foreach ($parts as $part) {
+                                                                                            echo '<div class="flex items-start gap-3 mb-2">
+                                                                                                    <svg class="w-3 h-3 text-red mt-1 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z"></path></svg>
+                                                                                                    <span>' . esc_html(trim($part)) . '</span>
+                                                                                                  </div>';
+                                                                                        }
+                                                                                    } else {
+                                                                                        echo wp_kses_post(str_replace("\n", '<br>', $item->etkinlik)); 
+                                                                                    }
+                                                                                    ?>
+                                                                                </div>
                                                                             </div>
-                                                                        <?php endif; ?>
-                                                                    </div>
-                                                                    
-                                                                    <?php if ($index === 0): ?>
-                                                                        <div class="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1">
-                                                                            <span class="block font-bold text-4xl text-red font-heading tracking-tighter leading-none"><?php echo esc_html($item->saat); ?></span>
-                                                                            <span class="text-[10px] text-gray-400 font-heading tracking-[0.2em] uppercase">BAŞLAYACAK</span>
-                                                                        </div>
-                                                                    <?php else: ?>
-                                                                        <div class="hidden md:block w-32"></div>
-                                                                    <?php endif; ?>
-                                                                </div>
+                                                                         <?php endif; ?>
+                                                                     </div>
+                                                                     
+                                                                     <?php if ($index === 0): ?>
+                                                                         <div class="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1">
+                                                                             <span class="block font-bold text-4xl text-red font-heading tracking-tighter leading-none"><?php echo esc_html($item->saat); ?></span>
+                                                                             <span class="text-[10px] text-gray-400 font-heading tracking-[0.2em] uppercase">BAŞLAYACAK</span>
+                                                                         </div>
+                                                                     <?php else: ?>
+                                                                         <div class="hidden md:block w-32"></div>
+                                                                     <?php endif; ?>
+                                                                 </div>
                                                             <?php endforeach; ?>
                                                         </div>
                                                     </div>
