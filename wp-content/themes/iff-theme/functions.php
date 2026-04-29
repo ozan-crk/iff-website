@@ -67,6 +67,7 @@ function iff_register_acf_blocks() {
         register_block_type( __DIR__ . '/blocks/yayinlarimiz' );
         register_block_type( __DIR__ . '/blocks/history' );
         register_block_type( __DIR__ . '/blocks/pdf-preview' );
+        register_block_type( __DIR__ . '/blocks/film-list' );
     }
 }
 add_action( 'acf/init', 'iff_register_acf_blocks' );

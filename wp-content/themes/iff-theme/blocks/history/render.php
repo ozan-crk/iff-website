@@ -16,7 +16,7 @@ $args = array(
     'orderby' => 'date',
     'order' => 'ASC'
 );
-$children = get_posts($args);
+$children = get_posts($args);;
 
 // Gutenberg Ek CSS Sınıfları
 $bg_color = get_field('arka_plan_rengi');

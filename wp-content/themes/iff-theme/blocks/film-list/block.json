@@ -1,0 +1,13 @@
+{
+    "name": "acf/film-list",
+    "title": "IFF Film Listesi",
+    "description": "Manuel veya JSON üzerinden film listesi oluşturun.",
+    "category": "formatting",
+    "icon": "list-view",
+    "keywords": ["iff", "film", "liste", "json"],
+    "acf": {
+        "mode": "preview",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}
