@@ -25,24 +25,38 @@ $f_bold = get_field('font_ozel_bold', 'option');
     <link
         href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap"
         rel="stylesheet">
-    
+
     <!-- Favicon -->
-    <link rel="apple-touch-icon" sizes="57x57" href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-180x180.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="<?php echo get_template_directory_uri(); ?>/favicon/android-icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="<?php echo get_template_directory_uri(); ?>/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo get_template_directory_uri(); ?>/favicon/favicon-96x96.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="<?php echo get_template_directory_uri(); ?>/favicon/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="57x57"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16"
+        href="<?php echo get_template_directory_uri(); ?>/favicon/favicon-16x16.png">
     <link rel="manifest" href="<?php echo get_template_directory_uri(); ?>/favicon/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="<?php echo get_template_directory_uri(); ?>/favicon/ms-icon-144x144.png">
+    <meta name="msapplication-TileImage"
+        content="<?php echo get_template_directory_uri(); ?>/favicon/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 
     <script>
@@ -268,11 +282,9 @@ $f_bold = get_field('font_ozel_bold', 'option');
             ;
             min-width: 220px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            border-top: 4px solid
-                <?php echo $c_ana; ?>
-            ;
+            border-top: 4px solid white;
             list-style: none;
-            padding: 0.5rem 0 0 0;
+
         }
 
         .primary-menu .sub-menu .menu-item {
@@ -292,7 +304,7 @@ $f_bold = get_field('font_ozel_bold', 'option');
 
         .primary-menu .sub-menu .menu-item a:hover {
             background-color:
-                <?php echo $c_ana; ?>
+                <?php echo $c_ikincil; ?>
             ;
             color: white;
         }
