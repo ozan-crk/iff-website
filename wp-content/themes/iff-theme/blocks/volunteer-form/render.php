@@ -83,7 +83,7 @@ if (!empty($block['className'])) {
                             günler müsaitsiniz? / Availability</label>
                         <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
                             <?php
-                            $gunler = ['Pzt', 'Salı', 'Çarş', 'Perş', 'Cum', 'Cts', 'Pz'];
+                            $gunler = ['Pzt', 'Salı', 'Çarş', 'Perş', 'Cum', 'Cts'];
                             foreach ($gunler as $gun):
                                 ?>
                                 <label
