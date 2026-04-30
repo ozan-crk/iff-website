@@ -15,7 +15,7 @@ if (!empty($block['className'])) {
 
 <div id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($className); ?> py-16">
     <div class="max-w-5xl mx-auto px-4">
-        <div class="flex flex-col md:flex-row bg-white border-8 border-orange modern-shadow relative">
+        <div class="flex flex-col md:flex-row bg-white border-8 border-orange volunteer-form-shadow relative">
 
             <!-- Sol Panel: Bilgi ve Başlık -->
             <div class="md:w-1/3 bg-orange p-8 md:p-12 text-white flex flex-col justify-between">
@@ -156,12 +156,12 @@ if (!empty($block['className'])) {
         letter-spacing: 0.05em;
     }
 
-    .volunteer-form-block .modern-shadow {
+    .volunteer-form-shadow {
         box-shadow: 20px 20px 0px 0px rgba(249, 115, 22, 0.15);
     }
 
     @media (max-width: 768px) {
-        .volunteer-form-block .modern-shadow {
+        .volunteer-form-shadow {
             box-shadow: 10px 10px 0px 0px rgba(249, 115, 22, 0.15);
         }
     }

@@ -15,7 +15,7 @@ if( !empty($block['className']) ) {
 
 <div id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($className); ?> py-12">
     <div class="max-w-4xl mx-auto">
-        <div class="bg-white p-8 md:p-16 border-4 border-warmgray modern-shadow relative overflow-hidden">
+        <div class="bg-white p-8 md:p-16 border-4 border-warmgray contact-form-shadow relative overflow-hidden">
             <!-- Dekoratif Arka Plan Elemanı -->
             <div class="absolute -top-12 -right-12 w-48 h-48 bg-red opacity-5 rounded-full"></div>
             <div class="absolute -bottom-12 -left-12 w-32 h-32 bg-orange opacity-10 rounded-full"></div>
@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
-    .modern-shadow {
+    .contact-form-shadow {
         box-shadow: 10px 10px 0px 0px rgba(45, 45, 45, 1);
     }
     .contact-form-block input::placeholder, 

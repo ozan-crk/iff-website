@@ -333,7 +333,7 @@ $f_bold = get_field('font_ozel_bold', 'option');
     <?php wp_head(); ?>
 </head>
 
-<body <?php body_class("bg-cream font-sans text-warmgray overflow-x-hidden"); ?>>
+<body <?php body_class("bg-cream font-sans text-warmgray overflow-x-hidden pt-20 md:pt-28"); ?>>
 
     <?php get_template_part('components/side-panel'); ?>
 
