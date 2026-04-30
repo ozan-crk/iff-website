@@ -9,21 +9,21 @@ $default_banners = [
         'baslik' => 'ARŞİV',
         'alt_baslik' => 'FOTOĞRAFLAR',
         'link' => '#',
-        'gorsel' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg',
+        'gorsel' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/30080213/placeholder-karagoz-sarlo.jpg',
         'renk' => 'bg-red/60'
     ],
     [
         'baslik' => 'Gündem',
         'alt_baslik' => 'FESTİVAL GAZETESİ',
         'link' => '#',
-        'gorsel' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg',
+        'gorsel' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/30080213/placeholder-karagoz-sarlo.jpg',
         'renk' => 'bg-orange/60'
     ],
     [
         'baslik' => 'YAYINLAR',
         'alt_baslik' => 'FESTİVAL KİTAPLARI',
         'link' => '#',
-        'gorsel' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg',
+        'gorsel' => 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/30080213/placeholder-karagoz-sarlo.jpg',
         'renk' => 'bg-warmgray/60'
     ]
 ];
@@ -49,21 +49,23 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                 $alt_baslik = get_sub_field('alt_baslik');
                 $link = get_sub_field('link') ?: '#';
                 $gorsel_obj = get_sub_field('gorsel');
-                $gorsel = is_array($gorsel_obj) ? $gorsel_obj['url'] : ($gorsel_obj ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/29053444/blog-placeholder.jpg');
+                $gorsel = is_array($gorsel_obj) ? $gorsel_obj['url'] : ($gorsel_obj ?: 'https://iff.fra1.digitaloceanspaces.com/wp-content/uploads/2026/04/30080213/placeholder-karagoz-sarlo.jpg');
                 $renk = get_sub_field('renk') ?: 'bg-red/60';
                 ?>
                 <a href="<?php echo esc_url($link); ?>"
                     class="relative aspect-[3/2] group overflow-hidden modern-shadow border-4 border-white block">
                     <img src="<?php echo esc_url($gorsel); ?>"
-                        class="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105 duration-500">
+                        class="w-full h-full object-cover transition-all group-hover:scale-105 duration-500">
+                    <!-- Alt Degrade ve Yazılar -->
                     <div
-                        class="absolute inset-0 <?php echo esc_attr($renk); ?> mix-blend-multiply transition-opacity group-hover:opacity-40">
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
                     </div>
-                    <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
-                        <h3 class="text-white text-3xl font-custom font-bold mb-2 uppercase"><?php echo esc_html($baslik); ?>
+
+                    <div class="absolute inset-x-0 bottom-0 p-6 flex flex-col items-center text-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-custom font-bold uppercase leading-tight mb-1">
+                            <?php echo esc_html($baslik); ?>
                         </h3>
-                        <p
-                            class="text-white text-xs border-t border-white pt-2 font-bold uppercase tracking-widest leading-none">
+                        <p class="text-white/80 text-[10px] font-bold uppercase tracking-[0.2em] leading-none">
                             <?php echo esc_html($alt_baslik); ?>
                         </p>
                     </div>
@@ -74,16 +76,17 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                 <a href="<?php echo esc_url($banner['link']); ?>"
                     class="relative aspect-[3/2] group overflow-hidden modern-shadow border-4 border-white block">
                     <img src="<?php echo esc_url($banner['gorsel']); ?>"
-                        class="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105 duration-500">
+                        class="w-full h-full object-cover  transition-all group-hover:scale-105 duration-500">
+                    <!-- Alt Degrade ve Yazılar -->
                     <div
-                        class="absolute inset-0 <?php echo esc_attr($banner['renk']); ?> mix-blend-multiply transition-opacity group-hover:opacity-40">
+                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity">
                     </div>
-                    <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
-                        <h3 class="text-white text-3xl font-custom font-bold mb-2 uppercase">
+
+                    <div class="absolute inset-x-0 bottom-0 p-6 flex flex-col items-center text-center">
+                        <h3 class="text-white text-2xl md:text-3xl font-custom font-bold uppercase leading-tight mb-1">
                             <?php echo esc_html($banner['baslik']); ?>
                         </h3>
-                        <p
-                            class="text-white text-xs border-t border-white pt-2 font-bold uppercase tracking-widest leading-none">
+                        <p class="text-white/80 text-[10px] font-bold uppercase tracking-[0.2em] leading-none">
                             <?php echo esc_html($banner['alt_baslik']); ?>
                         </p>
                     </div>
