@@ -32,7 +32,7 @@ $default_banners = [
 $bg_color = get_field('arka_plan_rengi');
 $className = 'py-12 px-6 banners-block';
 
-if( !empty($block['className']) ) {
+if (!empty($block['className'])) {
     $className .= ' ' . $block['className'];
 }
 
@@ -53,7 +53,7 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                 $renk = get_sub_field('renk') ?: 'bg-red/60';
                 ?>
                 <a href="<?php echo esc_url($link); ?>"
-                    class="relative h-64 group overflow-hidden modern-shadow border-4 border-white block">
+                    class="relative aspect-[3/2] group overflow-hidden modern-shadow border-4 border-white block">
                     <img src="<?php echo esc_url($gorsel); ?>"
                         class="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105 duration-500">
                     <div
@@ -64,14 +64,15 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                         </h3>
                         <p
                             class="text-white text-xs border-t border-white pt-2 font-bold uppercase tracking-widest leading-none">
-                            <?php echo esc_html($alt_baslik); ?></p>
+                            <?php echo esc_html($alt_baslik); ?>
+                        </p>
                     </div>
                 </a>
             <?php endwhile; ?>
         <?php else: ?>
             <?php foreach ($default_banners as $banner): ?>
                 <a href="<?php echo esc_url($banner['link']); ?>"
-                    class="relative h-64 group overflow-hidden modern-shadow border-4 border-white block">
+                    class="relative aspect-[3/2] group overflow-hidden modern-shadow border-4 border-white block">
                     <img src="<?php echo esc_url($banner['gorsel']); ?>"
                         class="w-full h-full object-cover grayscale transition-all group-hover:grayscale-0 group-hover:scale-105 duration-500">
                     <div
@@ -79,10 +80,12 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                     </div>
                     <div class="absolute inset-0 flex flex-col justify-center items-center text-center p-6">
                         <h3 class="text-white text-3xl font-custom font-bold mb-2 uppercase">
-                            <?php echo esc_html($banner['baslik']); ?></h3>
+                            <?php echo esc_html($banner['baslik']); ?>
+                        </h3>
                         <p
                             class="text-white text-xs border-t border-white pt-2 font-bold uppercase tracking-widest leading-none">
-                            <?php echo esc_html($banner['alt_baslik']); ?></p>
+                            <?php echo esc_html($banner['alt_baslik']); ?>
+                        </p>
                     </div>
                 </a>
             <?php endforeach; ?>
