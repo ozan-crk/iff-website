@@ -38,6 +38,7 @@ class IFF_Program_Manager {
             mekan varchar(255) NOT NULL,
             tarih varchar(50) NOT NULL,
             saat varchar(20) NOT NULL,
+            tur varchar(20) DEFAULT 'film',
             film_adi varchar(255) NOT NULL,
             sure varchar(50) DEFAULT '',
             etkinlik varchar(255) DEFAULT '',
@@ -107,7 +108,7 @@ class IFF_Program_Manager {
         // Excel Yükleme Formu
         echo '<div class="card" style="max-width:100%; margin-top:20px; padding:20px;">';
         echo '<h2>Excel\'den Toplu İçe Aktar (.xlsx)</h2>';
-        echo '<p>Sütun sırası: <strong>Şehir | Mekan | Tarih | Saat | Film Adı | Süre | Etkinlik | Özel Gösterim(1/0) | Gala(1/0)</strong>.</p>';
+        echo '<p>Sütun sırası: <strong>Şehir | Mekan | Tarih | Saat | Tür (film/etkinlik) | Başlık (Film/Etkinlik Adı) | Süre | Detay | Özel Gösterim(1/0) | Gala(1/0)</strong>.</p>';
         echo '<form action="' . esc_url(admin_url('admin-post.php')) . '" method="post" enctype="multipart/form-data">';
         echo '<input type="hidden" name="action" value="iff_upload_excel">';
         wp_nonce_field('iff_upload_excel_nonce');
@@ -130,7 +131,8 @@ class IFF_Program_Manager {
         echo '<tr><th>Mekan</th><td><input type="text" name="mekan" value="' . ($edit_row ? esc_attr($edit_row->mekan) : '') . '" placeholder="Örn: Şişli NHRKM" required></td></tr>';
         echo '<tr><th>Tarih</th><td><input type="date" name="tarih" value="' . ($edit_row ? esc_attr($edit_row->tarih) : '') . '" required></td></tr>';
         echo '<tr><th>Saat</th><td><input type="time" name="saat" value="' . ($edit_row ? esc_attr($edit_row->saat) : '') . '" required></td></tr>';
-        echo '<tr><th>Film Adı</th><td><input type="text" name="film_adi" value="' . ($edit_row ? esc_attr($edit_row->film_adi) : '') . '" required></td></tr>';
+        echo '<tr><th>Tür</th><td><select name="tur"><option value="film" ' . ($edit_row && $edit_row->tur == 'film' ? 'selected' : '') . '>Film</option><option value="etkinlik" ' . ($edit_row && $edit_row->tur == 'etkinlik' ? 'selected' : '') . '>Etkinlik</option></select></td></tr>';
+        echo '<tr><th>Başlık (Film/Etkinlik Adı)</th><td><input type="text" name="film_adi" value="' . ($edit_row ? esc_attr($edit_row->film_adi) : '') . '" required></td></tr>';
         echo '<tr><th>Süre</th><td><input type="text" name="sure" value="' . ($edit_row ? esc_attr($edit_row->sure) : '') . '" placeholder="Örn: 90 dk"></td></tr>';
         echo '<tr><th>Etkinlik</th><td><input type="text" name="etkinlik" value="' . ($edit_row ? esc_attr($edit_row->etkinlik) : '') . '" placeholder="Örn: Yönetmen Söyleşisi"></td></tr>';
         echo '<tr><th>Özel Gösterim</th><td><label><input type="checkbox" name="is_special" value="1" ' . ($edit_row && $edit_row->is_special ? 'checked' : '') . '> Bu özel bir gösterimdir</label></td></tr>';
@@ -146,7 +148,7 @@ class IFF_Program_Manager {
         // Tablo
         echo '<h2 style="margin-top:40px;">Kayıtlı Programlar</h2>';
         echo '<table class="wp-list-table widefat fixed striped">';
-        echo '<thead><tr><th>Şehir</th><th>Mekan</th><th>Tarih</th><th>Saat</th><th>Film Adı</th><th>Süre</th><th>Etkinlik</th><th>Özel</th><th>Gala</th><th>İşlemler</th></tr></thead>';
+        echo '<thead><tr><th>Şehir</th><th>Mekan</th><th>Tarih</th><th>Saat</th><th>Tür</th><th>Başlık</th><th>Süre</th><th>Detay</th><th>Özel</th><th>Gala</th><th>İşlemler</th></tr></thead>';
         echo '<tbody>';
         if ($results) {
             foreach ($results as $row) {
@@ -156,6 +158,7 @@ class IFF_Program_Manager {
                 echo '<td>' . esc_html($row->mekan) . '</td>';
                 echo '<td>' . esc_html($row->tarih) . '</td>';
                 echo '<td>' . esc_html($row->saat) . '</td>';
+                echo '<td><span class="tag" style="background:'.($row->tur == 'etkinlik' ? '#red' : '#eee').'; color:'.($row->tur == 'etkinlik' ? 'white' : 'inherit').'; padding:2px 6px; border-radius:3px; font-size:10px; text-transform:uppercase;">' . esc_html($row->tur) . '</span></td>';
                 echo '<td>' . esc_html($row->film_adi) . '</td>';
                 echo '<td>' . esc_html($row->sure) . '</td>';
                 echo '<td>' . esc_html($row->etkinlik) . '</td>';
@@ -226,11 +229,12 @@ class IFF_Program_Manager {
                             'mekan'      => $this->normalize_text($row[1]),
                             'tarih'      => $tarih,
                             'saat'       => $saat,
-                            'film_adi'   => sanitize_text_field($row[4]),
-                            'sure'       => $sure,
-                            'etkinlik'   => isset($row[6]) ? sanitize_text_field($row[6]) : '',
-                            'is_special' => (isset($row[7]) && $row[7] == '1') ? 1 : 0,
-                            'is_gala'    => (isset($row[8]) && $row[8] == '1') ? 1 : 0,
+                            'tur'        => isset($row[4]) ? strtolower(sanitize_text_field($row[4])) : 'film',
+                            'film_adi'   => sanitize_text_field($row[5]),
+                            'sure'       => isset($row[6]) ? sanitize_text_field($row[6]) : '',
+                            'etkinlik'   => isset($row[7]) ? sanitize_text_field($row[7]) : '',
+                            'is_special' => (isset($row[8]) && $row[8] == '1') ? 1 : 0,
+                            'is_gala'    => (isset($row[9]) && $row[9] == '1') ? 1 : 0,
                         ]);
                     }
                 }
@@ -253,6 +257,7 @@ class IFF_Program_Manager {
             'mekan'      => $this->normalize_text($_POST['mekan']),
             'tarih'      => sanitize_text_field($_POST['tarih']),
             'saat'       => sanitize_text_field($_POST['saat']),
+            'tur'        => sanitize_text_field($_POST['tur']),
             'film_adi'   => sanitize_text_field($_POST['film_adi']),
             'sure'       => sanitize_text_field($_POST['sure']),
             'etkinlik'   => sanitize_text_field($_POST['etkinlik']),
