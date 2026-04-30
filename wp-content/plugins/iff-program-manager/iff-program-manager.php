@@ -108,7 +108,7 @@ class IFF_Program_Manager {
         // Excel Yükleme Formu
         echo '<div class="card" style="max-width:100%; margin-top:20px; padding:20px;">';
         echo '<h2>Excel\'den Toplu İçe Aktar (.xlsx)</h2>';
-        echo '<p>Sütun sırası: <strong>Şehir | Mekan | Tarih | Saat | Tür (film/etkinlik) | Başlık (Film/Etkinlik Adı) | Süre | Detay | Özel Gösterim(1/0) | Gala(1/0)</strong>.</p>';
+        echo '<p>Sütun sırası: <strong>Şehir | Mekan | Tarih | Saat | Tür | Başlık | Süre | Detay | Özel | Gala</strong>.</p>';
         echo '<form action="' . esc_url(admin_url('admin-post.php')) . '" method="post" enctype="multipart/form-data">';
         echo '<input type="hidden" name="action" value="iff_upload_excel">';
         wp_nonce_field('iff_upload_excel_nonce');
@@ -134,8 +134,8 @@ class IFF_Program_Manager {
         echo '<tr><th>Tür</th><td><select name="tur"><option value="film" ' . ($edit_row && $edit_row->tur == 'film' ? 'selected' : '') . '>Film</option><option value="etkinlik" ' . ($edit_row && $edit_row->tur == 'etkinlik' ? 'selected' : '') . '>Etkinlik</option></select></td></tr>';
         echo '<tr><th>Başlık (Film/Etkinlik Adı)</th><td><input type="text" name="film_adi" value="' . ($edit_row ? esc_attr($edit_row->film_adi) : '') . '" required></td></tr>';
         echo '<tr><th>Süre</th><td><input type="text" name="sure" value="' . ($edit_row ? esc_attr($edit_row->sure) : '') . '" placeholder="Örn: 90 dk"></td></tr>';
-        echo '<tr><th>Etkinlik</th><td><input type="text" name="etkinlik" value="' . ($edit_row ? esc_attr($edit_row->etkinlik) : '') . '" placeholder="Örn: Yönetmen Söyleşisi"></td></tr>';
-        echo '<tr><th>Özel Gösterim</th><td><label><input type="checkbox" name="is_special" value="1" ' . ($edit_row && $edit_row->is_special ? 'checked' : '') . '> Bu özel bir gösterimdir</label></td></tr>';
+        echo '<tr><th>Detay</th><td><input type="text" name="etkinlik" value="' . ($edit_row ? esc_attr($edit_row->etkinlik) : '') . '" placeholder="Örn: Yönetmen Söyleşisi"></td></tr>';
+        echo '<tr><th>Özel</th><td><label><input type="checkbox" name="is_special" value="1" ' . ($edit_row && $edit_row->is_special ? 'checked' : '') . '> Bu özel bir gösterimdir</label></td></tr>';
         echo '<tr><th>Gala</th><td><label><input type="checkbox" name="is_gala" value="1" ' . ($edit_row && $edit_row->is_gala ? 'checked' : '') . '> Bu bir Gala seansıdır</label></td></tr>';
         echo '</table>';
         
@@ -208,20 +208,13 @@ class IFF_Program_Manager {
                         }
                         $saat = substr($saat, 0, 5); // HH:MM al
 
-                        // Süre Temizleme (Excel'den 1970-01-01 01:24:00 gelirse)
-                        $sure = isset($row[5]) ? sanitize_text_field($row[5]) : '';
-                        if (strpos($sure, '1970-01-01') !== false) {
-                            $time_part = trim(str_replace('1970-01-01', '', $sure));
-                            $parts = explode(':', $time_part);
-                            if (count($parts) >= 2) {
-                                $hours = intval($parts[0]);
-                                $minutes = intval($parts[1]);
-                                if ($hours > 0) {
-                                    $sure = ($hours * 60 + $minutes) . ' dk';
-                                } else {
-                                    $sure = $minutes . ' dk';
-                                }
-                            }
+                        // Süre Temizleme (Excel'in tarih formatına çevirdiği durumları düzelt)
+                        $sure = isset($row[6]) ? sanitize_text_field($row[6]) : '';
+                        if (preg_match('/1970-01-01\s+(\d{2}):(\d{2})/', $sure, $matches)) {
+                            $hours = intval($matches[1]);
+                            $minutes = intval($matches[2]);
+                            $total_minutes = ($hours * 60) + $minutes;
+                            $sure = $total_minutes . ' dk';
                         }
 
                         $wpdb->insert($this->table_name, [
@@ -230,8 +223,8 @@ class IFF_Program_Manager {
                             'tarih'      => $tarih,
                             'saat'       => $saat,
                             'tur'        => isset($row[4]) ? strtolower(sanitize_text_field($row[4])) : 'film',
-                            'film_adi'   => sanitize_text_field($row[5]),
-                            'sure'       => isset($row[6]) ? sanitize_text_field($row[6]) : '',
+                            'film_adi'   => isset($row[5]) ? sanitize_text_field($row[5]) : '',
+                            'sure'       => $sure,
                             'etkinlik'   => isset($row[7]) ? sanitize_text_field($row[7]) : '',
                             'is_special' => (isset($row[8]) && $row[8] == '1') ? 1 : 0,
                             'is_gala'    => (isset($row[9]) && $row[9] == '1') ? 1 : 0,
