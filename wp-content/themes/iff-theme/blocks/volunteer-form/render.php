@@ -41,53 +41,73 @@ if (!empty($block['className'])) {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-1">
                             <label class="block text-[10px] font-bold uppercase text-gray-400">Ad / First Name *</label>
-                            <input type="text" name="first_name" required class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all" placeholder="Adınız">
+                            <input type="text" name="first_name" required
+                                class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all"
+                                placeholder="Adınız">
                         </div>
                         <div class="space-y-1">
-                            <label class="block text-[10px] font-bold uppercase text-gray-400">Soyad / Last Name *</label>
-                            <input type="text" name="last_name" required class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all" placeholder="Soyadınız">
+                            <label class="block text-[10px] font-bold uppercase text-gray-400">Soyad / Last Name
+                                *</label>
+                            <input type="text" name="last_name" required
+                                class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all"
+                                placeholder="Soyadınız">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="space-y-1">
                             <label class="block text-[10px] font-bold uppercase text-gray-400">E-Posta / Email *</label>
-                            <input type="email" name="email" required class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all" placeholder="eposta@adresiniz.com">
+                            <input type="email" name="email" required
+                                class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all"
+                                placeholder="eposta@adresiniz.com">
                         </div>
                         <div class="space-y-1">
                             <label class="block text-[10px] font-bold uppercase text-gray-400">Telefon / Phone *</label>
-                            <input type="tel" name="phone" required class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all" placeholder="05xx xxx xx xx">
+                            <input type="tel" name="phone" required
+                                class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all"
+                                placeholder="05xx xxx xx xx">
                         </div>
                     </div>
 
                     <div class="space-y-1">
                         <label class="block text-[10px] font-bold uppercase text-gray-400">Şehir / City</label>
-                        <input type="text" name="city" class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all" placeholder="Yaşadığınız şehir">
+                        <input type="text" name="city"
+                            class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all"
+                            placeholder="Yaşadığınız şehir">
                     </div>
 
                     <!-- Müsaitlik Durumu -->
                     <div class="space-y-4 pt-4">
-                        <label class="block text-xs font-bold uppercase text-warmgray border-l-4 border-orange pl-3">Hangi günler müsaitsiniz? / Availability</label>
+                        <label
+                            class="block text-xs font-bold uppercase text-warmgray border-l-4 border-orange pl-3">Hangi
+                            günler müsaitsiniz? / Availability</label>
                         <div class="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                            <?php 
-                            $gunler = ['Pzt', 'Salı', 'Çarş', 'Perş', 'Cum', 'Cts'];
-                            foreach($gunler as $gun): 
-                            ?>
-                            <label class="flex flex-col items-center p-3 border-2 border-gray-50 hover:border-orange cursor-pointer transition-all group">
-                                <input type="checkbox" name="availability[]" value="<?php echo $gun; ?>" class="w-4 h-4 mb-2 accent-orange">
-                                <span class="text-[10px] font-bold uppercase text-gray-500 group-hover:text-orange"><?php echo $gun; ?></span>
-                            </label>
+                            <?php
+                            $gunler = ['Pzt', 'Salı', 'Çarş', 'Perş', 'Cum', 'Cts', 'Pz'];
+                            foreach ($gunler as $gun):
+                                ?>
+                                <label
+                                    class="flex flex-col items-center p-3 border-2 border-gray-50 hover:border-orange cursor-pointer transition-all group">
+                                    <input type="checkbox" name="availability[]" value="<?php echo $gun; ?>"
+                                        class="w-4 h-4 mb-2 accent-orange">
+                                    <span
+                                        class="text-[10px] font-bold uppercase text-gray-500 group-hover:text-orange"><?php echo $gun; ?></span>
+                                </label>
                             <?php endforeach; ?>
                         </div>
                     </div>
 
                     <div class="space-y-1 pt-2">
-                        <label class="block text-[10px] font-bold uppercase text-gray-400">Kendinizle ilgili kısa bir bilgi / About</label>
-                        <textarea name="about" rows="3" class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all resize-none" placeholder="Kısaca kendinizden bahseder misiniz?"></textarea>
+                        <label class="block text-[10px] font-bold uppercase text-gray-400">Kendinizle ilgili kısa bir
+                            bilgi / About</label>
+                        <textarea name="about" rows="3"
+                            class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all resize-none"
+                            placeholder="Kısaca kendinizden bahseder misiniz?"></textarea>
                     </div>
 
                     <div class="pt-6">
-                        <button type="submit" class="submit-btn w-full bg-warmgray text-white py-5 font-heading font-bold uppercase tracking-widest hover:bg-orange transition-all duration-500 transform hover:scale-[1.02]">
+                        <button type="submit"
+                            class="submit-btn w-full bg-warmgray text-white py-5 font-heading font-bold uppercase tracking-widest hover:bg-orange transition-all duration-500 transform hover:scale-[1.02]">
                             <span class="btn-text">Başvuruyu Tamamla</span>
                         </button>
                     </div>
