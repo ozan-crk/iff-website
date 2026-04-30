@@ -68,6 +68,8 @@ function iff_register_acf_blocks() {
         register_block_type( __DIR__ . '/blocks/history' );
         register_block_type( __DIR__ . '/blocks/pdf-preview' );
         register_block_type( __DIR__ . '/blocks/film-list' );
+        register_block_type( __DIR__ . '/blocks/contact-form' );
+        register_block_type( __DIR__ . '/blocks/volunteer-form' );
     }
 }
 add_action( 'acf/init', 'iff_register_acf_blocks' );
@@ -238,5 +240,15 @@ function iff_widgets_init() {
     register_widget( 'IFF_Recent_Posts_Widget' );
 }
 add_action( 'widgets_init', 'iff_widgets_init' );
+
+/**
+ * Enqueue Localize Script for AJAX
+ */
+add_action('wp_enqueue_scripts', function() {
+    wp_localize_script('iff-main', 'iff_ajax', array(
+        'url'   => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('iff_form_nonce')
+    ));
+});
 
 

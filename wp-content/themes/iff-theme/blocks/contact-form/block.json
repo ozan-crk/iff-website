@@ -1,0 +1,17 @@
+{
+  "name": "acf/contact-form",
+  "title": "İletişim Formu",
+  "description": "Modern ve şık bir iletişim formu.",
+  "style": [ "file:./render.php" ],
+  "category": "formatting",
+  "icon": "email",
+  "keywords": ["iletisim", "form", "contact"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "render.php"
+  },
+  "supports": {
+    "align": true,
+    "jsx": true
+  }
+}

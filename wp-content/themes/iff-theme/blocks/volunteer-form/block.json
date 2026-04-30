@@ -1,0 +1,17 @@
+{
+  "name": "acf/volunteer-form",
+  "title": "Gönüllü Başvuru Formu",
+  "description": "Festival gönüllüleri için kapsamlı başvuru formu.",
+  "style": [ "file:./render.php" ],
+  "category": "formatting",
+  "icon": "groups",
+  "keywords": ["gonullu", "basvuru", "volunteer", "form"],
+  "acf": {
+    "mode": "preview",
+    "renderTemplate": "render.php"
+  },
+  "supports": {
+    "align": true,
+    "jsx": true
+  }
+}
