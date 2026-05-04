@@ -20,12 +20,16 @@ function initSidePanel() {
 
     let minimizeTimer;
 
-    const startMinimizationTimer = () => {
+    const startMinimizationTimer = (delay = 3000) => {
         clearTimeout(minimizeTimer);
         if (window.innerWidth < 768 && panel.classList.contains('closed')) {
             minimizeTimer = setTimeout(() => {
                 toggleBtn.classList.add('minimized');
-            }, 3000);
+                // Çerezi set et (2 saat = 7200 saniye)
+                if (!document.cookie.includes('iff_btn_minimized')) {
+                    document.cookie = "iff_btn_minimized=1; path=/; max-age=7200";
+                }
+            }, delay);
         }
     };
 
@@ -41,7 +45,6 @@ function initSidePanel() {
         stopMinimization();
         
         if (willBeClosed) {
-            // Panel kapatıldıysa zamanlayıcıyı başlat
             startMinimizationTimer();
         }
     });
@@ -60,15 +63,21 @@ function initSidePanel() {
         e.stopPropagation();
     });
 
-    // Başlangıçta zamanlayıcıyı çalıştır
-    startMinimizationTimer();
+    // Çerez kontrolü: Eğer varsa hemen gizle, yoksa 3sn sonra gizle
+    if (document.cookie.includes('iff_btn_minimized')) {
+        if (window.innerWidth < 768 && panel.classList.contains('closed')) {
+            toggleBtn.classList.add('minimized');
+        }
+    } else {
+        startMinimizationTimer();
+    }
 
     // Etkileşimde küçülmeyi iptal et ve sonrasında tekrar başlat
     toggleBtn.addEventListener('mouseenter', stopMinimization);
     toggleBtn.addEventListener('touchstart', stopMinimization);
     
-    toggleBtn.addEventListener('mouseleave', startMinimizationTimer);
-    toggleBtn.addEventListener('touchend', startMinimizationTimer);
+    toggleBtn.addEventListener('mouseleave', () => startMinimizationTimer(3000));
+    toggleBtn.addEventListener('touchend', () => startMinimizationTimer(3000));
 }
 
 function updateSideProgram(city) {
