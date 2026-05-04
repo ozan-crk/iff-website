@@ -23,12 +23,31 @@ class IFF_Submission_Manager
         add_action('admin_init', array($this, 'register_settings'));
         add_action('wp_ajax_iff_submit_form', array($this, 'handle_submission'));
         add_action('wp_ajax_nopriv_iff_submit_form', array($this, 'handle_submission'));
+        add_action('wp_ajax_iff_manual_push', array($this, 'handle_manual_push'));
 
         // SMTP Ayarları varsa PHPMailer'ı yapılandır
         add_action('phpmailer_init', array($this, 'configure_smtp'));
         add_action('wp_mail_failed', array($this, 'log_mail_errors'));
         add_filter('wp_mail_from', array($this, 'set_mail_from'));
         add_filter('wp_mail_from_name', array($this, 'set_mail_from_name'));
+    }
+
+    public function handle_manual_push()
+    {
+        if (!current_user_can('manage_options'))
+            wp_send_json_error(array('message' => 'Yetkisiz işlem.'));
+
+        $id = intval($_POST['id']);
+        global $wpdb;
+        $row = $wpdb->get_row($wpdb->prepare("SELECT * FROM $this->table_name WHERE id = %d", $id));
+
+        if ($row) {
+            $data = json_decode($row->data, true);
+            // Webhook gönderimini tetikle
+            $this->send_to_webhook($data, $row->form_type);
+            wp_send_json_success(array('message' => 'Webhook başarıyla tetiklendi.'));
+        }
+        wp_send_json_error(array('message' => 'Kayıt bulunamadı.'));
     }
 
     public function set_mail_from($email)
@@ -323,6 +342,9 @@ class IFF_Submission_Manager
                                 <td>
                                     <button type="button" class="button view-details"
                                         data-json='<?php echo esc_attr($row->data); ?>'>Detaylar</button>
+                                    <button type="button" class="button manual-push" 
+                                        data-id="<?php echo $row->id; ?>" 
+                                        style="background: #f97316; color: white; border: none;">Webhook'a Gönder</button>
                                 </td>
                             </tr>
                         <?php endforeach; else: ?>
@@ -412,6 +434,38 @@ class IFF_Submission_Manager
                     if (e.target === this || e.target.id === 'close-modal' || e.target.id === 'close-modal-btn') {
                         $('#submission-modal').fadeOut(200);
                     }
+                });
+
+                // Manuel Webhook Push
+                $('.manual-push').on('click', function () {
+                    const btn = $(this);
+                    const id = btn.data('id');
+
+                    if (btn.hasClass('updating')) return;
+
+                    btn.addClass('updating').text('Gönderiliyor...');
+
+                    $.ajax({
+                        url: ajaxurl,
+                        type: 'POST',
+                        data: {
+                            action: 'iff_manual_push',
+                            id: id
+                        },
+                        success: function (response) {
+                            if (response.success) {
+                                alert('Başarılı: ' + response.data.message);
+                            } else {
+                                alert('Hata: ' + response.data.message);
+                            }
+                        },
+                        error: function () {
+                            alert('İletişim hatası oluştu.');
+                        },
+                        complete: function () {
+                            btn.removeClass('updating').text("Webhook'a Gönder");
+                        }
+                    });
                 });
             });
         </script>
