@@ -88,41 +88,53 @@ class IFF_Submission_Manager {
     }
 
     public function handle_submission() {
-        check_ajax_referer('iff_form_nonce', 'nonce');
+        try {
+            check_ajax_referer('iff_form_nonce', 'nonce');
 
-        $form_type = sanitize_text_field($_POST['form_type']);
-        $raw_data = $_POST;
-        
-        unset($raw_data['action']);
-        unset($raw_data['nonce']);
-        
-        $clean_data = array_map('sanitize_text_field', $raw_data);
-        
-        foreach ($_POST as $key => $value) {
-            if (is_array($value)) {
-                $clean_data[$key] = implode(', ', array_map('sanitize_text_field', $value));
+            $form_type = sanitize_text_field($_POST['form_type']);
+            $raw_data = $_POST;
+            
+            unset($raw_data['action']);
+            unset($raw_data['nonce']);
+            
+            $clean_data = array_map('sanitize_text_field', $raw_data);
+            
+            foreach ($_POST as $key => $value) {
+                if (is_array($value)) {
+                    $clean_data[$key] = implode(', ', array_map('sanitize_text_field', $value));
+                }
             }
+
+            global $wpdb;
+            $inserted = $wpdb->insert($this->table_name, array(
+                'form_type' => $form_type,
+                'data'      => json_encode($clean_data, JSON_UNESCAPED_UNICODE)
+            ));
+
+            if ($inserted === false) {
+                error_log('IFF Submission DB Insert Error: ' . $wpdb->last_error);
+                throw new Exception('Veritabanı kaydı başarısız oldu.');
+            }
+
+            // 2. Webhook ve E-posta Bildirimleri (Hata olsa da kullanıcıya başarı dönebiliriz ama loglayalım)
+            $this->send_to_webhook($clean_data, $form_type);
+            $this->send_email_notification($clean_data, $form_type);
+
+            wp_send_json_success(array('message' => 'Başarıyla kaydedildi.'));
+
+        } catch (Exception $e) {
+            error_log('IFF Submission Error: ' . $e->getMessage());
+            wp_send_json_error(array('message' => $e->getMessage()));
         }
-
-        global $wpdb;
-        $wpdb->insert($this->table_name, array(
-            'form_type' => $form_type,
-            'data'      => json_encode($clean_data, JSON_UNESCAPED_UNICODE)
-        ));
-
-        // 2. Webhook ve E-posta Bildirimleri
-        $this->send_to_webhook($clean_data, $form_type);
-        $this->send_email_notification($clean_data, $form_type);
-
-        wp_send_json_success(array('message' => 'Başarıyla kaydedildi.'));
     }
 
     private function send_to_webhook($data, $type) {
         $webhook_url = get_option('iff_webhook_url');
         if (!$webhook_url) return;
         
-        wp_remote_post($webhook_url, array(
+        $response = wp_remote_post($webhook_url, array(
             'method'    => 'POST',
+            'timeout'   => 15,
             'body'      => json_encode(array(
                 'source' => 'IFF Website',
                 'type'   => $type,
@@ -131,6 +143,15 @@ class IFF_Submission_Manager {
             )),
             'headers'   => array('Content-Type' => 'application/json'),
         ));
+
+        if (is_wp_error($response)) {
+            error_log('IFF Webhook Error: ' . $response->get_error_message());
+        } else {
+            $code = wp_remote_retrieve_response_code($response);
+            if ($code >= 400) {
+                error_log('IFF Webhook HTTP Error: ' . $code . ' - ' . wp_remote_retrieve_body($response));
+            }
+        }
     }
 
     private function send_email_notification($data, $type) {
@@ -145,7 +166,10 @@ class IFF_Submission_Manager {
         }
         $message .= "\nDetaylar için yönetim paneline bakabilirsiniz: " . admin_url('admin.php?page=iff-submissions');
 
-        wp_mail($to, $subject, $message);
+        $sent = wp_mail($to, $subject, $message);
+        if (!$sent) {
+            error_log('IFF Email Notification Failed to: ' . $to . '. SMTP ayarlarnızı veya wp_mail yapılandırmanızı kontrol edin.');
+        }
     }
 
     public function render_settings_page() {
