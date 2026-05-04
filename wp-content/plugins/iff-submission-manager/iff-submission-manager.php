@@ -26,7 +26,9 @@ class IFF_Submission_Manager {
     }
 
     public function register_settings() {
+        register_setting('iff_submission_settings', 'iff_webhook_enabled');
         register_setting('iff_submission_settings', 'iff_webhook_url');
+        register_setting('iff_submission_settings', 'iff_email_enabled');
         register_setting('iff_submission_settings', 'iff_notification_email');
         register_setting('iff_submission_settings', 'iff_smtp_host');
         register_setting('iff_submission_settings', 'iff_smtp_port');
@@ -36,6 +38,9 @@ class IFF_Submission_Manager {
     }
 
     public function configure_smtp($phpmailer) {
+        $enabled = get_option('iff_email_enabled');
+        if (!$enabled) return;
+
         $host = get_option('iff_smtp_host');
         if (!$host) return;
 
@@ -116,9 +121,14 @@ class IFF_Submission_Manager {
                 throw new Exception('Veritabanı kaydı başarısız oldu.');
             }
 
-            // 2. Webhook ve E-posta Bildirimleri (Hata olsa da kullanıcıya başarı dönebiliriz ama loglayalım)
-            $this->send_to_webhook($clean_data, $form_type);
-            $this->send_email_notification($clean_data, $form_type);
+            // 2. Webhook ve E-posta Bildirimleri (Sadece aktifse çalışır)
+            if (get_option('iff_webhook_enabled')) {
+                $this->send_to_webhook($clean_data, $form_type);
+            }
+
+            if (get_option('iff_email_enabled')) {
+                $this->send_email_notification($clean_data, $form_type);
+            }
 
             wp_send_json_success(array('message' => 'Başarıyla kaydedildi.'));
 
@@ -185,8 +195,26 @@ class IFF_Submission_Manager {
                     <h2>Genel ve Webhook Ayarları</h2>
                     <table class="form-table">
                         <tr>
+                            <th>Webhook Durumu</th>
+                            <td>
+                                <label>
+                                    <input type="checkbox" name="iff_webhook_enabled" value="1" <?php checked(get_option('iff_webhook_enabled'), '1'); ?>>
+                                    Webhook gönderimini aktif et
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
                             <th>Webhook URL</th>
                             <td><input type="url" name="iff_webhook_url" value="<?php echo esc_attr(get_option('iff_webhook_url')); ?>" class="regular-text" placeholder="https://webhook.site/..."></td>
+                        </tr>
+                        <tr style="border-top: 1px solid #eee;">
+                            <th>E-posta Bildirimi Durumu</th>
+                            <td>
+                                <label>
+                                    <input type="checkbox" name="iff_email_enabled" value="1" <?php checked(get_option('iff_email_enabled'), '1'); ?>>
+                                    E-posta bildirimlerini aktif et
+                                </label>
+                            </td>
                         </tr>
                         <tr>
                             <th>Bildirim E-posta Adresi</th>
@@ -195,7 +223,7 @@ class IFF_Submission_Manager {
                     </table>
 
                     <h2 style="margin-top: 40px; border-top: 1px solid #eee; pt: 20px;">SMTP Ayarları</h2>
-                    <p class="description">Bu ayarlar boş bırakılırsa varsayılan WordPress mail sistemi kullanılır.</p>
+                    <p class="description">E-posta bildirimleri aktifse ve bu ayarlar boş bırakılırsa varsayılan WordPress mail sistemi kullanılır.</p>
                     <table class="form-table">
                         <tr>
                             <th>SMTP Host</th>
