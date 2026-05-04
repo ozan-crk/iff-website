@@ -161,14 +161,8 @@ class IFF_Submission_Manager {
                 throw new Exception('Veritabanı kaydı başarısız oldu.');
             }
 
-            // 2. Webhook ve E-posta Bildirimleri (Sadece aktifse çalışır)
-            if (get_option('iff_webhook_enabled')) {
-                $this->send_to_webhook($clean_data, $form_type);
-            }
-
-            if (get_option('iff_email_enabled')) {
-                $this->send_email_notification($clean_data, $form_type);
-            }
+            // Bildirimleri arka plana at (AJAX yanıtını bekletmemek için)
+            wp_schedule_single_event(time(), 'iff_send_notifications_async', array($clean_data, $form_type));
 
             wp_send_json_success(array('message' => 'Başarıyla kaydedildi.'));
 
