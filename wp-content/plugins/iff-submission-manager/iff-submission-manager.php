@@ -23,6 +23,11 @@ class IFF_Submission_Manager {
         
         // SMTP Ayarları varsa PHPMailer'ı yapılandır
         add_action('phpmailer_init', array($this, 'configure_smtp'));
+        add_action('wp_mail_failed', array($this, 'log_mail_errors'));
+    }
+
+    public function log_mail_errors($error) {
+        error_log('IFF wp_mail failed: ' . print_r($error, true));
     }
 
     public function register_settings() {
