@@ -62,6 +62,16 @@ if ($bg_color) {
     }
     $dates = array_keys($screenings_by_date);
     $block_id = $block['id'];
+    
+    // Aktif tarihi belirle (Bugün varsa bugün, yoksa ilk gün)
+    $today = date('Y-m-d', current_time('timestamp'));
+    $active_date_index = 0;
+    foreach ($dates as $index => $date) {
+        if ($date === $today) {
+            $active_date_index = $index;
+            break;
+        }
+    }
     ?>
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -75,7 +85,7 @@ if ($bg_color) {
                     $i = 0;
                     foreach ($dates as $date): 
                         $formatted_date = date('d.m.Y', strtotime($date));
-                        $is_active = ($i === 0);
+                        $is_active = ($i === $active_date_index);
                     ?>
                         <button 
                             class="city-program-tab px-6 py-2.5 font-heading font-bold text-xs transition-all rounded-md <?php echo $is_active ? 'bg-orange text-white' : 'bg-transparent text-warmgray hover:bg-warmgray/10'; ?>"
@@ -90,7 +100,7 @@ if ($bg_color) {
                     <?php 
                     $i = 0;
                     foreach ($screenings_by_date as $date => $mekanlar): 
-                        $is_active = ($i === 0);
+                        $is_active = ($i === $active_date_index);
                     ?>
                         <div class="city-program-pane space-y-10 animate-fade-in" 
                              id="pane-<?php echo esc_attr($block_id); ?>-<?php echo $i; ?>" 

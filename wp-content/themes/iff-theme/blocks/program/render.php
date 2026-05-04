@@ -25,6 +25,34 @@ if ($wpdb->get_var("SHOW TABLES LIKE '$table_name'") == $table_name) {
     }
 }
 
+// Şehir ve tarih varsayılanlarını belirle
+$today = date('Y-m-d', current_time('timestamp'));
+$active_city_slug = '';
+$active_dates_per_city = [];
+
+if (!empty($programs)) {
+    // 1. Önce aktif şehri belirle (Bugünün tarihini içeren ilk şehir)
+    foreach ($programs as $city_slug => $tarihler) {
+        if (isset($tarihler[$today])) {
+            $active_city_slug = $city_slug;
+            break;
+        }
+    }
+    // Eğer bugünün olduğu şehir yoksa ilk şehri seç
+    if (empty($active_city_slug)) {
+        $active_city_slug = array_key_first($programs);
+    }
+    
+    // 2. Her şehir için aktif tarihi belirle
+    foreach ($programs as $city_slug => $tarihler) {
+        if (isset($tarihler[$today])) {
+            $active_dates_per_city[$city_slug] = $today;
+        } else {
+            $active_dates_per_city[$city_slug] = array_key_first($tarihler);
+        }
+    }
+}
+
 // Gutenberg Ek CSS Sınıfları
 $bg_color = get_field('arka_plan_rengi');
 $className = 'py-24 px-6 program-block';
@@ -51,43 +79,50 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
             <?php if (!empty($sehirler)): ?>
                 <!-- Şehir Tabları -->
                 <div class="flex flex-wrap justify-center gap-4 mb-12" id="city-tabs">
-                    <?php $first_city = true;
-                    foreach ($sehirler as $slug => $isim): ?>
+                    <?php 
+                    foreach ($sehirler as $slug => $isim): 
+                        $is_active_city = ($slug === $active_city_slug);
+                    ?>
                         <button
-                            class="city-tab px-10 py-4 font-heading font-bold modern-shadow hover-lift transition-all text-lg <?php echo $first_city ? 'bg-red text-white' : 'bg-white text-warmgray'; ?>"
+                            class="city-tab px-10 py-4 font-heading font-bold modern-shadow hover-lift transition-all text-lg <?php echo $is_active_city ? 'bg-red text-white' : 'bg-white text-warmgray'; ?>"
                             data-city="<?php echo esc_attr($slug); ?>">
                             <?php echo esc_html(mb_strtoupper($isim, 'UTF-8')); ?>
                         </button>
-                        <?php $first_city = false; endforeach; ?>
+                    <?php endforeach; ?>
                 </div>
 
                 <div id="program-main-container">
-                    <?php $first_city = true;
-                    foreach ($programs as $city_slug => $tarihler): ?>
+                    <?php 
+                    foreach ($programs as $city_slug => $tarihler): 
+                        $is_active_city = ($city_slug === $active_city_slug);
+                        $city_active_date = $active_dates_per_city[$city_slug] ?? array_key_first($tarihler);
+                    ?>
                         <div class="city-content animate-fade-in" id="city-<?php echo esc_attr($city_slug); ?>"
-                            style="display: <?php echo $first_city ? 'block' : 'none'; ?>;">
+                            style="display: <?php echo $is_active_city ? 'block' : 'none'; ?>;">
                             
                             <!-- Tarih Tabları (Şehir içindeki günler) -->
                             <div class="flex flex-wrap justify-center gap-2 mb-8 bg-warmgray/5 p-2 rounded-lg border border-warmgray/10">
-                                <?php $first_date = true;
+                                <?php 
                                 foreach ($tarihler as $tarih => $mekanlar): 
                                     $tarih_slug = sanitize_title($city_slug . '-' . $tarih);
+                                    $is_active_date = ($tarih === $city_active_date);
                                 ?>
                                     <button
-                                        class="date-tab px-6 py-2 font-heading font-bold text-sm transition-all rounded-md <?php echo $first_date ? 'bg-red text-white' : 'bg-transparent text-warmgray hover:bg-warmgray/10'; ?>"
+                                        class="date-tab px-6 py-2 font-heading font-bold text-sm transition-all rounded-md <?php echo $is_active_date ? 'bg-red text-white' : 'bg-transparent text-warmgray hover:bg-warmgray/10'; ?>"
                                         data-date="<?php echo esc_attr($tarih_slug); ?>">
                                         <?php echo date('d.m.Y', strtotime($tarih)); ?>
                                     </button>
-                                <?php $first_date = false; endforeach; ?>
+                                <?php endforeach; ?>
                             </div>
 
                             <!-- Tarih İçerikleri -->
-                            <?php $first_date = true;
+                            <?php 
                             foreach ($tarihler as $tarih => $mekanlar): 
                                 $tarih_slug = sanitize_title($city_slug . '-' . $tarih);
+                                $is_active_date = ($tarih === $city_active_date);
                             ?>
                                 <div class="date-content space-y-12" id="date-<?php echo esc_attr($tarih_slug); ?>"
-                                     style="display: <?php echo $first_date ? 'block' : 'none'; ?>;">
+                                     style="display: <?php echo $is_active_date ? 'block' : 'none'; ?>;">
                                     
                                     <?php foreach ($mekanlar as $mekan_adi => $items): ?>
                                         <div class="venue-group bg-white p-8 modern-shadow border-t-4 border-orange">
