@@ -147,21 +147,49 @@ class IFF_Submission_Manager {
             </table>
         </div>
 
+        <!-- Detay Modal -->
+        <div id="submission-modal" style="display:none; position:fixed; z-index:99999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.6); overflow:auto;">
+            <div style="background:#fff; margin:5% auto; padding:30px; border-radius:8px; width:90%; max-width:800px; box-shadow:0 10px 25px rgba(0,0,0,0.2); position:relative;">
+                <span id="close-modal" style="position:absolute; right:20px; top:15px; font-size:28px; cursor:pointer; color:#999; line-height:1;">&times;</span>
+                <h2 style="border-bottom:2px solid #f97316; padding-bottom:10px; margin-bottom:20px; font-size:20px;">Başvuru Detayları</h2>
+                <div id="modal-content-inner" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap:15px; font-size:13px;">
+                    <!-- Dinamik içerik -->
+                </div>
+                <div style="margin-top:30px; text-align:right;">
+                    <button type="button" class="button button-secondary" id="close-modal-btn">Kapat</button>
+                </div>
+            </div>
+        </div>
+
         <style>
             .badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
             .badge.volunteer { background: #ffedd5; color: #9a3412; border: 1px solid #fed7aa; }
             .badge.contact { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+            #modal-content-inner div { background: #f9fafb; padding: 12px; border-radius: 6px; border: 1px solid #e5e7eb; }
+            #modal-content-inner strong { display: block; font-size: 10px; color: #f97316; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.05em; }
         </style>
 
         <script>
         jQuery(document).ready(function($) {
             $('.view-details').on('click', function() {
                 const data = $(this).data('json');
-                let details = '';
+                let html = '';
                 for (const [key, value] of Object.entries(data)) {
-                    details += `<strong>${key.toUpperCase()}:</strong> ${value}\n\n`;
+                    // Anahtar isimlerini daha okunaklı yapalım (alt çizgileri boşluk yap, baş harfleri büyük yap)
+                    const label = key.replace(/_/g, ' ');
+                    html += `<div>
+                                <strong>${label}</strong>
+                                <div style="color:#1f2937; line-height:1.5;">${value || '-'}</div>
+                            </div>`;
                 }
-                alert(details);
+                $('#modal-content-inner').html(html);
+                $('#submission-modal').fadeIn(200);
+            });
+
+            $('#close-modal, #close-modal-btn, #submission-modal').on('click', function(e) {
+                if (e.target === this || e.target.id === 'close-modal' || e.target.id === 'close-modal-btn') {
+                    $('#submission-modal').fadeOut(200);
+                }
             });
         });
         </script>
