@@ -18,17 +18,40 @@ function initSidePanel() {
     
     if (!panel || !toggleBtn) return;
 
+    let minimizeTimer;
+
+    const startMinimizationTimer = () => {
+        clearTimeout(minimizeTimer);
+        if (window.innerWidth < 768 && panel.classList.contains('closed')) {
+            minimizeTimer = setTimeout(() => {
+                toggleBtn.classList.add('minimized');
+            }, 3000);
+        }
+    };
+
+    const stopMinimization = () => {
+        clearTimeout(minimizeTimer);
+        toggleBtn.classList.remove('minimized');
+    };
+
     toggleBtn.addEventListener('click', (e) => {
         e.stopPropagation();
+        const willBeClosed = !panel.classList.contains('closed');
         panel.classList.toggle('closed');
-        toggleBtn.classList.remove('minimized');
+        stopMinimization();
+        
+        if (willBeClosed) {
+            // Panel kapatıldıysa zamanlayıcıyı başlat
+            startMinimizationTimer();
+        }
     });
 
     // Panel dışına tıklanınca kapat
     document.addEventListener('click', (e) => {
         if (!panel.classList.contains('closed') && !panel.contains(e.target)) {
             panel.classList.add('closed');
-            toggleBtn.classList.remove('minimized');
+            stopMinimization();
+            startMinimizationTimer();
         }
     });
 
@@ -37,16 +60,15 @@ function initSidePanel() {
         e.stopPropagation();
     });
 
-    // Mobil için butonu otomatik küçültme (Yarısı içeri girsin)
-    if (window.innerWidth < 768) {
-        setTimeout(() => {
-            toggleBtn.classList.add('minimized');
-        }, 2000);
+    // Başlangıçta zamanlayıcıyı çalıştır
+    startMinimizationTimer();
 
-        // Fare ile üzerine gelince veya dokununca tekrar tam görünsün
-        toggleBtn.addEventListener('mouseenter', () => toggleBtn.classList.remove('minimized'));
-        toggleBtn.addEventListener('touchstart', () => toggleBtn.classList.remove('minimized'));
-    }
+    // Etkileşimde küçülmeyi iptal et ve sonrasında tekrar başlat
+    toggleBtn.addEventListener('mouseenter', stopMinimization);
+    toggleBtn.addEventListener('touchstart', stopMinimization);
+    
+    toggleBtn.addEventListener('mouseleave', startMinimizationTimer);
+    toggleBtn.addEventListener('touchend', startMinimizationTimer);
 }
 
 function updateSideProgram(city) {
