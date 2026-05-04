@@ -162,7 +162,9 @@ class IFF_Submission_Manager {
             }
 
             // Bildirimleri arka plana at (AJAX yanıtını bekletmemek için)
-            wp_schedule_single_event(time(), 'iff_send_notifications_async', array($clean_data, $form_type));
+            // time() yerine time() + 5 sn vererek cron'un yakalamasını kolaylaştıralım
+            wp_schedule_single_event(time() + 5, 'iff_send_notifications_async', array($clean_data, $form_type));
+            spawn_cron(); // Cron'u hemen tetiklemeye çalış
 
             wp_send_json_success(array('message' => 'Başarıyla kaydedildi.'));
 
