@@ -342,9 +342,8 @@ class IFF_Submission_Manager
                                 <td>
                                     <button type="button" class="button view-details"
                                         data-json='<?php echo esc_attr($row->data); ?>'>Detaylar</button>
-                                    <button type="button" class="button manual-push" 
-                                        data-id="<?php echo $row->id; ?>" 
-                                        style="background: #f97316; color: white; border: none;">Webhook'a Gönder</button>
+                                    <!-- <button type="button" class="button manual-push" data-id="<?php echo $row->id; ?>"
+                                        style="background: #f97316; color: white; border: none;">WH</button> -->
                                 </td>
                             </tr>
                         <?php endforeach; else: ?>
