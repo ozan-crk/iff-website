@@ -120,6 +120,9 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                                                             <div class="text-[10px] font-heading font-bold text-red uppercase tracking-[0.4em] mb-8 flex items-center gap-4">
                                                                 <span class="flex-shrink-0">ORTAK SEANS</span>
                                                                 <div class="h-[1px] w-full bg-orange/10"></div>
+                                                                <div class="flex items-end gap-2 flex-shrink-0 text-right">
+                                                                    <span class="block font-bold text-4xl text-red font-heading tracking-tighter leading-none normal-case" style="letter-spacing:-0.05em;"><?php echo esc_html($saat); ?></span>
+                                                                </div>
                                                             </div>
                                                         <?php endif; ?>
 
@@ -127,8 +130,8 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                                                             <?php foreach ($session_items as $index => $item): 
                                                                  $is_item_gala = (isset($item->is_gala) && $item->is_gala);
                                                              ?>
-                                                                 <div class="flex flex-col md:flex-row justify-between md:items-center <?php echo ($index < count($session_items) - 1) ? 'border-b border-orange/5 pb-8' : ''; ?>">
-                                                                     <div class="mb-4 md:mb-0">
+                                                                 <div class="flex flex-col-reverse md:flex-row justify-between md:items-center <?php echo ($index < count($session_items) - 1) ? 'border-b border-orange/5 pb-8' : ''; ?>">
+                                                                     <div class="mt-2 md:mt-0">
                                                                          <div class="flex flex-wrap items-center gap-3 mb-2">
                                                                              <?php if (!$has_gala): ?>
                                                                                 <h4 class="font-bold text-xl font-heading text-warmgray leading-tight">
@@ -195,10 +198,13 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                                                                          <?php endif; ?>
                                                                      </div>
                                                                      
-                                                                     <?php if ($index === 0): ?>
-                                                                         <div class="text-left md:text-right flex flex-row md:flex-col items-center md:items-end gap-3 md:gap-1">
+                                                                     <?php if (!$is_multi && $index === 0): ?>
+                                                                         <div class="text-right flex flex-row md:flex-col items-center md:items-end justify-end gap-3 md:gap-1 self-end md:self-auto w-full md:w-auto mb-4 md:mb-0">
                                                                              <span class="block font-bold text-4xl text-red font-heading tracking-tighter leading-none"><?php echo esc_html($item->saat); ?></span>
-                                                                             <span class="text-[10px] text-gray-400 font-heading tracking-[0.2em] uppercase">BAŞLAYACAK</span>
+                                                                         </div>
+                                                                     <?php elseif ($has_gala && $index === 0): ?>
+                                                                         <div class="text-right flex flex-row md:flex-col items-center md:items-end justify-end gap-3 md:gap-1 self-end md:self-auto w-full md:w-auto mb-4 md:mb-0">
+                                                                             <span class="block font-bold text-4xl text-red font-heading tracking-tighter leading-none"><?php echo esc_html($item->saat); ?></span>
                                                                          </div>
                                                                      <?php else: ?>
                                                                          <div class="hidden md:block w-32"></div>
