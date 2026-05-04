@@ -168,11 +168,18 @@ class IFF_Submission_Manager
         try {
             check_ajax_referer('iff_form_nonce', 'nonce');
 
+            // Spam Kontrolü (Honeypot)
+            if (!empty($_POST['shadow_input'])) {
+                // Bot yakalandı, başarılı süsü verip sessizce çıkıyoruz
+                wp_send_json_success(array('message' => 'Başarıyla kaydedildi.'));
+            }
+
             $form_type = sanitize_text_field($_POST['form_type']);
             $raw_data = $_POST;
 
             unset($raw_data['action']);
             unset($raw_data['nonce']);
+            unset($raw_data['shadow_input']); // DB'ye kaydetmeye gerek yok
 
             $clean_data = array_map('sanitize_text_field', $raw_data);
 

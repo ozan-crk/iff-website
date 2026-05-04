@@ -70,10 +70,22 @@ if (!empty($block['className'])) {
                     </div>
 
                     <div class="space-y-1">
-                        <label class="block text-[10px] font-bold uppercase text-gray-400">Şehir / City</label>
-                        <input type="text" name="city"
-                            class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all"
-                            placeholder="Yaşadığınız şehir">
+                        <label class="block text-[10px] font-bold uppercase text-gray-400">Şehir / City *</label>
+                        <select name="city" required
+                            class="v-input w-full border-b-2 border-gray-100 focus:border-orange outline-none py-2 text-lg transition-all appearance-none cursor-pointer bg-transparent">
+                            <option value="" disabled selected>Şehir seçiniz / Select city...</option>
+                            <?php
+                            $iller = ["Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydın", "Balıkesir", "Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Düzce", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Iğdır", "Isparta", "İstanbul", "İzmir", "Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kırıkkale", "Kırklareli", "Kırşehir", "Kilis", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Mardin", "Mersin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Şanlıurfa", "Şırnak", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Uşak", "Van", "Yalova", "Yozgat", "Zonguldak"];
+                            foreach ($iller as $il):
+                                echo '<option value="' . $il . '">' . $il . '</option>';
+                            endforeach;
+                            ?>
+                        </select>
+                    </div>
+
+                    <!-- Honeypot field - hidden from users -->
+                    <div style="display:none !important;">
+                        <input type="text" name="shadow_input" tabindex="-1" autocomplete="off">
                     </div>
 
                     <!-- Müsaitlik Durumu -->

@@ -48,6 +48,29 @@ if (!empty($block['className'])) {
                             placeholder="eposta@adresiniz.com">
                     </div>
 
+                    <div class="space-y-2">
+                        <label for="phone" class="block text-xs font-bold uppercase tracking-widest text-red">Telefon
+                            Numarası</label>
+                        <input type="tel" id="phone" name="phone" required
+                            class="w-full border-b-2 border-gray-200 focus:border-red outline-none py-3 text-lg transition-colors bg-transparent"
+                            placeholder="05xx xxx xx xx">
+                    </div>
+
+                    <div class="md:col-span-2 space-y-2">
+                        <label for="city" class="block text-xs font-bold uppercase tracking-widest text-red">Bulunduğunuz
+                            Şehir</label>
+                        <select id="city" name="city" required
+                            class="w-full border-b-2 border-gray-200 focus:border-red outline-none py-3 text-lg transition-colors bg-transparent appearance-none cursor-pointer">
+                            <option value="" disabled selected>Şehir seçiniz...</option>
+                            <?php
+                            $iller = ["Adana", "Adıyaman", "Afyonkarahisar", "Ağrı", "Aksaray", "Amasya", "Ankara", "Antalya", "Ardahan", "Artvin", "Aydın", "Balıkesir", "Bartın", "Batman", "Bayburt", "Bilecik", "Bingöl", "Bitlis", "Bolu", "Burdur", "Bursa", "Çanakkale", "Çankırı", "Çorum", "Denizli", "Diyarbakır", "Düzce", "Edirne", "Elazığ", "Erzincan", "Erzurum", "Eskişehir", "Gaziantep", "Giresun", "Gümüşhane", "Hakkari", "Hatay", "Iğdır", "Isparta", "İstanbul", "İzmir", "Kahramanmaraş", "Karabük", "Karaman", "Kars", "Kastamonu", "Kayseri", "Kırıkkale", "Kırklareli", "Kırşehir", "Kilis", "Kocaeli", "Konya", "Kütahya", "Malatya", "Manisa", "Mardin", "Mersin", "Muğla", "Muş", "Nevşehir", "Niğde", "Ordu", "Osmaniye", "Rize", "Sakarya", "Samsun", "Siirt", "Sinop", "Sivas", "Şanlıurfa", "Şırnak", "Tekirdağ", "Tokat", "Trabzon", "Tunceli", "Uşak", "Van", "Yalova", "Yozgat", "Zonguldak"];
+                            foreach ($iller as $il):
+                                echo '<option value="' . $il . '">' . $il . '</option>';
+                            endforeach;
+                            ?>
+                        </select>
+                    </div>
+
                     <div class="md:col-span-2 space-y-2">
                         <label for="subject"
                             class="block text-xs font-bold uppercase tracking-widest text-red">Konu</label>
@@ -62,6 +85,11 @@ if (!empty($block['className'])) {
                         <textarea id="message" name="message" rows="4" required
                             class="w-full border-b-2 border-gray-200 focus:border-red outline-none py-3 text-lg transition-colors bg-transparent resize-none"
                             placeholder="Bize ne anlatmak istersiniz?"></textarea>
+                    </div>
+
+                    <!-- Honeypot field - hidden from users -->
+                    <div style="display:none !important;">
+                        <input type="text" name="shadow_input" tabindex="-1" autocomplete="off">
                     </div>
 
                     <div class="md:col-span-2 pt-8">

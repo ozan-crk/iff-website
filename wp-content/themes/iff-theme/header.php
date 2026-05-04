@@ -157,7 +157,9 @@ $f_bold = get_field('font_ozel_bold', 'option');
                 transform: translate(-50%, -50%) !important;
                 opacity: 0.6;
             }
-            #toggle-panel.minimized:hover, #toggle-panel.minimized:active {
+
+            #toggle-panel.minimized:hover,
+            #toggle-panel.minimized:active {
                 transform: translate(0, -50%) !important;
                 opacity: 1;
             }
@@ -392,10 +394,7 @@ $f_bold = get_field('font_ozel_bold', 'option');
                             <a href="<?php echo esc_url($link); ?>"
                                 class="bg-white text-red px-4 py-1.5 font-heading font-bold border-2 border-white hover:bg-cream transition text-[10px] uppercase"><?php echo esc_html($metin); ?></a>
                         <?php endwhile; ?>
-                    <?php else: ?>
-                        <a href="<?php echo home_url('/basvuru#gonullu'); ?>"
-                            class="bg-white text-red px-4 py-1.5 font-heading font-bold border-2 border-white hover:bg-cream transition text-[10px] uppercase">GÖNÜLLÜ
-                            OL</a>
+
                     <?php endif; ?>
                 </div>
 
@@ -445,15 +444,18 @@ $f_bold = get_field('font_ozel_bold', 'option');
                 border-left: 2px solid rgba(255, 255, 255, 0.1);
                 margin-top: 0.5rem;
             }
+
             .mobile-primary-menu .menu-item-has-children {
                 position: relative;
             }
-            .mobile-primary-menu .menu-item-has-children > a {
+
+            .mobile-primary-menu .menu-item-has-children>a {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
             }
-            .mobile-primary-menu .menu-item-has-children > a::after {
+
+            .mobile-primary-menu .menu-item-has-children>a::after {
                 content: '+';
                 font-size: 1.5rem;
                 transition: transform 0.3s;
@@ -461,12 +463,15 @@ $f_bold = get_field('font_ozel_bold', 'option');
                 margin-left: 1rem;
                 font-family: sans-serif;
             }
-            .mobile-primary-menu .menu-item-has-children.open > a::after {
+
+            .mobile-primary-menu .menu-item-has-children.open>a::after {
                 content: '-';
             }
-            .mobile-primary-menu .menu-item-has-children.open > .sub-menu {
+
+            .mobile-primary-menu .menu-item-has-children.open>.sub-menu {
                 display: flex;
             }
+
             .mobile-primary-menu .sub-menu a {
                 font-size: 1rem;
                 opacity: 0.8;
@@ -485,10 +490,7 @@ $f_bold = get_field('font_ozel_bold', 'option');
                     <a href="<?php echo esc_url($link); ?>"
                         class="block w-full bg-white text-red text-center py-4 font-heading font-bold border-2 border-white hover:bg-cream transition text-sm uppercase modern-shadow"><?php echo esc_html($metin); ?></a>
                 <?php endwhile; ?>
-            <?php else: ?>
-                <a href="<?php echo home_url('/basvuru#gonullu'); ?>"
-                    class="block w-full bg-white text-red text-center py-4 font-heading font-bold border-2 border-white hover:bg-cream transition text-sm uppercase modern-shadow">GÖNÜLLÜ
-                    OL</a>
+
             <?php endif; ?>
         </div>
     </div>
@@ -514,7 +516,7 @@ $f_bold = get_field('font_ozel_bold', 'option');
                 const menuWithChildren = menu.querySelectorAll('.menu-item-has-children');
                 menuWithChildren.forEach(item => {
                     const link = item.querySelector('a');
-                    link.addEventListener('click', function(e) {
+                    link.addEventListener('click', function (e) {
                         if (!item.classList.contains('open')) {
                             e.preventDefault();
                             item.classList.add('open');
@@ -534,4 +536,5 @@ $f_bold = get_field('font_ozel_bold', 'option');
         });
     </script>
 </body>
+
 </html>
