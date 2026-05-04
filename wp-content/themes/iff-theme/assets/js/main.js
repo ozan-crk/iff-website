@@ -18,16 +18,35 @@ function initSidePanel() {
     
     if (!panel || !toggleBtn) return;
 
-    toggleBtn.addEventListener('click', () => {
+    toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
         panel.classList.toggle('closed');
+        toggleBtn.classList.remove('minimized');
     });
 
-    // Sayfa içindeki program içeriğini yan panele de kopyalayalım (ilk yükleme)
-    /*
-    if (document.getElementById('side-program-content')) {
-        updateSideProgram('istanbul');
+    // Panel dışına tıklanınca kapat
+    document.addEventListener('click', (e) => {
+        if (!panel.classList.contains('closed') && !panel.contains(e.target)) {
+            panel.classList.add('closed');
+            toggleBtn.classList.remove('minimized');
+        }
+    });
+
+    // Panel içindeki tıklamaların dışarı sızmasını engelle
+    panel.addEventListener('click', (e) => {
+        e.stopPropagation();
+    });
+
+    // Mobil için butonu otomatik küçültme (Yarısı içeri girsin)
+    if (window.innerWidth < 768) {
+        setTimeout(() => {
+            toggleBtn.classList.add('minimized');
+        }, 2000);
+
+        // Fare ile üzerine gelince veya dokununca tekrar tam görünsün
+        toggleBtn.addEventListener('mouseenter', () => toggleBtn.classList.remove('minimized'));
+        toggleBtn.addEventListener('touchstart', () => toggleBtn.classList.remove('minimized'));
     }
-    */
 }
 
 function updateSideProgram(city) {

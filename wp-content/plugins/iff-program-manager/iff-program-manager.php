@@ -564,19 +564,42 @@ class IFF_Program_Manager {
         exit;
     }
 
-    public static function get_programs($limit = 10, $tarih = '') {
+    public static function get_active_cities() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'iff_programs';
+        return $wpdb->get_col("SELECT DISTINCT sehir FROM $table_name WHERE sehir != '' ORDER BY sehir ASC");
+    }
+
+    public static function get_programs($limit = 10, $tarih = '', $sehir = '', $hide_past = false) {
         global $wpdb;
         $table_name = $wpdb->prefix . 'iff_programs';
         
+        $where = ["1=1"];
+        $params = [];
+
         if (!empty($tarih)) {
-            return $wpdb->get_results($wpdb->prepare(
-                "SELECT * FROM $table_name WHERE tarih = %s ORDER BY saat ASC LIMIT %d", 
-                $tarih, 
-                $limit
-            ));
+            $where[] = "tarih = %s";
+            $params[] = $tarih;
         }
 
-        return $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_name ORDER BY tarih ASC, saat ASC LIMIT %d", $limit));
+        if (!empty($sehir)) {
+            $where[] = "sehir = %s";
+            $params[] = $sehir;
+        }
+
+        if ($hide_past && !empty($tarih) && $tarih === current_time('Y-m-d')) {
+            $where[] = "saat >= %s";
+            $params[] = current_time('H:i');
+        }
+
+        $where_clause = implode(" AND ", $where);
+        
+        $query = $wpdb->prepare(
+            "SELECT * FROM $table_name WHERE $where_clause ORDER BY saat ASC LIMIT %d",
+            array_merge($params, [(int)$limit])
+        );
+
+        return $wpdb->get_results($query);
     }
 }
 

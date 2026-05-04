@@ -149,6 +149,18 @@ $f_bold = get_field('font_ozel_bold', 'option');
         .panel-toggle {
             writing-mode: vertical-rl;
             text-orientation: mixed;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out !important;
+        }
+
+        @media screen and (max-width: 768px) {
+            #toggle-panel.minimized {
+                transform: translate(-50%, -50%) !important;
+                opacity: 0.6;
+            }
+            #toggle-panel.minimized:hover, #toggle-panel.minimized:active {
+                transform: translate(0, -50%) !important;
+                opacity: 1;
+            }
         }
 
         /* Global Typography & WordPress Defaults */
