@@ -24,6 +24,17 @@ class IFF_Submission_Manager {
         // SMTP Ayarları varsa PHPMailer'ı yapılandır
         add_action('phpmailer_init', array($this, 'configure_smtp'));
         add_action('wp_mail_failed', array($this, 'log_mail_errors'));
+        add_filter('wp_mail_from', array($this, 'set_mail_from'));
+        add_filter('wp_mail_from_name', array($this, 'set_mail_from_name'));
+    }
+
+    public function set_mail_from($email) {
+        $smtp_user = get_option('iff_smtp_user');
+        return !empty($smtp_user) ? $smtp_user : $email;
+    }
+
+    public function set_mail_from_name($name) {
+        return 'IFF Website';
     }
 
     public function log_mail_errors($error) {
@@ -46,18 +57,42 @@ class IFF_Submission_Manager {
         $enabled = get_option('iff_email_enabled');
         if (!$enabled) return;
 
-        $host = get_option('iff_smtp_host');
+        $host = trim(get_option('iff_smtp_host'));
+        $user = trim(get_option('iff_smtp_user'));
+        $pass = trim(get_option('iff_smtp_pass'));
+        $port = trim(get_option('iff_smtp_port', 587));
+        $secure = trim(get_option('iff_smtp_secure', 'tls'));
+
         if (!$host) return;
 
         $phpmailer->isSMTP();
         $phpmailer->Host       = $host;
         $phpmailer->SMTPAuth   = true;
-        $phpmailer->Port       = get_option('iff_smtp_port', 587);
-        $phpmailer->Username   = get_option('iff_smtp_user');
-        $phpmailer->Password   = get_option('iff_smtp_pass');
-        $phpmailer->SMTPSecure = get_option('iff_smtp_secure', 'tls');
-        $phpmailer->From       = get_option('iff_smtp_user');
+        $phpmailer->Port       = $port;
+        $phpmailer->Username   = $user;
+        $phpmailer->Password   = $pass;
+        $phpmailer->SMTPSecure = $secure;
+        $phpmailer->From       = $user;
         $phpmailer->FromName   = 'IFF Website';
+        
+        // Gmail için Helo ve AuthType iyileştirmesi
+        $phpmailer->Helo       = parse_url(home_url(), PHP_URL_HOST);
+        $phpmailer->AuthType   = 'LOGIN';
+
+        // SSL/TLS sorunlarını aşmak için ek yapılandırma
+        $phpmailer->SMTPOptions = array(
+            'ssl' => array(
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            )
+        );
+
+        // Hata ayıklama logları için
+        $phpmailer->SMTPDebug = 2;
+        $phpmailer->Debugoutput = function($str, $level) {
+            error_log("IFF SMTP DEBUG: $str");
+        };
     }
 
     public function create_table() {
