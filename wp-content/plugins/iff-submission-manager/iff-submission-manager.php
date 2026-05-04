@@ -161,10 +161,10 @@ class IFF_Submission_Manager {
                 throw new Exception('Veritabanı kaydı başarısız oldu.');
             }
 
-            // Bildirimleri arka plana at (AJAX yanıtını bekletmemek için)
-            // time() yerine time() + 5 sn vererek cron'un yakalamasını kolaylaştıralım
-            wp_schedule_single_event(time() + 5, 'iff_send_notifications_async', array($clean_data, $form_type));
-            spawn_cron(); // Cron'u hemen tetiklemeye çalış
+            // Webhook gönderimini doğrudan ama hızlı bir şekilde çalıştır (Email devre dışı)
+            if (get_option('iff_webhook_enabled')) {
+                $this->send_to_webhook($clean_data, $form_type);
+            }
 
             wp_send_json_success(array('message' => 'Başarıyla kaydedildi.'));
 
@@ -181,6 +181,7 @@ class IFF_Submission_Manager {
         $response = wp_remote_post($webhook_url, array(
             'method'    => 'POST',
             'timeout'   => 15,
+            'blocking'  => false, // Yanıtı bekleme, AJAX'ı yavaşlatma
             'body'      => json_encode(array(
                 'source' => 'IFF Website',
                 'type'   => $type,
