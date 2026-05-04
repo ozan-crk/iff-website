@@ -17,8 +17,37 @@ class IFF_Submission_Manager {
 
         register_activation_hook(__FILE__, array($this, 'create_table'));
         add_action('admin_menu', array($this, 'add_admin_menu'));
+        add_action('admin_init', array($this, 'register_settings'));
         add_action('wp_ajax_iff_submit_form', array($this, 'handle_submission'));
         add_action('wp_ajax_nopriv_iff_submit_form', array($this, 'handle_submission'));
+        
+        // SMTP Ayarları varsa PHPMailer'ı yapılandır
+        add_action('phpmailer_init', array($this, 'configure_smtp'));
+    }
+
+    public function register_settings() {
+        register_setting('iff_submission_settings', 'iff_webhook_url');
+        register_setting('iff_submission_settings', 'iff_notification_email');
+        register_setting('iff_submission_settings', 'iff_smtp_host');
+        register_setting('iff_submission_settings', 'iff_smtp_port');
+        register_setting('iff_submission_settings', 'iff_smtp_user');
+        register_setting('iff_submission_settings', 'iff_smtp_pass');
+        register_setting('iff_submission_settings', 'iff_smtp_secure');
+    }
+
+    public function configure_smtp($phpmailer) {
+        $host = get_option('iff_smtp_host');
+        if (!$host) return;
+
+        $phpmailer->isSMTP();
+        $phpmailer->Host       = $host;
+        $phpmailer->SMTPAuth   = true;
+        $phpmailer->Port       = get_option('iff_smtp_port', 587);
+        $phpmailer->Username   = get_option('iff_smtp_user');
+        $phpmailer->Password   = get_option('iff_smtp_pass');
+        $phpmailer->SMTPSecure = get_option('iff_smtp_secure', 'tls');
+        $phpmailer->From       = get_option('iff_smtp_user');
+        $phpmailer->FromName   = 'IFF Website';
     }
 
     public function create_table() {
@@ -47,6 +76,15 @@ class IFF_Submission_Manager {
             'dashicons-feedback',
             26
         );
+
+        add_submenu_page(
+            'iff-submissions',
+            'Ayarlar',
+            'Ayarlar',
+            'manage_options',
+            'iff-submission-settings',
+            array($this, 'render_settings_page')
+        );
     }
 
     public function handle_submission() {
@@ -55,34 +93,33 @@ class IFF_Submission_Manager {
         $form_type = sanitize_text_field($_POST['form_type']);
         $raw_data = $_POST;
         
-        // Hassas verileri temizle
         unset($raw_data['action']);
         unset($raw_data['nonce']);
         
         $clean_data = array_map('sanitize_text_field', $raw_data);
         
-        // Array olan alanları (checkbox vb.) virgülle ayrılmış metne çevir
         foreach ($_POST as $key => $value) {
             if (is_array($value)) {
                 $clean_data[$key] = implode(', ', array_map('sanitize_text_field', $value));
             }
         }
 
-        // 1. Veri Tabanına Kaydet
         global $wpdb;
         $wpdb->insert($this->table_name, array(
             'form_type' => $form_type,
             'data'      => json_encode($clean_data, JSON_UNESCAPED_UNICODE)
         ));
 
-        // 2. Webhook'a Gönder (Placeholder URL)
+        // 2. Webhook ve E-posta Bildirimleri
         $this->send_to_webhook($clean_data, $form_type);
+        $this->send_email_notification($clean_data, $form_type);
 
         wp_send_json_success(array('message' => 'Başarıyla kaydedildi.'));
     }
 
     private function send_to_webhook($data, $type) {
-        $webhook_url = 'https://webhook.site/placeholder'; // Buraya gerçek webhook URL'si gelecek
+        $webhook_url = get_option('iff_webhook_url');
+        if (!$webhook_url) return;
         
         wp_remote_post($webhook_url, array(
             'method'    => 'POST',
@@ -96,6 +133,80 @@ class IFF_Submission_Manager {
         ));
     }
 
+    private function send_email_notification($data, $type) {
+        $to = get_option('iff_notification_email');
+        if (!$to) return;
+
+        $subject = 'Yeni Başvuru: ' . (($type == 'volunteer') ? 'Gönüllü' : 'İletişim');
+        
+        $message = "Yeni bir form başvurusu alındı:\n\n";
+        foreach ($data as $key => $value) {
+            $message .= strtoupper(str_replace('_', ' ', $key)) . ": " . $value . "\n";
+        }
+        $message .= "\nDetaylar için yönetim paneline bakabilirsiniz: " . admin_url('admin.php?page=iff-submissions');
+
+        wp_mail($to, $subject, $message);
+    }
+
+    public function render_settings_page() {
+        ?>
+        <div class="wrap">
+            <h1>Başvuru Ayarları</h1>
+            <form method="post" action="options.php">
+                <?php
+                settings_fields('iff_submission_settings');
+                do_settings_sections('iff_submission_settings');
+                ?>
+                <div class="card" style="max-width: 800px; padding: 20px; margin-top: 20px;">
+                    <h2>Genel ve Webhook Ayarları</h2>
+                    <table class="form-table">
+                        <tr>
+                            <th>Webhook URL</th>
+                            <td><input type="url" name="iff_webhook_url" value="<?php echo esc_attr(get_option('iff_webhook_url')); ?>" class="regular-text" placeholder="https://webhook.site/..."></td>
+                        </tr>
+                        <tr>
+                            <th>Bildirim E-posta Adresi</th>
+                            <td><input type="email" name="iff_notification_email" value="<?php echo esc_attr(get_option('iff_notification_email')); ?>" class="regular-text" placeholder="admin@site.com"></td>
+                        </tr>
+                    </table>
+
+                    <h2 style="margin-top: 40px; border-top: 1px solid #eee; pt: 20px;">SMTP Ayarları</h2>
+                    <p class="description">Bu ayarlar boş bırakılırsa varsayılan WordPress mail sistemi kullanılır.</p>
+                    <table class="form-table">
+                        <tr>
+                            <th>SMTP Host</th>
+                            <td><input type="text" name="iff_smtp_host" value="<?php echo esc_attr(get_option('iff_smtp_host')); ?>" class="regular-text" placeholder="smtp.gmail.com"></td>
+                        </tr>
+                        <tr>
+                            <th>SMTP Port</th>
+                            <td><input type="number" name="iff_smtp_port" value="<?php echo esc_attr(get_option('iff_smtp_port', 587)); ?>" class="small-text"></td>
+                        </tr>
+                        <tr>
+                            <th>SMTP Kullanıcı Adı</th>
+                            <td><input type="text" name="iff_smtp_user" value="<?php echo esc_attr(get_option('iff_smtp_user')); ?>" class="regular-text"></td>
+                        </tr>
+                        <tr>
+                            <th>SMTP Şifre</th>
+                            <td><input type="password" name="iff_smtp_pass" value="<?php echo esc_attr(get_option('iff_smtp_pass')); ?>" class="regular-text"></td>
+                        </tr>
+                        <tr>
+                            <th>Güvenlik</th>
+                            <td>
+                                <select name="iff_smtp_secure">
+                                    <option value="tls" <?php selected(get_option('iff_smtp_secure'), 'tls'); ?>>TLS</option>
+                                    <option value="ssl" <?php selected(get_option('iff_smtp_secure'), 'ssl'); ?>>SSL</option>
+                                    <option value="" <?php selected(get_option('iff_smtp_secure'), ''); ?>>Yok</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <?php submit_button(); ?>
+            </form>
+        </div>
+        <?php
+    }
+
     public function render_admin_page() {
         global $wpdb;
         $results = $wpdb->get_results("SELECT * FROM $this->table_name ORDER BY created_at DESC LIMIT 100");
@@ -105,7 +216,7 @@ class IFF_Submission_Manager {
             <hr class="wp-header-end">
 
             <div class="card" style="max-width: 100%; margin-top: 20px; border-left: 4px solid #f97316;">
-                <p><strong>Bilgi:</strong> Tüm başvurular hem buraya kaydedilir hem de tanımlı webhook adresine iletilir.</p>
+                <p><strong>Bilgi:</strong> Tüm başvurular hem buraya kaydedilir hem de <a href="<?php echo admin_url('admin.php?page=iff-submission-settings'); ?>">ayarlarda</a> tanımlı webhook ve e-posta adresine iletilir.</p>
             </div>
 
             <table class="wp-list-table widefat fixed striped table-view-list" style="margin-top: 20px;">
