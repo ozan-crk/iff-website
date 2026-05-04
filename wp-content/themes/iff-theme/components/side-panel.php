@@ -93,13 +93,13 @@ $program_baslik = get_field('panel_program_baslik', 'option') ?: 'GÜNÜN PROGRA
                                 ?>
                                 <div class="side-prog-item border-l-4 border-orange pl-4 py-2 bg-cream/30"
                                     data-city="<?php echo esc_attr($prog->sehir); ?>">
-                                    <div class="font-heading font-bold text-sm leading-tight uppercase">
+                                    <div class="font-heading font-bold text-sm leading-tight">
                                         <?php echo esc_html($prog->film_adi); ?>
                                     </div>
-                                    <div class="text-[10px] text-gray-600 mt-1 uppercase tracking-tighter">
+                                    <div class="text-[10px] text-gray-600 mt-1 tracking-tighter">
                                         <?php echo esc_html($prog->saat); ?> · <?php echo esc_html($prog->mekan); ?>
                                     </div>
-                                    <div class="text-[10px] text-red mt-2 font-bold uppercase">
+                                    <div class="text-[10px] text-red mt-2 font-bold">
                                         <?php echo esc_html($prog->sehir); ?>
                                     </div>
                                 </div>

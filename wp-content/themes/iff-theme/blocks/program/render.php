@@ -86,7 +86,7 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                         <button
                             class="city-tab px-10 py-4 font-heading font-bold modern-shadow hover-lift transition-all text-lg <?php echo $is_active_city ? 'bg-red text-white' : 'bg-white text-warmgray'; ?>"
                             data-city="<?php echo esc_attr($slug); ?>">
-                            <?php echo esc_html(mb_strtoupper($isim, 'UTF-8')); ?>
+                            <?php echo esc_html($isim); ?>
                         </button>
                     <?php endforeach; ?>
                 </div>
@@ -148,7 +148,7 @@ $style = $bg_color ? "background-color: {$bg_color};" : "";
                                                 ?>
                                                     <div class="session-block <?php echo $is_multi ? 'border-y border-orange/20 py-8 my-4' : ''; ?> <?php echo $has_gala ? 'gala-session' : ''; ?>">
                                                         <?php if ($has_gala): ?>
-                                                            <div class="bg-red text-white text-center py-2 px-4 font-heading font-bold uppercase tracking-[0.3em] text-sm mb-8 -mx-8 md:-mx-8">
+                                                            <div class="bg-red text-white text-center py-2 px-4 font-heading font-bold tracking-[0.3em] text-sm mb-8 -mx-8 md:-mx-8">
                                                                 <?php echo esc_html($session_items[0]->film_adi); ?>
                                                             </div>
                                                         <?php elseif ($is_multi): ?>

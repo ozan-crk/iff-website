@@ -36,10 +36,10 @@ if ($bg_color) {
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b-8 border-orange pb-6">
         <div>
             <h2 class="text-6xl font-custom font-bold text-warmgray tracking-tighter leading-none">
-                <?php echo mb_convert_case($sehir_adi ?: 'ŞEHİR SEÇİN', MB_CASE_UPPER, "UTF-8"); ?>
+                <?php echo esc_html($sehir_adi ?: 'ŞEHİR SEÇİN'); ?>
             </h2>
             <h3 class="text-2xl font-custom text-red mt-2 tracking-tight">
-                <?php echo mb_convert_case($baslik, MB_CASE_UPPER, "UTF-8"); ?>
+                <?php echo esc_html($baslik); ?>
             </h3>
         </div>
 
