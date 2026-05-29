@@ -168,7 +168,7 @@ if ($bg_color) {
                                                                 <div class="flex items-center gap-4 text-xs text-gray-500 font-serif italic">
                                                                     <?php if (!empty($item->sure)): ?>
                                                                         <span class="flex items-center bg-cream px-2 py-0.5 rounded-sm">
-                                                                            <?php echo esc_html($item->sure); ?>
+                                                                            Süre: <?php echo esc_html($item->sure); ?>'
                                                                         </span>
                                                                     <?php endif; ?>
 
