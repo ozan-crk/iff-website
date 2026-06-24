@@ -1,0 +1,228 @@
+{
+  "name": "İFF-İLETİSİM",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "iff-submissions",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        1200
+      ],
+      "webhookId": "iff-webhook-listener",
+      "id": "680a07b1-9234-46b7-8c19-c0c537267195"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$node[\"Webhook\"].json[\"body\"][\"type\"]}}",
+              "value2": "volunteer"
+            }
+          ]
+        }
+      },
+      "name": "Is Volunteer?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        1376,
+        1200
+      ],
+      "id": "ea836856-e45f-4210-ae2f-f716220bbe4a"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "Ad Soyad",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"name\"] || $node[\"Webhook\"].json[\"body\"][\"data\"][\"first_name\"] + ' ' + $node[\"Webhook\"].json[\"body\"][\"data\"][\"last_name\"]}}"
+            },
+            {
+              "name": "Email",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"email\"]}}"
+            },
+            {
+              "name": "Telefon",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"phone\"]}}"
+            },
+            {
+              "name": "Şehir",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"city\"]}}"
+            },
+            {
+              "name": "Müsaitlik",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"availability\"]}}"
+            },
+            {
+              "name": "Hakkında",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"about\"]}}"
+            },
+            {
+              "name": "Mesaj/Notlar",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"message\"] || $node[\"Webhook\"].json[\"body\"][\"data\"][\"notes\"]}}"
+            },
+            {
+              "name": "Tip",
+              "value": "Gönüllü Başvurusu"
+            },
+            {
+              "name": "Tarih",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"timestamp\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Format Volunteer Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        1088
+      ],
+      "id": "ea363c23-a97e-4dce-ac54-74e3bb910db4"
+    },
+    {
+      "parameters": {
+        "keepOnlySet": true,
+        "values": {
+          "string": [
+            {
+              "name": "Ad Soyad",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"name\"]}}"
+            },
+            {
+              "name": "Email",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"email\"]}}"
+            },
+            {
+              "name": "Konu",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"subject\"]}}"
+            },
+            {
+              "name": "Mesaj",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"data\"][\"message\"]}}"
+            },
+            {
+              "name": "Tip",
+              "value": "İletişim Formu"
+            },
+            {
+              "name": "Tarih",
+              "value": "={{$node[\"Webhook\"].json[\"body\"][\"timestamp\"]}}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Format Contact Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        1296
+      ],
+      "id": "5ca545e4-7466-41af-b123-9b5171023fe7"
+    },
+    {
+      "parameters": {
+        "fromEmail": "bilgi@iff.org.tr",
+        "toEmail": "bilgi@iff.org.tr",
+        "subject": "={{$json[\"Tip\"]}}: {{$json[\"Ad Soyad\"]}}",
+        "html": "=<h3>Yeni Başvuru Alındı</h3>\n<p><strong>Tür:</strong> {{$json[\"Tip\"]}}</p>\n<p><strong>Ad Soyad:</strong> {{$json[\"Ad Soyad\"]}}</p>\n<p><strong>Email:</strong> {{$json[\"Email\"]}}</p>\n{{$json[\"Telefon\"] ? '<p><strong>Telefon:</strong> ' + $json[\"Telefon\"] + '</p>' : ''}}\n{{$json[\"Şehir\"] ? '<p><strong>Şehir:</strong> ' + $json[\"Şehir\"] + '</p>' : ''}}\n{{$json[\"Müsaitlik\"] ? '<p><strong>Müsaitlik:</strong> ' + $json[\"Müsaitlik\"] + '</p>' : ''}}\n{{$json[\"Konu\"] ? '<p><strong>Konu:</strong> ' + $json[\"Konu\"] + '</p>' : ''}}\n{{$json[\"Hakkında\"] ? '<p><strong>Hakkında:</strong> ' + $json[\"Hakkında\"] + '</p>' : ''}}\n{{($json[\"Mesaj\"] || $json[\"Mesaj/Notlar\"]) ? '<p><strong>Mesaj:</strong> ' + ($json[\"Mesaj\"] || $json[\"Mesaj/Notlar\"]) + '</p>' : ''}}\n<p><strong>Tarih:</strong> {{$json[\"Tarih\"]}}</p>",
+        "options": {}
+      },
+      "name": "Send Email Notification",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        1200
+      ],
+      "id": "ac537313-e953-4f9f-99eb-0f3206a217d9",
+      "credentials": {
+        "smtp": {
+          "id": "azITyNKWEaZLtSlu",
+          "name": "SMTP account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Is Volunteer?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is Volunteer?": {
+      "main": [
+        [
+          {
+            "node": "Format Volunteer Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Contact Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Volunteer Data": {
+      "main": [
+        [
+          {
+            "node": "Send Email Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Contact Data": {
+      "main": [
+        [
+          {
+            "node": "Send Email Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "fe94ffb1-cacd-47d4-b33e-02f64a2dfb51",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "bca19211bd75114be2d170a7270a3e37306ee1491882ec33065bf5a427788073"
+  },
+  "nodeGroups": [],
+  "id": "eteTnuwkFom2fWZs",
+  "tags": []
+}
