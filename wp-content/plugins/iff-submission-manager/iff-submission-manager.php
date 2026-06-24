@@ -21,6 +21,7 @@ class IFF_Submission_Manager
         register_activation_hook(__FILE__, array($this, 'create_table'));
         add_action('admin_menu', array($this, 'add_admin_menu'));
         add_action('admin_init', array($this, 'register_settings'));
+        add_action('admin_init', array($this, 'handle_export'));
         add_action('wp_ajax_iff_submit_form', array($this, 'handle_submission'));
         add_action('wp_ajax_nopriv_iff_submit_form', array($this, 'handle_submission'));
         add_action('wp_ajax_iff_manual_push', array($this, 'handle_manual_push'));
@@ -48,6 +49,102 @@ class IFF_Submission_Manager
             wp_send_json_success(array('message' => 'Webhook başarıyla tetiklendi.'));
         }
         wp_send_json_error(array('message' => 'Kayıt bulunamadı.'));
+    }
+
+    public function handle_export()
+    {
+        if (!isset($_GET['iff_download_export']) || !current_user_can('manage_options')) {
+            return;
+        }
+
+        $type = sanitize_text_field($_GET['iff_download_export']);
+        if ($type !== 'volunteer' && $type !== 'contact') {
+            return;
+        }
+
+        global $wpdb;
+        $results = $wpdb->get_results($wpdb->prepare(
+            "SELECT * FROM $this->table_name WHERE form_type = %s ORDER BY created_at DESC",
+            $type
+        ));
+
+        $filename = ($type === 'volunteer' ? 'gonullu-basvurulari' : 'iletisim-basvurulari') . '-' . date('Y-m-d') . '.csv';
+
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename="' . $filename . '"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        $output = fopen('php://output', 'w');
+        // UTF-8 BOM for Excel Turkish character support
+        fwrite($output, "\xEF\xBB\xBF");
+
+        $headers = array('id');
+        $all_rows_data = array();
+
+        foreach ($results as $row) {
+            $data = json_decode($row->data, true);
+            if (!is_array($data)) {
+                $data = array();
+            }
+            unset($data['id']);
+            unset($data['created_at']);
+
+            $all_rows_data[] = array(
+                'id' => $row->id,
+                'created_at' => $row->created_at,
+                'data' => $data
+            );
+            foreach (array_keys($data) as $key) {
+                if (!in_array($key, $headers)) {
+                    $headers[] = $key;
+                }
+            }
+        }
+        $headers[] = 'created_at';
+
+        $translations = array(
+            'id' => 'ID',
+            'created_at' => 'Tarih',
+            'first_name' => 'Ad',
+            'last_name' => 'Soyad',
+            'name' => 'Ad Soyad',
+            'email' => 'E-posta',
+            'phone' => 'Telefon',
+            'city' => 'Şehir',
+            'availability' => 'Müsaitlik',
+            'about' => 'Hakkında/Açıklama',
+            'form_type' => 'Form Tipi',
+            'subject' => 'Konu',
+            'message' => 'Mesaj',
+            'notes' => 'Notlar'
+        );
+
+        $readable_headers = array_map(function($h) use ($translations) {
+            if (isset($translations[$h])) {
+                return $translations[$h];
+            }
+            return mb_convert_case(str_replace('_', ' ', $h), MB_CASE_TITLE, "UTF-8");
+        }, $headers);
+
+        fputcsv($output, $readable_headers, ';');
+
+        foreach ($all_rows_data as $row_data) {
+            $csv_row = array();
+            foreach ($headers as $header_key) {
+                if ($header_key === 'id') {
+                    $csv_row[] = $row_data['id'];
+                } elseif ($header_key === 'created_at') {
+                    $csv_row[] = $row_data['created_at'];
+                } else {
+                    $csv_row[] = isset($row_data['data'][$header_key]) ? $row_data['data'][$header_key] : '';
+                }
+            }
+            fputcsv($output, $csv_row, ';');
+        }
+
+        fclose($output);
+        exit;
     }
 
     public function set_mail_from($email)
@@ -308,6 +405,12 @@ class IFF_Submission_Manager
         ?>
         <div class="wrap">
             <h1 class="wp-heading-inline">Form Başvuruları</h1>
+            
+            <div style="float: right; margin-top: 5px;">
+                <a href="<?php echo admin_url('admin.php?page=iff-submissions&iff_download_export=volunteer'); ?>" class="button button-primary" style="background: #f97316; border-color: #ea580c; color: white;">Gönüllü Başvurularını İndir (Excel/CSV)</a>
+                <a href="<?php echo admin_url('admin.php?page=iff-submissions&iff_download_export=contact'); ?>" class="button button-secondary">İletişim Başvurularını İndir (Excel/CSV)</a>
+            </div>
+            
             <hr class="wp-header-end">
 
             <div class="card" style="max-width: 100%; margin-top: 20px; border-left: 4px solid #f97316;">
