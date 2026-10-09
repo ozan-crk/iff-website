@@ -32,18 +32,43 @@ function iff_theme_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'iff_theme_scripts' );
 
-// Gutenberg Editör İframe Devre Dışı
-add_filter( 'block_editor_settings_all', function( $editor_settings ) {
-    $editor_settings['isIframe'] = false;
-    return $editor_settings;
-}, 9999 );
-
-add_action('admin_head', function() {
-    echo '<style>
-        .acf-block-fields { background: #fff !important; padding: 15px 20px !important; border: 1px solid #ccd0d4 !important; margin: 15px 0 !important; box-shadow: 0 1px 1px rgba(0,0,0,.04) !important; }
-        .acf-image-uploader img { max-width: 150px !important; max-height: 100px !important; height: auto !important; object-fit: contain !important; }
-        .wp-block-acf-slider, .wp-block-acf-banners, .wp-block-acf-news, .wp-block-acf-photo-slider { margin-bottom: 20px !important; }
-    </style>';
+/**
+ * Gutenberg Blok Editörüne ACF PRO Stillerini ve Form Düzenini Yükle
+ */
+add_action('enqueue_block_assets', function() {
+    if (is_admin()) {
+        $acf_css_url = plugins_url('advanced-custom-fields-pro/assets/build/css/');
+        wp_enqueue_style('wp-forms-admin', admin_url('css/forms.min.css'));
+        wp_enqueue_style('acf-global-editor', $acf_css_url . 'acf-global.min.css');
+        wp_enqueue_style('acf-input-editor', $acf_css_url . 'acf-input.min.css');
+        wp_enqueue_style('acf-pro-input-editor', $acf_css_url . 'pro/acf-pro-input.min.css');
+        
+        // Edit modunda arkaya basılan önizleme HTML'ini gizle ve formları hizala
+        wp_add_inline_style('acf-input-editor', '
+            .acf-block-fields {
+                background: #ffffff !important;
+                padding: 16px 20px !important;
+                border: 1px solid #ccd0d4 !important;
+                box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
+                margin: 15px 0 !important;
+                display: block !important;
+                position: relative !important;
+                z-index: 10 !important;
+            }
+            .acf-block-body > .acf-block-preview {
+                display: none !important;
+            }
+            .acf-image-uploader img {
+                max-width: 140px !important;
+                max-height: 90px !important;
+                height: auto !important;
+                object-fit: contain !important;
+            }
+            .acf-repeater table.acf-table {
+                width: 100% !important;
+            }
+        ');
+    }
 });
 
 /**
