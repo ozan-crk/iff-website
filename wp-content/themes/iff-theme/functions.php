@@ -38,6 +38,8 @@ add_action( 'wp_enqueue_scripts', 'iff_theme_scripts' );
 add_action('enqueue_block_assets', function() {
     if (is_admin()) {
         $acf_css_url = plugins_url('advanced-custom-fields-pro/assets/build/css/');
+        wp_enqueue_style('dashicons');
+        wp_enqueue_style('wp-color-picker');
         wp_enqueue_style('wp-forms-admin', admin_url('css/forms.min.css'));
         wp_enqueue_style('acf-global-editor', $acf_css_url . 'acf-global.min.css');
         wp_enqueue_style('acf-input-editor', $acf_css_url . 'acf-input.min.css');
@@ -54,8 +56,10 @@ add_action('enqueue_block_assets', function() {
                 display: block !important;
                 position: relative !important;
                 z-index: 10 !important;
+                clear: both !important;
             }
-            .acf-block-body > .acf-block-preview {
+            .acf-block-body > .acf-block-preview,
+            .wp-block .acf-block-preview {
                 display: none !important;
             }
             .acf-image-uploader img {
@@ -66,6 +70,34 @@ add_action('enqueue_block_assets', function() {
             }
             .acf-repeater table.acf-table {
                 width: 100% !important;
+            }
+            /* Color Picker Düzeltmesi */
+            .wp-picker-container {
+                display: inline-flex !important;
+                align-items: center !important;
+                gap: 6px !important;
+                flex-wrap: wrap !important;
+            }
+            .wp-picker-container .wp-color-result.button {
+                display: inline-flex !important;
+                align-items: center !important;
+                height: 30px !important;
+                margin: 0 !important;
+                padding: 0 0 0 30px !important;
+            }
+            .wp-picker-container input[type="text"].wp-color-picker {
+                width: 90px !important;
+                max-width: 90px !important;
+                height: 30px !important;
+                display: inline-block !important;
+                padding: 4px 8px !important;
+                font-size: 13px !important;
+                margin: 0 !important;
+            }
+            .wp-picker-container .button.wp-picker-clear {
+                height: 30px !important;
+                margin: 0 !important;
+                padding: 0 10px !important;
             }
         ');
     }
