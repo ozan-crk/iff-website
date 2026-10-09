@@ -20,6 +20,10 @@ function iff_theme_setup() {
     add_theme_support( 'post-thumbnails' );
     add_theme_support( 'menus' );
     
+    // Gutenberg Editör Stilleri Desteği (İframe içine otomatik enjekte eder)
+    add_theme_support( 'editor-styles' );
+    add_editor_style( 'assets/css/editor-style.css' );
+    
     register_nav_menus( array(
         'primary' => __( 'Ana Menü', 'iff-theme' ),
     ) );
@@ -33,19 +37,16 @@ function iff_theme_scripts() {
 add_action( 'wp_enqueue_scripts', 'iff_theme_scripts' );
 
 /**
- * Gutenberg Blok Editörü Stilleri & Tailwind Yükleme
+ * Gutenberg Blok Editörü (İframe & Non-iframe) Stilleri
  */
-function iff_block_editor_assets() {
-    // Google Fonts
-    wp_enqueue_style('iff-google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap', array(), null);
-    
-    // Tailwind CDN
-    wp_enqueue_script('iff-tailwind', 'https://cdn.tailwindcss.com', array(), null, false);
-    
-    // Tema Stili
-    wp_enqueue_style('iff-theme-editor-style', get_stylesheet_uri(), array(), '1.0.0');
-}
-add_action('enqueue_block_editor_assets', 'iff_block_editor_assets');
+add_action('enqueue_block_assets', function() {
+    if (is_admin()) {
+        // Editör içine ACF ve WordPress form stillerini zorunlu bağla
+        wp_enqueue_style('forms');
+        wp_enqueue_style('common');
+        wp_enqueue_style('iff-editor-custom-style', get_template_directory_uri() . '/assets/css/editor-style.css', array(), '1.0.1');
+    }
+});
 
 // Admin & Blok Editörü için Tailwind Yapılandırması ve Yardımcı CSS
 add_action('admin_head', function() {

@@ -1,0 +1,121 @@
+/* Gutenberg Editör İframe Stilleri & ACF Edit Modu Düzeltmeleri */
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap');
+
+/* ACF Edit Modu Form Düzenlemeleri */
+.acf-block-component,
+.acf-block-fields {
+    background: #ffffff !important;
+    padding: 20px !important;
+    border: 1px solid #dcdcde !important;
+    border-radius: 6px !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+    margin: 10px 0 !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif !important;
+}
+
+.acf-field {
+    margin-bottom: 16px !important;
+    padding: 8px 0 !important;
+    border-top: 1px solid #f0f0f1 !important;
+}
+
+.acf-field:first-child {
+    border-top: none !important;
+}
+
+.acf-label label {
+    display: block !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    color: #1d2327 !important;
+    margin-bottom: 6px !important;
+}
+
+.acf-label p.description {
+    font-size: 12px !important;
+    color: #646970 !important;
+    margin-top: 2px !important;
+    margin-bottom: 6px !important;
+    font-style: italic !important;
+}
+
+.acf-input input[type="text"],
+.acf-input input[type="number"],
+.acf-input input[type="email"],
+.acf-input input[type="url"],
+.acf-input textarea,
+.acf-input select {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding: 8px 12px !important;
+    border: 1px solid #8c8f94 !important;
+    border-radius: 4px !important;
+    background-color: #ffffff !important;
+    color: #2c3338 !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    box-shadow: 0 0 0 transparent !important;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out !important;
+}
+
+.acf-input input[type="text"]:focus,
+.acf-input input[type="number"]:focus,
+.acf-input textarea:focus,
+.acf-input select:focus {
+    border-color: #2271b1 !important;
+    box-shadow: 0 0 0 1px #2271b1 !important;
+    outline: 2px solid transparent !important;
+}
+
+/* ACF Repeater Tablo ve Buton Stilleri */
+.acf-repeater {
+    background: #f6f7f7 !important;
+    border: 1px solid #dcdcde !important;
+    border-radius: 4px !important;
+    padding: 12px !important;
+}
+
+.acf-repeater .-row {
+    background: #ffffff !important;
+    border: 1px solid #c3c4c7 !important;
+    border-radius: 4px !important;
+    margin-bottom: 12px !important;
+    padding: 12px !important;
+}
+
+.acf-button,
+.acf-repeater-add-row,
+.button,
+.button-primary,
+.button-secondary {
+    display: inline-block !important;
+    padding: 6px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+    border-radius: 4px !important;
+    cursor: pointer !important;
+    text-decoration: none !important;
+    border: 1px solid #2271b1 !important;
+    background: #2271b1 !important;
+    color: #ffffff !important;
+    margin-top: 8px !important;
+}
+
+.acf-button:hover,
+.acf-repeater-add-row:hover {
+    background: #135e96 !important;
+    border-color: #135e96 !important;
+    color: #ffffff !important;
+}
+
+/* Önizleme yardımcı sınıfları */
+.modern-shadow {
+    box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.1);
+}
+
+.hover-lift:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.15);
+}
