@@ -1822,22 +1822,6 @@
                 ]
             },
             {
-                "key": "field_pp_genislik_orani",
-                "label": "Genişlik Oranı",
-                "name": "genislik_orani",
-                "type": "number",
-                "default_value": 16,
-                "instructions": "Örn: 16"
-            },
-            {
-                "key": "field_pp_yukseklik_orani",
-                "label": "Yükseklik Oranı",
-                "name": "yukseklik_orani",
-                "type": "number",
-                "default_value": 9,
-                "instructions": "Örn: 9"
-            },
-            {
                 "key": "field_pp_max_genislik",
                 "label": "Maksimum Genişlik (px veya %)",
                 "name": "max_genislik",
@@ -1858,6 +1842,118 @@
                     "param": "block",
                     "operator": "==",
                     "value": "acf\/pdf-preview"
+                }
+            ]
+        ],
+        "menu_order": 0,
+        "position": "normal",
+        "style": "default",
+        "label_placement": "top",
+        "instruction_placement": "label",
+        "hide_on_screen": "",
+        "active": true,
+        "description": ""
+    },
+    {
+        "key": "group_film_list",
+        "title": "Film Listesi",
+        "fields": [
+            {
+                "key": "field_fl_baslik",
+                "label": "Ana Başlık",
+                "name": "baslik",
+                "type": "text",
+                "default_value": "FİLM LİSTESİ"
+            },
+            {
+                "key": "field_fl_kaynak",
+                "label": "Veri Kaynağı",
+                "name": "veri_kaynagi",
+                "type": "select",
+                "choices": {
+                    "manuel": "Manuel Ekleme (Repeater)",
+                    "json": "Toplu JSON Yükleme"
+                },
+                "default_value": "manuel"
+            },
+            {
+                "key": "field_fl_filmler",
+                "label": "Filmler",
+                "name": "filmler",
+                "type": "repeater",
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_fl_kaynak",
+                            "operator": "==",
+                            "value": "manuel"
+                        }
+                    ]
+                ],
+                "layout": "table",
+                "button_label": "Yeni Film Ekle",
+                "sub_fields": [
+                    {
+                        "key": "field_p_s_tur",
+                        "label": "Tür",
+                        "name": "tur",
+                        "type": "select",
+                        "choices": {
+                            "film": "Film",
+                            "etkinlik": "Etkinlik"
+                        },
+                        "default_value": "film",
+                        "ui": 1
+                    },
+                    {
+                        "key": "field_fl_f_adi",
+                        "label": "Film Adı",
+                        "name": "film_adi",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_fl_f_yili",
+                        "label": "Yapım Yılı",
+                        "name": "yapim_yili",
+                        "type": "text"
+                    },
+                    {
+                        "key": "field_fl_f_yonetmen",
+                        "label": "Yönetmen",
+                        "name": "yonetmen",
+                        "type": "text"
+                    }
+                ]
+            },
+            {
+                "key": "field_fl_json",
+                "label": "JSON Verisi",
+                "name": "json_verisi",
+                "type": "textarea",
+                "instructions": "Örn Format: [ { \"film_adi\": \"Film Adı\", \"yapim_yili\": \"2024\", \"yonetmen\": \"Ad Soyad\" } ]",
+                "conditional_logic": [
+                    [
+                        {
+                            "field": "field_fl_kaynak",
+                            "operator": "==",
+                            "value": "json"
+                        }
+                    ]
+                ]
+            },
+            {
+                "key": "field_fl_arka_plan",
+                "label": "Arka Plan Rengi",
+                "name": "arka_plan_rengi",
+                "type": "color_picker"
+            }
+        ],
+        "location": [
+            [
+                {
+                    "param": "block",
+                    "operator": "==",
+                    "value": "acf\/film-list"
                 }
             ]
         ],

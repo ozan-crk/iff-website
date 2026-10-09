@@ -1,0 +1,13 @@
+{
+    "name": "acf/slider",
+    "title": "IFF Manşet Slider",
+    "description": "Anasayfa üst manşet slider alanı.",
+    "category": "formatting",
+    "icon": "slides",
+    "keywords": ["iff", "slider", "manşet", "hero", "slayt"],
+    "acf": {
+        "mode": "edit",
+        "renderTemplate": "render.php"
+    },
+    "align": "full"
+}

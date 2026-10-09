@@ -47,6 +47,7 @@ function iff_register_acf_blocks() {
         
         // Anasayfa Blokları
         register_block_type( __DIR__ . '/blocks/hero' );
+        register_block_type( __DIR__ . '/blocks/slider' );
         register_block_type( __DIR__ . '/blocks/stats' );
         register_block_type( __DIR__ . '/blocks/photo-slider' );
         register_block_type( __DIR__ . '/blocks/banners' );
