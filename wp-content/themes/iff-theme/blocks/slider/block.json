@@ -4,7 +4,6 @@
     "description": "Anasayfa üst manşet slider alanı.",
     "category": "formatting",
     "icon": "slides",
-    "apiVersion": 2,
     "keywords": [
         "iff",
         "slider",

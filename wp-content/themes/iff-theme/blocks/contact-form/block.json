@@ -16,6 +16,5 @@
     "supports": {
         "align": true,
         "jsx": true
-    },
-    "apiVersion": 2
+    }
 }

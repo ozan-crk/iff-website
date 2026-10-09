@@ -20,10 +20,6 @@ function iff_theme_setup() {
     add_theme_support( 'post-thumbnails' );
     add_theme_support( 'menus' );
     
-    // Gutenberg Editör Stilleri Desteği (İframe içine otomatik enjekte eder)
-    add_theme_support( 'editor-styles' );
-    add_editor_style( 'assets/css/editor-style.css' );
-    
     register_nav_menus( array(
         'primary' => __( 'Ana Menü', 'iff-theme' ),
     ) );
@@ -37,20 +33,43 @@ function iff_theme_scripts() {
 add_action( 'wp_enqueue_scripts', 'iff_theme_scripts' );
 
 /**
- * Gutenberg Blok Editörü (İframe & Non-iframe) Stilleri
+ * Gutenberg Editör İframe'ini Tamamen Devre Dışı Bırak (Klasik ACF Desteği)
  */
-add_action('enqueue_block_assets', function() {
-    if (is_admin()) {
-        wp_enqueue_style('forms');
-        wp_enqueue_style('common');
-        wp_enqueue_style('wp-color-picker');
-        wp_enqueue_style('iff-editor-custom-style', get_template_directory_uri() . '/assets/css/editor-style.css', array(), time());
-    }
-});
+add_filter( 'block_editor_settings_all', function( $editor_settings ) {
+    $editor_settings['isIframe'] = false;
+    return $editor_settings;
+}, 9999 );
 
-add_action('admin_enqueue_scripts', function() {
-    wp_enqueue_style('wp-color-picker');
-    wp_enqueue_style('iff-admin-custom-style', get_template_directory_uri() . '/assets/css/editor-style.css', array(), time());
+add_action('admin_head', function() {
+    ?>
+    <style>
+        .acf-block-fields {
+            background: #ffffff !important;
+            padding: 16px 20px !important;
+            border: 1px solid #ccd0d4 !important;
+            box-shadow: 0 1px 1px rgba(0,0,0,.04) !important;
+            margin: 15px 0 !important;
+        }
+        .acf-image-uploader img {
+            max-width: 220px !important;
+            max-height: 150px !important;
+            height: auto !important;
+            object-fit: contain !important;
+            display: block !important;
+        }
+        .acf-table {
+            width: 100% !important;
+        }
+        .acf-table th, .acf-table td {
+            padding: 8px 10px !important;
+        }
+        .acf-table td input[type="text"],
+        .acf-table td select {
+            width: 100% !important;
+            min-width: 0 !important;
+        }
+    </style>
+    <?php
 });
 
 /**
