@@ -4,10 +4,16 @@
     "description": "Seçilen şehre ait gösterim programını ve PDF dosyasını listeler.",
     "category": "formatting",
     "icon": "calendar-alt",
-    "keywords": ["iff", "program", "şehir", "gösterim"],
+    "keywords": [
+        "iff",
+        "program",
+        "şehir",
+        "gösterim"
+    ],
     "acf": {
-        "mode": "preview",
+        "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

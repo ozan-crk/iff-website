@@ -4,10 +4,16 @@
     "description": "Aktif festivalin afişi ve indirme alanı.",
     "category": "formatting",
     "icon": "format-image",
-    "keywords": ["iff", "afiş", "poster", "festival"],
+    "keywords": [
+        "iff",
+        "afiş",
+        "poster",
+        "festival"
+    ],
     "acf": {
         "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

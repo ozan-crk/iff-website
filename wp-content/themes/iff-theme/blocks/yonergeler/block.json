@@ -4,10 +4,16 @@
     "description": "Yönergeler kartları alanı.",
     "category": "formatting",
     "icon": "media-document",
-    "keywords": ["iff", "yönerge", "pdf", "belge"],
+    "keywords": [
+        "iff",
+        "yönerge",
+        "pdf",
+        "belge"
+    ],
     "acf": {
         "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

@@ -4,10 +4,16 @@
     "description": "Basın kiti indirme linkleri ve görsel önizleme alanı.",
     "category": "formatting",
     "icon": "media-document",
-    "keywords": ["iff", "basın", "kit", "görsel"],
+    "keywords": [
+        "iff",
+        "basın",
+        "kit",
+        "görsel"
+    ],
     "acf": {
-        "mode": "preview",
+        "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

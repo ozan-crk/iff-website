@@ -4,10 +4,16 @@
     "description": "Başvuru sayfalarındaki kart tasarımları.",
     "category": "formatting",
     "icon": "clipboard",
-    "keywords": ["iff", "başvuru", "film", "gönüllü"],
+    "keywords": [
+        "iff",
+        "başvuru",
+        "film",
+        "gönüllü"
+    ],
     "acf": {
         "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

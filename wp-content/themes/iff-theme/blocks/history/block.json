@@ -4,10 +4,16 @@
     "description": "Yıllara göre festival afişleri ve detayları.",
     "category": "formatting",
     "icon": "calendar-alt",
-    "keywords": ["iff", "tarihçe", "afiş", "yıllar"],
+    "keywords": [
+        "iff",
+        "tarihçe",
+        "afiş",
+        "yıllar"
+    ],
     "acf": {
-        "mode": "preview",
+        "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

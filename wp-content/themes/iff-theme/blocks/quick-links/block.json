@@ -4,10 +4,16 @@
     "description": "Sayfa altı hızlı linkler ve e-posta aboneliği.",
     "category": "formatting",
     "icon": "feedback",
-    "keywords": ["iff", "footer", "link", "sosyal medya"],
+    "keywords": [
+        "iff",
+        "footer",
+        "link",
+        "sosyal medya"
+    ],
     "acf": {
         "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

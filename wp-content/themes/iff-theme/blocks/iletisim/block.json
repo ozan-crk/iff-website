@@ -4,10 +4,16 @@
     "description": "İletişim sayfası bilgileri alanı tasarımı.",
     "category": "formatting",
     "icon": "email",
-    "keywords": ["iff", "iletisim", "bize ulaşın", "adres"],
+    "keywords": [
+        "iff",
+        "iletisim",
+        "bize ulaşın",
+        "adres"
+    ],
     "acf": {
         "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

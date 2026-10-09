@@ -4,10 +4,16 @@
     "description": "Manuel veya JSON üzerinden film listesi oluşturun.",
     "category": "formatting",
     "icon": "list-view",
-    "keywords": ["iff", "film", "liste", "json"],
+    "keywords": [
+        "iff",
+        "film",
+        "liste",
+        "json"
+    ],
     "acf": {
-        "mode": "preview",
+        "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

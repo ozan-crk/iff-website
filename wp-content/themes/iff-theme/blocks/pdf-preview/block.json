@@ -4,10 +4,16 @@
     "description": "PDF belgelerini modal veya direkt olarak gösterin.",
     "category": "formatting",
     "icon": "media-document",
-    "keywords": ["iff", "pdf", "önizleme", "modal"],
+    "keywords": [
+        "iff",
+        "pdf",
+        "önizleme",
+        "modal"
+    ],
     "acf": {
-        "mode": "preview",
+        "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

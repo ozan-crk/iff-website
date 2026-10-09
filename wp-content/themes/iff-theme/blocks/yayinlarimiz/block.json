@@ -4,10 +4,16 @@
     "description": "PDF veya dış bağlantı içeren yayın listesi.",
     "category": "formatting",
     "icon": "pdf",
-    "keywords": ["iff", "yayınlar", "pdf", "kitapçık"],
+    "keywords": [
+        "iff",
+        "yayınlar",
+        "pdf",
+        "kitapçık"
+    ],
     "acf": {
-        "mode": "preview",
+        "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

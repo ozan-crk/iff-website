@@ -4,10 +4,16 @@
     "description": "Şehirlere göre aylık gösterim programları alanı.",
     "category": "formatting",
     "icon": "calendar-alt",
-    "keywords": ["iff", "program", "takvim", "şehir"],
+    "keywords": [
+        "iff",
+        "program",
+        "takvim",
+        "şehir"
+    ],
     "acf": {
         "mode": "edit",
         "renderTemplate": "render.php"
     },
-    "align": "full"
+    "align": "full",
+    "apiVersion": 2
 }

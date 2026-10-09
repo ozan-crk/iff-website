@@ -33,6 +33,89 @@ function iff_theme_scripts() {
 add_action( 'wp_enqueue_scripts', 'iff_theme_scripts' );
 
 /**
+ * Gutenberg Blok Editörü Stilleri & Tailwind Yükleme
+ */
+function iff_block_editor_assets() {
+    // Google Fonts
+    wp_enqueue_style('iff-google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap', array(), null);
+    
+    // Tailwind CDN
+    wp_enqueue_script('iff-tailwind', 'https://cdn.tailwindcss.com', array(), null, false);
+    
+    // Tema Stili
+    wp_enqueue_style('iff-theme-editor-style', get_stylesheet_uri(), array(), '1.0.0');
+}
+add_action('enqueue_block_editor_assets', 'iff_block_editor_assets');
+
+// Admin & Blok Editörü için Tailwind Yapılandırması ve Yardımcı CSS
+add_action('admin_head', function() {
+    $c_ana = function_exists('get_field') ? (get_field('renk_ana', 'option') ?: '#FF6B35') : '#FF6B35';
+    $c_ikincil = function_exists('get_field') ? (get_field('renk_ikincil', 'option') ?: '#E63946') : '#E63946';
+    $c_arka = function_exists('get_field') ? (get_field('renk_arka_plan', 'option') ?: '#FFF5E6') : '#FFF5E6';
+    $c_koyu = function_exists('get_field') ? (get_field('renk_koyu', 'option') ?: '#2C2C2C') : '#2C2C2C';
+    $f_ozel_ad = function_exists('get_field') ? (get_field('font_ozel_ad', 'option') ?: 'CustomFont') : 'CustomFont';
+    ?>
+    <script>
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                corePlugins: {
+                    preflight: false, // WordPress admin input ve form stillerini sıfırlamasını engeller
+                },
+                theme: {
+                    extend: {
+                        colors: {
+                            cream: '<?php echo esc_js($c_arka); ?>',
+                            orange: '<?php echo esc_js($c_ana); ?>',
+                            darkorange: '<?php echo esc_js($c_ana); ?>',
+                            red: '<?php echo esc_js($c_ikincil); ?>',
+                            warmgray: '<?php echo esc_js($c_koyu); ?>',
+                        },
+                        fontFamily: {
+                            'sans': ['Inter', 'sans-serif'],
+                            'heading': ['Roboto Condensed', 'sans-serif'],
+                            'display': ['Playfair Display', 'serif'],
+                            'custom': ['<?php echo esc_js($f_ozel_ad); ?>', 'sans-serif'],
+                        }
+                    }
+                }
+            };
+        }
+    </script>
+    <style>
+        .modern-shadow { box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.1) !important; }
+        .hover-lift:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.15); }
+        .slider-dot.active { background-color: <?php echo esc_attr($c_ana); ?> !important; }
+        .acf-block-preview { min-height: 50px; }
+        
+        /* ACF Edit Mode Form Düzeltmeleri */
+        .acf-block-fields {
+            background: #fff;
+            padding: 16px;
+            border: 1px solid #c3c4c7;
+            border-radius: 4px;
+        }
+        .acf-block-fields .acf-label label {
+            font-weight: 600 !important;
+            font-size: 13px !important;
+            color: #1d2327 !important;
+            margin-bottom: 4px !important;
+        }
+        .acf-block-fields input[type="text"],
+        .acf-block-fields input[type="number"],
+        .acf-block-fields textarea,
+        .acf-block-fields select {
+            border: 1px solid #8c8f94 !important;
+            border-radius: 4px !important;
+            padding: 6px 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: #fff !important;
+        }
+    </style>
+    <?php
+});
+
+/**
  * Register ACF Blocks
  */
 function iff_register_acf_blocks() {
