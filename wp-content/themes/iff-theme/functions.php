@@ -76,6 +76,122 @@ function iff_register_acf_blocks() {
 add_action( 'acf/init', 'iff_register_acf_blocks' );
 
 /**
+ * Register ACF Fields for Slider Block
+ */
+add_action('acf/init', function() {
+    if (function_exists('acf_add_local_field_group')) {
+        acf_add_local_field_group([
+            'key' => 'group_iff_slider_block',
+            'title' => 'Manşet Slider Alanları',
+            'fields' => [
+                [
+                    'key' => 'field_slider_slaytlar',
+                    'label' => 'Slaytlar',
+                    'name' => 'slaytlar',
+                    'type' => 'repeater',
+                    'instructions' => 'Slider içinde gösterilecek slaytları ekleyin. Boş bırakılırsa varsayılan festival slaytları gösterilir.',
+                    'layout' => 'block',
+                    'button_label' => 'Yeni Slayt Ekle',
+                    'sub_fields' => [
+                        [
+                            'key' => 'field_slide_etiket',
+                            'label' => 'Etiket',
+                            'name' => 'etiket',
+                            'type' => 'text',
+                            'default_value' => 'Gündem',
+                            'wrapper' => ['width' => '50'],
+                        ],
+                        [
+                            'key' => 'field_slide_etiket_rengi',
+                            'label' => 'Etiket Rengi',
+                            'name' => 'etiket_rengi',
+                            'type' => 'select',
+                            'choices' => [
+                                'orange' => 'Turuncu (Orange)',
+                                'red' => 'Kırmızı (Red)',
+                            ],
+                            'default_value' => 'orange',
+                            'wrapper' => ['width' => '50'],
+                        ],
+                        [
+                            'key' => 'field_slide_baslik',
+                            'label' => 'Başlık',
+                            'name' => 'baslik',
+                            'type' => 'text',
+                            'placeholder' => 'Saraybosna\'da Emekçilerin Sesi Yükseldi',
+                        ],
+                        [
+                            'key' => 'field_slide_aciklama',
+                            'label' => 'Açıklama',
+                            'name' => 'aciklama',
+                            'type' => 'textarea',
+                            'rows' => 3,
+                            'placeholder' => 'İşçi Filmleri ekipleri Bosna\'da sinemacılarla buluştu...',
+                        ],
+                        [
+                            'key' => 'field_slide_buton_metni',
+                            'label' => 'Buton Metni',
+                            'name' => 'buton_metni',
+                            'type' => 'text',
+                            'default_value' => 'OKU',
+                            'wrapper' => ['width' => '50'],
+                        ],
+                        [
+                            'key' => 'field_slide_buton_linki',
+                            'label' => 'Buton Linki',
+                            'name' => 'buton_linki',
+                            'type' => 'text',
+                            'default_value' => '#',
+                            'wrapper' => ['width' => '50'],
+                        ],
+                        [
+                            'key' => 'field_slide_gorsel',
+                            'label' => 'Arka Plan Görseli',
+                            'name' => 'gorsel',
+                            'type' => 'image',
+                            'return_format' => 'array',
+                            'preview_size' => 'medium',
+                            'library' => 'all',
+                        ],
+                    ],
+                ],
+                [
+                    'key' => 'field_slider_otomatik_sure',
+                    'label' => 'Otomatik Geçiş Süresi (ms)',
+                    'name' => 'otomatik_gecis_suresi',
+                    'type' => 'number',
+                    'default_value' => 7000,
+                    'instructions' => 'Milisaniye cinsinden süre (örn: 7000 = 7 saniye)',
+                    'wrapper' => ['width' => '50'],
+                ],
+                [
+                    'key' => 'field_slider_bg_color',
+                    'label' => 'Arka Plan Rengi',
+                    'name' => 'arka_plan_rengi',
+                    'type' => 'color_picker',
+                    'default_value' => '',
+                    'wrapper' => ['width' => '50'],
+                ],
+            ],
+            'location' => [
+                [
+                    [
+                        'param' => 'block',
+                        'operator' => '==',
+                        'value' => 'acf/slider',
+                    ],
+                ],
+            ],
+            'menu_order' => 0,
+            'position' => 'normal',
+            'style' => 'default',
+            'label_placement' => 'top',
+            'instruction_placement' => 'label',
+        ]);
+    }
+});
+
+/**
  * Register ACF Options Page
  */
 add_action('acf/init', 'iff_register_acf_options_pages');
