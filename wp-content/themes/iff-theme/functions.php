@@ -40,34 +40,120 @@ add_filter( 'block_editor_settings_all', function( $editor_settings ) {
     return $editor_settings;
 }, 9999 );
 
+add_action('admin_enqueue_scripts', function($hook) {
+    if ($hook === 'post.php' || $hook === 'post-new.php') {
+        // Google Fonts
+        wp_enqueue_style('iff-google-fonts', 'https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap', array(), null);
+        
+        // Tailwind CDN
+        wp_enqueue_script('iff-tailwind-admin', 'https://cdn.tailwindcss.com', array(), null, false);
+    }
+});
+
 add_action('admin_head', function() {
+    $c_ana = function_exists('get_field') ? (get_field('renk_ana', 'option') ?: '#FF6B35') : '#FF6B35';
+    $c_ikincil = function_exists('get_field') ? (get_field('renk_ikincil', 'option') ?: '#E63946') : '#E63946';
+    $c_arka = function_exists('get_field') ? (get_field('renk_arka_plan', 'option') ?: '#FFF5E6') : '#FFF5E6';
+    $c_koyu = function_exists('get_field') ? (get_field('renk_koyu', 'option') ?: '#2C2C2C') : '#2C2C2C';
+    $f_ozel_ad = function_exists('get_field') ? (get_field('font_ozel_ad', 'option') ?: 'CustomFont') : 'CustomFont';
     ?>
+    <script>
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                corePlugins: {
+                    preflight: false, // Admin formlarını bozmasın
+                },
+                theme: {
+                    extend: {
+                        colors: {
+                            cream: '<?php echo esc_js($c_arka); ?>',
+                            orange: '<?php echo esc_js($c_ana); ?>',
+                            darkorange: '<?php echo esc_js($c_ana); ?>',
+                            red: '<?php echo esc_js($c_ikincil); ?>',
+                            warmgray: '<?php echo esc_js($c_koyu); ?>',
+                        },
+                        fontFamily: {
+                            'sans': ['Inter', 'sans-serif'],
+                            'heading': ['Roboto Condensed', 'sans-serif'],
+                            'display': ['Playfair Display', 'serif'],
+                            'custom': ['<?php echo esc_js($f_ozel_ad); ?>', 'sans-serif'],
+                        }
+                    }
+                }
+            };
+        }
+    </script>
     <style>
+        /* Editör içinde resimlerin taşmasını önle */
+        .block-editor-block-list__layout img,
+        .wp-block img,
+        .acf-block-preview img {
+            max-width: 100% !important;
+            height: auto !important;
+        }
+
+        /* ACF Form Alanları Düzeni */
         .acf-block-fields {
             background: #ffffff !important;
-            padding: 16px 20px !important;
-            border: 1px solid #ccd0d4 !important;
-            box-shadow: 0 1px 1px rgba(0,0,0,.04) !important;
-            margin: 15px 0 !important;
+            padding: 20px 24px !important;
+            border: 1px solid #c3c4c7 !important;
+            border-radius: 6px !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05) !important;
+            margin: 20px 0 !important;
+            clear: both !important;
         }
-        .acf-image-uploader img {
-            max-width: 220px !important;
-            max-height: 150px !important;
-            height: auto !important;
-            object-fit: contain !important;
+        .acf-block-fields .acf-field {
+            margin-bottom: 16px !important;
+            padding: 8px 0 !important;
+            border-top: 1px solid #f0f0f1 !important;
+        }
+        .acf-block-fields .acf-field:first-child {
+            border-top: none !important;
+        }
+        .acf-block-fields .acf-label label {
             display: block !important;
+            font-weight: 600 !important;
+            font-size: 13px !important;
+            color: #1d2327 !important;
+            margin-bottom: 4px !important;
         }
-        .acf-table {
+        .acf-block-fields input[type="text"],
+        .acf-block-fields input[type="number"],
+        .acf-block-fields textarea,
+        .acf-block-fields select {
+            display: block !important;
             width: 100% !important;
+            border: 1px solid #8c8f94 !important;
+            border-radius: 4px !important;
+            padding: 8px 12px !important;
+            background: #ffffff !important;
+            color: #2c3338 !important;
+            box-sizing: border-box !important;
+            font-size: 13px !important;
         }
-        .acf-table th, .acf-table td {
+        .acf-block-fields .acf-image-uploader img {
+            max-width: 180px !important;
+            max-height: 120px !important;
+            object-fit: contain !important;
+            border: 1px solid #dcdcde !important;
+            margin-bottom: 6px !important;
+        }
+        .acf-repeater table.acf-table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            background: #fff !important;
+        }
+        .acf-repeater table.acf-table th {
+            background: #f0f0f1 !important;
             padding: 8px 10px !important;
+            font-size: 12px !important;
         }
-        .acf-table td input[type="text"],
-        .acf-table td select {
-            width: 100% !important;
-            min-width: 0 !important;
+        .acf-repeater table.acf-table td {
+            padding: 8px 10px !important;
+            vertical-align: top !important;
         }
+        .modern-shadow { box-shadow: 8px 8px 0px rgba(0, 0, 0, 0.1) !important; }
+        .hover-lift:hover { transform: translate(-4px, -4px); box-shadow: 12px 12px 0px rgba(0, 0, 0, 0.15); }
     </style>
     <?php
 });
